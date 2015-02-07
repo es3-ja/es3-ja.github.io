@@ -2,7 +2,7 @@
 
 > この文書は、 Standard ECMA-262: ECMAScript Language Specification (3rd edition, December 1999) の邦訳を試みるものです。
 
-この文章は [http://www2u.biglobe.ne.jp/~oz-07ams/prog/ecma262r3/](http://www2u.biglobe.ne.jp/~oz-07ams/prog/ecma262r3/) にて公開されていたもののミラーしたものです。
+この文章は [http://www2u.biglobe.ne.jp/~oz-07ams/prog/ecma262r3/](http://www2u.biglobe.ne.jp/~oz-07ams/prog/ecma262r3/) にて公開されていたものをミラーしたものです。
 
 ## Usage
 
