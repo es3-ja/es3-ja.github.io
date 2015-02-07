@@ -4,6 +4,10 @@
 
 この文章は [http://www2u.biglobe.ne.jp/~oz-07ams/prog/ecma262r3/](http://www2u.biglobe.ne.jp/~oz-07ams/prog/ecma262r3/) にて公開されていたもののミラーしたものです。
 
+## Usage
+
+Go to [http://es3-ja.github.io/](http://es3-ja.github.io/).
+
 ## Contributing
 
 1. Fork it!
