@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <title>15.9 Date オブジェクト (Date Objects)</title>
+
+
+    <link rel="stylesheet" title="Metagraphix Graytone" type="text/css" href="css/ecma.css" media="all"/>
+    <link rel="stylesheet" title="Metagraphix NN4" type="text/javascript" href="js/n4.js" media="screen"/>
+
+    <link rel="bookmark" title="Translator"
+          href="mailto:TAKI%20%3Coz-07ams&#64;mvh.biglobe.ne.jp%3E"/>
+    <link rel="bookmark" title="Site Top"
+          href="http://www2u.biglobe.ne.jp/%7Eoz-07ams/"/>
+    <link rel="start begin toc" title="ECMA-262 revision 3"
+          href="index.html"/>
+    <link rel="prev" title="15-8_The_Math_Object"
+          href="15-8_The_Math_Object.html"/>
+    <link rel="next" title="15-10_RegExp_Objects"
+          href="15-10_RegExp_Objects.html"/>
+
+    <link rev="alternate" title="Original Document (PDF format)"
+          type="application/pdf" hreflang="en"
+          href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%203rd%20edition,%20December%201999.pdf"/>
+
+
+</head>
+
+<body>
+
+
+<p>
+    <a href="#toc">本頁の目次</a>
+    <a rel="contents" href="">目次</a>
+    <a rel="next" href="15-10_RegExp_Objects.html">次頁: 15-10_RegExp_Objects</a>
+    <a rel="prev" href="15-8_The_Math_Object.html">前頁: 15-8_The_Math_Object</a>
+</p>
+
+
+<div class="section level1">
+    <h1 id="section-15.9">15.9 Date オブジェクト (Date Objects)</h1>
+
+
+    <div class="section level2">
+        <h2 id="section-15.9.1">15.9.1 Date オブジェクトの概要及び内部演算子の定義 (Overview of Date Objects and Definitions of Internal
+            Operators)</h2>
+
+
+        <div class="body level2">
+            <p>Date オブジェクトは、時間内の個々の瞬間をミリ秒で示す数で構成される。まずは NaN であることもあり、 Date オブジェクトが時間の特定の瞬間をあらわさないことを示す。</p>
+
+            <p>次セクションは時間値の演算のための数々の関数を定義する。 各ケースについて、その関数の引数が NaN ならば、結果は NaN となる。</p>
+        </div>
+        <!-- END of 15.9.1 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.1">15.9.1.1 時間の範囲 (Time Range)</h3>
+
+
+            <div class="body level3">
+                <p>時間は、 ECMAScript では UTC 1970 年 1 月 1 日 からのミリ秒で計測される。うるう秒は無視される。一日あたり正解に 86,400,000 秒ということにする。
+                    ECMAScript 数値は -9,007,199,254,740,991 から 9,007,199,254,740,991 まで表現できる; この範囲は、 UTC 1970 年 1 月 1 日
+                    を基点とする前後約 285,616 年間の任意の瞬間の、厳密なミリ秒での時間計測を可能にする。</p>
+
+                <p>ECMAScript Date オブジェクトがサポートする実際の時間の範囲はわずかに小さい; 厳密には、 UTC 1970 年 1 月 1 日開始時の午前零時から計測される -100,000,000
+                    日から 100,000,000 日である。 これは UTC 1970 年 1 月 1 日 から過去未来の両側に 8,640,000,000,000,000 ミリ秒の範囲を与える。</p>
+
+                <p>厳密な UTC 1970 年 1 月 1 日開始時の午前零時は、値 +0 で表される。</p>
+            </div>
+            <!-- END of 15.9.1.1 Body -->
+
+        </div>
+        <!-- END of 15.9.1.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.2">15.9.1.2 日数及び一日内の時間 (Day Number and Time within Day)</h3>
+
+
+            <div class="body level3">
+                <p>時間値 <var>t</var> は日数 (day number) に属する</p>
+                <pre>Day(t) = floor(t / msPerDay)</pre>
+
+                <p>一日あたりのミリ秒数のところは</p>
+                <pre>msPerDay = 86400000</pre>
+
+                <p>残りは一日内の時間と呼ばれる:</p>
+                <pre>TimeWithinDay(t) = t modulo msPerDay</pre>
+
+            </div>
+            <!-- END of 15.9.1.2 Body -->
+
+        </div>
+        <!-- END of 15.9.1.2 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.3">15.9.1.3 年数 (Year Number)</h3>
+
+
+            <div class="body level3">
+                <p>ECMAScript は、日数の年数へのマップと一年内の月日の決定にグレゴリオ暦を用いる。このシステムでは、うるう年は正確に (4 で割り切れる) かつ ((100 で割り切れない) または (400
+                    で割り切れる)) ような年である。それゆえ年数 <var>y</var> の日数は次のように定義される。</p>
+<pre>DaysInYear(y) = 365  if (y modulo 4) &ne; 0
+              = 366  if (y modulo 4) = 0 and (y modulo 100) &ne; 0
+              = 365  if (y modulo 100) = 0 and (y modulo 400) &ne; 0
+              = 366  if (y modulo 400) = 0</pre>
+
+                <p>非うるう年は通常の月ごとの日数で 365 日であり、うるう年は 2 月に追加日を持つ。 年 <var>y</var> の最初の日の日数は次に与えられる:</p>
+                <pre>DayFromYear(y) = 365 &times; (y(1970) + floor((y(1969)/4) &minus; floor((y(1901)/100) + floor((y&minus;1601)/400)</pre>
+
+                <p>年の開始の時間値は:</p>
+                <pre>TimeFromYear(y) = msPerDay ( DayFromYear(y)</pre>
+
+                <p>時間値は次によって年を決定する:</p>
+                <pre>YearFromTime(t) = TimeFromYear(y) &le; t であるような (正の無限大に最も近い) 最大整数 y</pre>
+
+                <p>うるう年関数は、時間がうるう年内であれば 1 であり、そうでなければ 0 である:</p>
+<pre>InLeapYear(t)   = 0  if DaysInYear(YearFromTime(t)) = 365
+                = 1  if DaysInYear(YearFromTime(t)) = 366</pre>
+
+            </div>
+            <!-- END of 15.9.1.3 Body -->
+
+        </div>
+        <!-- END of 15.9.1.3 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.4">15.9.1.4 月数 (Month Number)</h3>
+
+
+            <div class="body level3">
+                <p>月は、 0 から 11 の範囲の整数で識別される。時間値 <var>t</var> から月数へのマッピング MonthFromTime(<var>t</var>) は次で定義される:</p>
+<pre>MonthFromTime(t) = 0 if   0 &le; DayWithinYear(t)  &lt;  31
+                 = 1  if  31 &le; DayWithinYear (t) &lt;  59+InLeapYear(t)
+                 = 2  if  59+InLeapYear(t) &le; DayWithinYear (t) &lt;  90+InLeapYear(t)
+                 = 3  if  90+InLeapYear(t) &le; DayWithinYear (t) &lt; 120+InLeapYear(t)
+                 = 4  if 120+InLeapYear(t) &le; DayWithinYear (t) &lt; 151+InLeapYear(t)
+                 = 5  if 151+InLeapYear(t) &le; DayWithinYear (t) &lt; 181+InLeapYear(t)
+                 = 6  if 181+InLeapYear(t) &le; DayWithinYear (t) &lt; 212+InLeapYear(t)
+                 = 7  if 212+InLeapYear(t) &le; DayWithinYear (t) &lt; 243+InLeapYear(t)
+                 = 8  if 243+InLeapYear(t) &le; DayWithinYear (t) &lt; 273+InLeapYear(t)
+                 = 9  if 273+InLeapYear(t) &le; DayWithinYear (t) &lt; 304+InLeapYear(t)
+                 = 10 if 304+InLeapYear(t) &le; DayWithinYear (t) &lt; 334+InLeapYear(t)
+                 = 11 if 334+InLeapYear(t) &le; DayWithinYear (t) &lt; 365+InLeapYear(t)</pre>
+
+                <p>DayWithinYear(<var>t</var>) は次のように定義する</p>
+                <pre>DayWithinYear(t)	= Day(t)(DayFromYear(YearFromTime(t))</pre>
+
+                <p>月の値 0 は 1 月を指す; 1 は 2 月を指す ; 2 は 3 月を指す; 3 は 4 月を指す; 4 は 5 月を指す; 5 は 6 月を指す; 6 は 7 月を指す; 7 は 8 月を指す;
+                    8 は 9 月を指す; 9 は 10 月を指す; 10 は 11 月を指す; 11 は 12 月を指す。 MonthFromTime(0) = 0 は 1970 年 1 月 1 日木曜日
+                    に該当することに注意。</p>
+            </div>
+            <!-- END of 15.9.1.4 Body -->
+
+        </div>
+        <!-- END of 15.9.1.4 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.5">15.9.1.5 日付数 (Date Number)</h3>
+
+
+            <div class="body level3">
+                <p>日付は、 1 から 31 の範囲の整数で識別される。時間値 <var>t</var> から日付数へのマッピング DateFromTime(<var>t</var>) は次で定義される:</p>
+<pre>DateFromTime(t) = DayWithinYear(t)+1                 if MonthFromTime(t)=0
+                = DayWithinYear(t)&minus; 30               if MonthFromTime(t)=1
+                = DayWithinYear(t)&minus; 58(InLeapYear(t) if MonthFromTime(t)=2
+                = DayWithinYear(t)&minus; 89(InLeapYear(t) if MonthFromTime(t)=3
+                = DayWithinYear(t)&minus;119(InLeapYear(t) if MonthFromTime(t)=4
+                = DayWithinYear(t)&minus;150(InLeapYear(t) if MonthFromTime(t)=5
+                = DayWithinYear(t)&minus;180(InLeapYear(t) if MonthFromTime(t)=6
+                = DayWithinYear(t)&minus;211(InLeapYear(t) if MonthFromTime(t)=7
+                = DayWithinYear(t)&minus;242(InLeapYear(t) if MonthFromTime(t)=8
+                = DayWithinYear(t)&minus;272(InLeapYear(t) if MonthFromTime(t)=9
+                = DayWithinYear(t)&minus;303(InLeapYear(t) if MonthFromTime(t)=10
+                = DayWithinYear(t)&minus;333(InLeapYear(t) if MonthFromTime(t)=11</pre>
+
+            </div>
+            <!-- END of 15.9.1.5 Body -->
+
+        </div>
+        <!-- END of 15.9.1.5 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.6">15.9.1.6 曜日 (Week Day)</h3>
+
+
+            <div class="body level3">
+                <p>個々の時間値 <var>t</var> の曜日はこのように定義する。</p>
+                <pre>WeekDay(t)	 = (Day(t) + 4) modulo 7</pre>
+
+                <p>曜日値 0 は日曜日を指す; 1 は月曜日を指す; 2 は火曜日を指す; 3 は水曜日を指す; 4 は木曜日を指す; 5 は金曜日を指す; 6 は土曜日を指す。 WeekDay(0) = 4 は、
+                    1970 年 1 月 1 日木曜日 に該当することに注意。</p>
+            </div>
+            <!-- END of 15.9.1.6 Body -->
+
+        </div>
+        <!-- END of 15.9.1.6 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.7">15.9.1.7 地方調整時 (Local Time Zone Adjustment)</h3>
+
+
+            <div class="body level3">
+                <p>ECMAScript 実装は地方調整時の決定を期待される。地方調整時は、 UTC に追加して地方標準時をあらわす、ミリ秒で測られる値 LocalTZA である。値 LocalTZA
+                    は時間によっては変わらないが、地理的な位置に依存する。</p>
+            </div>
+            <!-- END of 15.9.1.7 Body -->
+
+        </div>
+        <!-- END of 15.9.1.7 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.8">15.9.1.8 夏時間調整 (Daylight Saving Time Adjustment)</h3>
+
+
+            <div class="body level3">
+                <p>ECMAScript 実装は、夏時間調整アルゴリズムの決定を期待される。ミリ秒で測られる夏時間調整 DaylightSavingTA(<var>t</var>) を決定するアルゴリズムは、次の 4
+                    点にのみ依存する:</p>
+
+                <p>(1)年の開始からの時間</p>
+                <pre>t - TimeFromYear(YearFromTime(t))</pre>
+
+                <p>(2)t がうるう年かどうか</p>
+                <pre>InLeapYear(t)</pre>
+
+                <p>(3)年の開始の曜日</p>
+                <pre>WeekDay(TimeFromYear(YearFromTime(t))</pre>
+
+                <p>(4)地理的な位置</p>
+
+                <p>ECMASciript
+                    実装は正確な時間が夏時間に従ったか否かの決定を試みるべきではないが、その時現在の夏時間アルゴリズムが使われているならば、夏時間の影響下にあるかどうかの決定を試みるべきである。これは年回りで夏時間を認められるロケールの年を考慮するようなような煩雑さ回避する
+                    (This avoids complications such as taking into account the years that the locale observed daylight
+                    saving time year round.)。</p>
+
+                <p>ホスト環境が夏時間調整の決定の機能性を提供するならば、 ECMAScript 実装は、問題の年をホスト環境が夏時間調整情報を提供する同等の年 (同じ閏年で同じ曜日に開始しうる年)
+                    に自由にマップできる。同等である全ての年が同じ結果を生成するべきであるということだけ制限される。</p>
+            </div>
+            <!-- END of 15.9.1.8 Body -->
+
+        </div>
+        <!-- END of 15.9.1.8 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.9">15.9.1.9 地方時 (Local Time)</h3>
+
+
+            <div class="body level3">
+                <p>UTC から地方時への変換は</p>
+                <pre>LocalTime(t) = t + LocalTZA + DaylightSavingTA(t)</pre>
+
+                <p>地方時から UTC への変換は</p>
+                <pre>UTC(t) = t - LocalTZA - DaylightSavingTA(t - LocalTZA)</pre>
+
+                <p>UTC(LocalTime(<var>t</var>)) は常に <var>t</var> と等しいとは限らないことに注意。</p>
+            </div>
+            <!-- END of 15.9.1.9 Body -->
+
+        </div>
+        <!-- END of 15.9.1.9 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.10">15.9.1.10 時、分、秒、ミリ秒 (Hours, Minutes, Second, and Milliseconds)</h3>
+
+
+            <div class="body level3">
+                <p>次の関数が時間値の分解に使用される:</p>
+<pre>HourFromTime(t) = floor(t / msPerHour) modulo HoursPerDay
+MinFromTime(t) = floor(t / msPerMinute) modulo MinutesPerHour
+SecFromTime(t) = floor(t / msPerSecond) modulo SecondsPerMinute
+msFromTime(t) = t modulo msPerSecond</pre>
+
+                <p>それぞれ次のように定める:</p>
+<pre>HoursPerDay = 24
+MinutesPerHour = 60
+SecondsPerMinute = 60
+msPerSecond = 1000
+msPerMinute = msPerSecond &times; SecondsPerMinute = 60000
+msPerHour = msPerMinute &times; MinutesPerHour = 3600000</pre>
+
+            </div>
+            <!-- END of 15.9.1.10 Body -->
+
+        </div>
+        <!-- END of 15.9.1.10 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.11">15.9.1.11 MakeTime (hour, min, sec, ms)</h3>
+
+
+            <div class="body level3">
+                <p>MakeTime 演算子は、 ECMAScript 数値 でなければならない 4 つの引数から、ミリ秒の数を算出する。この演算子は次のように機能する:</p>
+                <ol>
+                    <li><var>hour</var> が有限でない または <var>min</var> が有限でない または <var>sec</var> が有限でない または <var>ms</var>
+                        が有限でない ならば、 NaN を返す。
+                    </li>
+                    <li>ToInteger(<var>hour</var>) を呼出す。</li>
+                    <li>ToInteger(<var>min</var>) を呼出す。</li>
+                    <li>ToInteger(<var>sec</var>) を呼出す。</li>
+                    <li>ToInteger(<var>ms</var>) を呼出す。</li>
+                    <li>IEEE 754 規則 (つまり、 ECMAScript 演算子 * と + を使うのと同様に) に従って、 Result(2) * msPerHour + Result(3) *
+                        msPerMinute + Result(4) * msPerSecond + Result(5) を算出する。
+                    </li>
+                    <li>Result(6) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.1.11 Body -->
+
+        </div>
+        <!-- END of 15.9.1.11 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.12">15.9.1.12 MakeDay (year, month, date)</h3>
+
+
+            <div class="body level3">
+                <p>MakeDay 演算子は、 ECMAScript 数値 でなければならない 3 つの引数から、日数の数を算出する。この演算子は次のように機能する:</p>
+                <ol>
+                    <li><var>year</var> が有限でない または <var>month</var> が有限でない または <var>date</var> が有限でない ならば、 NaN を返す。</li>
+                    <li>ToInteger(<var>year</var>) を呼出す。</li>
+                    <li>ToInteger(<var>month</var>) を呼出す。</li>
+                    <li>ToInteger(<var>date</var>) を呼出す。</li>
+                    <li>Result(2) + floor(Result(3)/12) を算出する。</li>
+                    <li>Result(3) modulo 12 を算出する。</li>
+                    <li>YearFromTime(<var>t</var>) == Result(5) かつ MonthFromTime(<var>t</var>) == Result(6) かつ
+                        DateFromTime(<var>t</var>) == 1 であるような <var>t</var> を見つける; 見つけられない (引数のどれかが範囲外) ならば、 NaN を返す。
+                    </li>
+                    <li>Day(Result(7)) + Result(4) &minus; 1 を算出する。</li>
+                    <li>Result(8) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.1.12 Body -->
+
+        </div>
+        <!-- END of 15.9.1.12 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.13">15.9.1.13 MakeDate (day, time)</h3>
+
+
+            <div class="body level3">
+                <p>MakeDate 演算子は、 ECMAScript 数値 でなければならない 2 つの引数から、ミリ秒の数を算出する。この演算子は次のように機能する:</p>
+                <ol>
+                    <li><var>day</var> が有限でない または <var>time</var> が有限でない ならば、 NaN を返す。</li>
+                    <li><var>day</var> &times; msPerDay + <var>time</var> を算出する。</li>
+                    <li>Result(2) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.1.13 Body -->
+
+        </div>
+        <!-- END of 15.9.1.13 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.1.14">15.9.1.14 TimeClip (time)</h3>
+
+
+            <div class="body level3">
+                <p>TimeClip 演算子は、 ECMAScript 数値 でなければならない引数から、ミリ秒の数を算出する。この演算子は次のように機能する:</p>
+                <ol>
+                    <li><var>time</var> が有限でなければ、 NaN を返す。</li>
+                    <li>abs(Result(1)) &gt; 8.64 <var>x</var> 1015 ならば、 NaN を返す。</li>
+                    <li>実装依存で ToInteger(Result(2)) か ToInteger(Result(2)) + (+0) の選択を返す。(正の 0 を追加して &minus;0 を +0
+                        に変換する。)
+                    </li>
+                </ol>
+                <div class="note">
+                    <p><b>NOTE</b> ステップ 3 のポイントは、時間値の内部表現、例えば 符号付き 64 ビット整数、または 64
+                        ビット浮動小数点数の値の選択を実装に許可することである。実装に依存して、この内部表現は &minus;0 と +0 を区別してもしなくてもよい。</p>
+                </div>
+
+            </div>
+            <!-- END of 15.9.1.14 Body -->
+
+        </div>
+        <!-- END of 15.9.1.14 -->
+
+    </div>
+    <!-- END of 15.9.1 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.9.2">15.9.2 関数として呼ばれる Date コンストラクタ</h2>
+
+
+        <div class="body level2">
+            <p>コンストラクタとしてではなく関数として Date が呼出されるとき、それは現在時間 (UTC) のあらわす文字列を返す。</p>
+
+            <div class="note">
+                <p><b>NOTE</b> 関数呼出し Date(...) と、同じ引数を持つオブジェクト生成式 <code class="keyword">new</code> Date(...) は、等価ではない。
+                </p>
+            </div>
+
+        </div>
+        <!-- END of 15.9.2 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.2.1">15.9.2.1 Date ( [ year [, month [, date [, hours [, minutes [, seconds [, ms ] ] ]
+                ] ] ] ] )</h3>
+
+
+            <div class="body level3">
+                <p>すべたの引数は選択的である; 供給された引数は受け付けるが、それ以外は無視される。文字列が生成され、式 (new Date()).toString() によるものと同様の結果が返される。</p>
+            </div>
+            <!-- END of 15.9.2.1 Body -->
+
+        </div>
+        <!-- END of 15.9.2.1 -->
+
+    </div>
+    <!-- END of 15.9.2 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.9.3">15.9.3 Date コンストラクタ</h2>
+
+
+        <div class="body level2">
+            <p>Date が <code class="keyword">new</code> 式の一部として呼ばれる場合、それはコンストラクタである; 新規にオブジェクトを生成し、初期化する。</p>
+        </div>
+        <!-- END of 15.9.3 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.3.1">15.9.3.1 new Date (year, month [, date [, hours [, minutes [, seconds [, ms ] ] ]
+                ] ] )</h3>
+
+
+            <div class="body level3">
+                <p>Date が 2 個から 7 個の引数で呼出されるとき、 <var>year</var>, <var>month</var>, (以下選択的に) <var>date</var>,
+                    <var>hours</var>, <var>minutes</var>, <var>seconds</var> , <var>ms</var> から、日付を算出する。</p>
+
+                <p>新規に構築されたオブジェクトの [[Prototype]] プロパティは、 Date.prototype (<a
+                        href="15-9_Date_Objects.html#section-15.9.4.1">セクション 15.9.4.1</a>) の初期値である、オリジナルの Date
+                    プロトタイプオブジェクトに設定される。</p>
+
+                <p>新規に構築されたオブジェクトの [[Class]] プロパティは、 &quot;Date&quot; に設定される。</p>
+
+                <p>新規に構築されたオブジェクトの [[Value]] プロパティは次のように設定される:</p>
+                <ol>
+                    <li>ToNumber(<var>year</var>) を呼出す。</li>
+                    <li>ToNumber(<var>month</var>) を呼出す。</li>
+                    <li><var>date</var> が供給されるならば、 ToNumber(<var>date</var>) を用いる; そうでなければ 1 を用いる。</li>
+                    <li><var>hours</var> が供給されるならば、 ToNumber(<var>hours</var>) を用いる; そうでなければ 0 を用いる。</li>
+                    <li><var>minutes</var> が供給されるならば、 ToNumber(<var>minutes</var>) を用いる; そうでなければ 0 を用いる。</li>
+                    <li><var>seconds</var> が供給されるならば、 ToNumber(<var>seconds</var>) を用いる; そうでなければ 0 を用いる。</li>
+                    <li><var>ms</var> が供給されるならば、 ToNumber(<var>ms</var>) を用いる; そうでなければ 0 を用いる。</li>
+                    <li>Result(1) が NaN でない かつ 0 &le; ToInteger(Result(1)) &le; 99 ならば、 Result(8) は
+                        1900+ToInteger(Result(1)) である; そうでなければ、 Result(8) は Result(1) である。
+                    </li>
+                    <li>MakeDay(Result(8), Result(2), Result(3)) を算出する。</li>
+                    <li>MakeTime(Result(4), Result(5), Result(6), Result(7)) を算出する。</li>
+                    <li>MakeDate(Result(9), Result(10)) を算出する。</li>
+                    <li>新規に構築されたオブジェクトの [[Value]] プロパティを、 TimeClip(UTC(Result(11))) に設定する。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.3.1 Body -->
+
+        </div>
+        <!-- END of 15.9.3.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.3.2">15.9.3.2 new Date (value)</h3>
+
+
+            <div class="body level3">
+                <p>新規に構築されたオブジェクトの [[Prototype]] プロパティは、 Date.prototype (<a
+                        href="15-9_Date_Objects.html#section-15.9.4.1">セクション 15.9.4.1</a>) の初期値である、オリジナルの Date
+                    プロトタイプオブジェクトに設定される。</p>
+
+                <p>新規に構築されたオブジェクトの [[Class]] プロパティは、 &quot;Date&quot; に設定される。</p>
+
+                <p>新規に構築されたオブジェクトの [[Value]] プロパティは次のように設定される:</p>
+                <ol>
+                    <li>ToPrimitive(<var>value</var>) を呼出す。</li>
+                    <li>Type(Result(1)) が String ならば、ステップ 5 へ。</li>
+                    <li><var>V</var> を ToNumber(Result(1)) とする。</li>
+                    <li>新しく構築されたオブジェクトの [[Value]] プロパティを、 TimeClip(<var>V</var>) に設定し、戻る。</li>
+                    <li>parse メソッドと全く同様の方法で (<a href="15-9_Date_Objects.html#section-15.9.4.2">セクション 15.9.4.2</a>)、
+                        Result(1) を日付として解析する; <var>V</var> をこの日付の時間値とする。
+                    </li>
+                    <li>ステップ 4 へ。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.3.2 Body -->
+
+        </div>
+        <!-- END of 15.9.3.2 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.3.3">15.9.3.3 new Date ( )</h3>
+
+
+            <div class="body level3">
+                <p>新規に構築されたオブジェクトの [[Prototype]] プロパティは、 Date.prototype (<a
+                        href="15-9_Date_Objects.html#section-15.9.4.1">セクション 15.9.4.1</a>) の初期値である、オリジナルの Date
+                    プロトタイプオブジェクトに設定される。</p>
+
+                <p>新規に構築されたオブジェクトの [[Class]] プロパティは、 &quot;Date&quot; に設定される。</p>
+
+                <p>新規に構築されたオブジェクトの [[Value]] プロパティは、現在時間 (UTC) に設定される。</p>
+            </div>
+            <!-- END of 15.9.3.3 Body -->
+
+        </div>
+        <!-- END of 15.9.3.3 -->
+
+    </div>
+    <!-- END of 15.9.3 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.9.4">15.9.4 Date コンストラクタのプロパティ</h2>
+
+
+        <div class="body level2">
+            <p>Date コンストラクタの内部 [[Prototype]] プロパティの値は、 Function プロトタイプオブジェクト (<a
+                    href="15-3_Function_Objects.html#section-15.3.4">セクション 15.3.4</a>) である。</p>
+
+            <p>内部プロパティと length プロパティ (値は 7) の他に、 Date コンストラクタは次のプロパティを持つ。</p>
+        </div>
+        <!-- END of 15.9.4 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.4.1">15.9.4.1 Date.prototype</h3>
+
+
+            <div class="body level3">
+                <p>Date.prototype の初期値は、 Date プロトタイプオブジェクト (<a href="15-9_Date_Objects.html#section-15.9.5">セクション
+                    15.9.5</a>) である。</p>
+
+                <p>このプロパティは、属性 { DontEnum, DontDelete, ReadOnly } を持つ。</p>
+            </div>
+            <!-- END of 15.9.4.1 Body -->
+
+        </div>
+        <!-- END of 15.9.4.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.4.2">15.9.4.2 Date.parse (string)</h3>
+
+
+            <div class="body level3">
+                <p><code>parse</code> 関数は、引数に ToString 演算子を適用し、結果の文字列を日付として解析する; 数、その日に該当する UTC 時間値を返す。文字列は地方時、 UTC
+                    時、他のタイムゾーンの時間のどれ解析されてもよく、文字列の内容に依存する。</p>
+
+                <p>個々のECMAScript 実装中で ミリ秒が 0 である Date オブジェクトを <var>x</var>
+                    とするならば、次の全ての式がその実装中で同じ数字を生成する。全ての参照付けられたプロパティが初期値を持つならば、 then all of the following expressions
+                    should produce the same numeric value <code class="keyword">in</code> that implementation, <code
+                            class="keyword">if</code> all the properties referenced have their initial values:</p>
+<pre>x.valueOf()
+Date.parse(x.toString())
+Date.parse(x.toUTCString())</pre>
+
+                <p>しかしながら、式</p>
+                <pre>Date.parse(x.toLocaleString())</pre>
+
+                <p>は前の3つの式と同じ数値の生成を要求されない。一般に、その実装の toString か toUTCString メソッドによって生成されえない文字列を与えられたときの
+                    Date.<code>parse</code> に生成される値は、実装依存である。</p>
+            </div>
+            <!-- END of 15.9.4.2 Body -->
+
+        </div>
+        <!-- END of 15.9.4.2 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.4.3">15.9.4.3 Date.UTC (year, month [, date [, hours [, minutes [, seconds [, ms ] ] ]
+                ] ] )</h3>
+
+
+            <div class="body level3">
+                <p>UTC 関数が 2 個に満たない引数で呼出されたとき、振る舞いは実装依存である。 UTC 関数が 2 個から 7 個の引数で呼出されるとき、<var>year</var>,
+                    <var>month</var>, (以下選択的に) <var>date</var>, <var>hours</var>, <var>minutes</var>, <var>seconds</var>,
+                    <var>ms</var> から、日付を算出する。 次のステップが取られる:</p>
+                <ol>
+                    <li>ToNumber(<var>year</var>) を呼出す。</li>
+                    <li>ToNumber(<var>month</var>) を呼出す。</li>
+                    <li><var>date</var> が供給されるならば、 ToNumber(<var>date</var>) を用いる; そうでなければ 1 を用いる。</li>
+                    <li><var>hours</var> が供給されるならば、 ToNumber(<var>hours</var>) を用いる; そうでなければ 0 を用いる。</li>
+                    <li><var>minutes</var> が供給されるならば、 ToNumber(<var>minutes</var>) を用いる; そうでなければ 0 を用いる。</li>
+                    <li><var>seconds</var> が供給されるならば、 ToNumber(<var>seconds</var>) を用いる; そうでなければ 0 を用いる。</li>
+                    <li><var>ms</var> が供給されるならば、 ToNumber(<var>ms</var>) を用いる; そうでなければ 0 を用いる。</li>
+                    <li>Result(1) が NaN でない かつ 0 &le; ToInteger(Result(1)) &le; 99 ならば、 Result(8) は
+                        1900+ToInteger(Result(1)) である; そうでなければ、 Result(8) は Result(1) である。
+                    </li>
+                    <li>MakeDay(Result(8), Result(2), Result(3)) を算出する。</li>
+                    <li>MakeTime(Result(4), Result(5), Result(6), Result(7)) を算出する。</li>
+                    <li>TimeClip(MakeDate(Result(9), Result(10))) を返す。</li>
+                </ol>
+                <p>UTC 関数のの length プロパティは 7 である。</p>
+
+                <div class="note">
+                    <p><b>NOTE</b> UTC 関数は Date コンストラクタとは 2 つの点で異なる: Date オブジェクト生成としてではなく、数として時間値を返す。そして地方時でなく UTC
+                        で引数を解析する。</p>
+                </div>
+
+            </div>
+            <!-- END of 15.9.4.3 Body -->
+
+        </div>
+        <!-- END of 15.9.4.3 -->
+
+    </div>
+    <!-- END of 15.9.4 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.9.5">15.9.5 Date プロトタイプオブジェクトのプロパティ</h2>
+
+
+        <div class="body level2">
+            <p>Date プロトタイプオブジェクトは、それ自身が値 NaN の Date オブジェクト ([[Class]] が &quot;Date&quot;) である。</p>
+
+            <p>Date プロトタイプオブジェクトの内部 [[Prototype]] プロパティの値は、 Object プロトタイプオブジェクト (<a
+                    href="15-2_Object_Objects.html#section-15.2.3.1">セクション 15.2.3.1</a>) である。</p>
+
+            <p>この後の Date プロトタイプオブジェクトのプロパティである関数の説明において、フレーズ &quot;この Date オブジェクト&quot; は、関数呼出しの <code class="keyword">this</code>
+                値であるオブジェクトを参照する。汎用的な関数はない; <code class="keyword">this</code> が内部 [[Class]] プロパティの値が &quot;Date&quot;
+                であるオブジェクトではないならば、例外 TypeError を投げる。また、フレーズ &quot;この時間値&quot; は、この Date オブジェクトに表される時間の数値、すなわち、この Date
+                オブジェクトの内部 [[Value]] プロパティの値を参照する。</p>
+        </div>
+        <!-- END of 15.9.5 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.1">15.9.5.1 Date.prototype.constructor</h3>
+
+
+            <div class="body level3">
+                <p>Date.prototype.constructor の初期値は、組込み Date コンストラクタである。</p>
+            </div>
+            <!-- END of 15.9.5.1 Body -->
+
+        </div>
+        <!-- END of 15.9.5.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.2">15.9.5.2 Date.prototype.toString ( )</h3>
+
+
+            <div class="body level3">
+                <p>この関数は文字列値を返す。文字列の内容は実装依存であるが、現在のタイムゾーンの、簡便で人間に読解可能な形式の Date の表現が意図される。</p>
+
+                <div class="note">
+                    <p><b>NOTE</b> 任意の Date 値 <var>d</var> について、 Date.prototype.parse(<var>d</var>.<code>toString</code>())
+                        (<a href="15-9_Date_Objects.html#section-15.9.4.2">セクション 15.9.4.2</a>) の結果が <var>d</var>
+                        と等しいことが意図される。</p>
+                </div>
+
+            </div>
+            <!-- END of 15.9.5.2 Body -->
+
+        </div>
+        <!-- END of 15.9.5.2 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.3">15.9.5.3 Date.prototype.toDateString ( )</h3>
+
+
+            <div class="body level3">
+                <p>この関数は文字列値を返す。文字列の内容は実装依存であるが、現在のタイムゾーンの、簡便で人間に読解可能な形式の Date の &quot;date&quot; 成分の表現が意図される。</p>
+            </div>
+            <!-- END of 15.9.5.3 Body -->
+
+        </div>
+        <!-- END of 15.9.5.3 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.4">15.9.5.4 Date.prototype.toTimeString ( )</h3>
+
+
+            <div class="body level3">
+                <p>この関数は文字列値を返す。文字列の内容は実装依存であるが、現在のタイムゾーンの、簡便で人間に読解可能な形式の Date の &quot;time&quot; 成分の表現が意図される。</p>
+            </div>
+            <!-- END of 15.9.5.4 Body -->
+
+        </div>
+        <!-- END of 15.9.5.4 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.5">15.9.5.5 Date.prototype.toLocaleString ( )</h3>
+
+
+            <div class="body level3">
+                <p>この関数は文字列値を返す。文字列の内容は実装依存であるが、現在のタイムゾーンの、簡便で人間に読解可能な、ホスト環境の現在のロケールの慣習に該当する形式の Date の表現が意図される。</p>
+
+                <div class="note">
+                    <p><b>NOTE</b> この関数の第一引数は、この標準の将来のバージョンで使用される可能性がある; 実装はこのパラメータを他の用途に使用しないことを推奨される。</p>
+                </div>
+
+            </div>
+            <!-- END of 15.9.5.5 Body -->
+
+        </div>
+        <!-- END of 15.9.5.5 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.6">15.9.5.6 Date.prototype.toLocaleDateString ( )</h3>
+
+
+            <div class="body level3">
+                <p>この関数は文字列値を返す。文字列の内容は実装依存であるが、現在のタイムゾーンの、簡便で人間に読解可能な、ホスト環境の現在のロケールの慣習に該当する形式の Date の &quot;date&quot;
+                    成分の表現が意図される。</p>
+
+                <div class="note">
+                    <p><b>NOTE</b> この関数の第一引数は、この標準の将来のバージョンで使用される可能性がある; 実装はこのパラメータを他の用途に使用しないことを推奨される。</p>
+                </div>
+
+            </div>
+            <!-- END of 15.9.5.6 Body -->
+
+        </div>
+        <!-- END of 15.9.5.6 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.7">15.9.5.7 Date.prototype.toLocaleTimeString ( )</h3>
+
+
+            <div class="body level3">
+                <p>この関数は文字列値を返す。文字列の内容は実装依存であるが、現在のタイムゾーンの、簡便で人間に読解可能な、ホスト環境の現在のロケールの慣習に該当する形式の Date の &quot;time&quot;
+                    成分の表現が意図される。</p>
+
+                <div class="note">
+                    <p><b>NOTE</b> この関数の第一引数は、この標準の将来のバージョンで使用される可能性がある; 実装はこのパラメータを他の用途に使用しないことを推奨される。</p>
+                </div>
+
+            </div>
+            <!-- END of 15.9.5.7 Body -->
+
+        </div>
+        <!-- END of 15.9.5.7 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.8">15.9.5.8 Date.prototype.valueOf ( )</h3>
+
+
+            <div class="body level3">
+                <p><code>valueOf</code> 関数は、この時間値である数値を返す。</p>
+            </div>
+            <!-- END of 15.9.5.8 Body -->
+
+        </div>
+        <!-- END of 15.9.5.8 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.9">15.9.5.9 Date.prototype.getTime ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><code class="keyword">this</code> 値が [[Class]] プロパティが &quot;Date&quot; のオブジェクトでないならば、 例外
+                        TypeError を投げる。
+                    </li>
+                    <li>この時間値を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.9 Body -->
+
+        </div>
+        <!-- END of 15.9.5.9 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.10">15.9.5.10 Date.prototype.getFullYear ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>YearFromTime(LocalTime(<var>t</var>)) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.10 Body -->
+
+        </div>
+        <!-- END of 15.9.5.10 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.11">15.9.5.11 Date.prototype.getUTCFullYear ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>YearFromTime(<var>t</var>) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.11 Body -->
+
+        </div>
+        <!-- END of 15.9.5.11 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.12">15.9.5.12 Date.prototype.getMonth ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>MonthFromTime(LocalTime(<var>t</var>)) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.12 Body -->
+
+        </div>
+        <!-- END of 15.9.5.12 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.13">15.9.5.13 Date.prototype.getUTCMonth ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>MonthFromTime(<var>t</var>) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.13 Body -->
+
+        </div>
+        <!-- END of 15.9.5.13 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.14">15.9.5.14 Date.prototype.getDate ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>DateFromTime(LocalTime(<var>t</var>)) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.14 Body -->
+
+        </div>
+        <!-- END of 15.9.5.14 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.15">15.9.5.15 Date.prototype.getUTCDate ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>DateFromTime(<var>t</var>) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.15 Body -->
+
+        </div>
+        <!-- END of 15.9.5.15 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.16">15.9.5.16 Date.prototype.getDay ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>WeekDay(LocalTime(<var>t</var>)) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.16 Body -->
+
+        </div>
+        <!-- END of 15.9.5.16 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.17">15.9.5.17 Date.prototype.getUTCDay ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>WeekDay(<var>t</var>) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.17 Body -->
+
+        </div>
+        <!-- END of 15.9.5.17 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.18">15.9.5.18 Date.prototype.getHours ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>HourFromTime(LocalTime(<var>t</var>)) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.18 Body -->
+
+        </div>
+        <!-- END of 15.9.5.18 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.19">15.9.5.19 Date.prototype.getUTCHours ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>HourFromTime(<var>t</var>) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.19 Body -->
+
+        </div>
+        <!-- END of 15.9.5.19 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.20">15.9.5.20 Date.prototype.getMinutes ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>MinFromTime(LocalTime(<var>t</var>)) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.20 Body -->
+
+        </div>
+        <!-- END of 15.9.5.20 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.21">15.9.5.21 Date.prototype.getUTCMinutes ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>MinFromTime(<var>t</var>) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.21 Body -->
+
+        </div>
+        <!-- END of 15.9.5.21 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.22">15.9.5.22 Date.prototype.getSeconds ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>SecFromTime(LocalTime(<var>t</var>)) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.22 Body -->
+
+        </div>
+        <!-- END of 15.9.5.22 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.23">15.9.5.23 Date.prototype.getUTCSeconds ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>SecFromTime(<var>t</var>) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.23 Body -->
+
+        </div>
+        <!-- END of 15.9.5.23 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.24">15.9.5.24 Date.prototype.getMilliseconds ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>msFromTime(LocalTime(<var>t</var>)) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.24 Body -->
+
+        </div>
+        <!-- END of 15.9.5.24 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.25">15.9.5.25 Date.prototype.getUTCMilliseconds ( )</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>msFromTime(<var>t</var>) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.25 Body -->
+
+        </div>
+        <!-- END of 15.9.5.25 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.26">15.9.5.26 Date.prototype.getTimezoneOffset ( )</h3>
+
+
+            <div class="body level3">
+                <p>地方時と UTC 時の差を分で返す。</p>
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li><var>t</var> が NaN ならば、 NaN を返す。</li>
+                    <li>(<var>t</var> &minus; LocalTime(<var>t</var>)) / msPerMinute を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.26 Body -->
+
+        </div>
+        <!-- END of 15.9.5.26 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.27">15.9.5.27 Date.prototype.setTime (time)</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><code class="keyword">this</code> 値が Date オブジェクトでないならば、 例外 TypeError を投げる。</li>
+                    <li>ToNumber(<var>time</var>) を呼出す。</li>
+                    <li>TimeClip(Result(1)) を呼出す。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを Result(2) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値 を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.27 Body -->
+
+        </div>
+        <!-- END of 15.9.5.27 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.28">15.9.5.28 Date.prototype.setMilliseconds (ms)</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> を LocalTime(この時間値) の結果とする。</li>
+                    <li>ToNumber(<var>ms</var>) を呼出す。</li>
+                    <li>MakeTime(HourFromTime(<var>t</var>), MinFromTime(<var>t</var>), SecFromTime(<var>t</var>),
+                        Result(2)) を算出する。
+                    </li>
+                    <li>UTC(MakeDate(Day(<var>t</var>), Result(3))) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを TimeClip(Result(4)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.28 Body -->
+
+        </div>
+        <!-- END of 15.9.5.28 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.29">15.9.5.29 Date.prototype.setUTCMilliseconds (ms)</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li>ToNumber(<var>ms</var>) を呼出す。</li>
+                    <li>MakeTime(HourFromTime(<var>t</var>), MinFromTime(<var>t</var>), SecFromTime(<var>t</var>),
+                        Result(2)) を算出する。
+                    </li>
+                    <li>MakeDate(Day(<var>t</var>), Result(3)) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを TimeClip(Result(4)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.29 Body -->
+
+        </div>
+        <!-- END of 15.9.5.29 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.30">15.9.5.30 Date.prototype.setSeconds (sec [, ms ] )</h3>
+
+
+            <div class="body level3">
+                <p><var>ms</var> が指定されないならば、 <var>ms</var> に getMilliseconds( ) の値を指定されたように振舞う。</p>
+                <ol>
+                    <li><var>t</var> を LocalTime(この時間値) の結果とする。</li>
+                    <li>ToNumber(<var>sec</var>) を呼出す。</li>
+                    <li><var>ms</var> が指定されないならば、 msFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>ms</var>) を呼出す。
+                    </li>
+                    <li>MakeTime(HourFromTime(<var>t</var>), MinFromTime(<var>t</var>), Result(2), Result(3)) を算出する。
+                    </li>
+                    <li>UTC(MakeDate(Day(<var>t</var>), Result(4))) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを TimeClip(Result(5)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+                <p><code>setSeconds</code> メソッドの length プロパティは 2 である。</p>
+            </div>
+            <!-- END of 15.9.5.30 Body -->
+
+        </div>
+        <!-- END of 15.9.5.30 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.31">15.9.5.31 Date.prototype.setUTCSeconds (sec [, ms ] )</h3>
+
+
+            <div class="body level3">
+                <p><var>ms</var> が指定されないならば、 <var>ms</var> に getUTCMilliseconds( ) の値を指定されたように振舞う。</p>
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li>ToNumber(<var>sec</var>) を呼出す。</li>
+                    <li><var>ms</var> が指定されないならば、 msFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>ms</var>) を呼出す。
+                    </li>
+                    <li>MakeTime(HourFromTime(<var>t</var>), MinFromTime(<var>t</var>), Result(2), Result(3)) を算出する。
+                    </li>
+                    <li>MakeDate(Day(<var>t</var>), Result(4)) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを TimeClip(Result(5)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+                <p><code>setUTCSeconds</code> メソッドの length プロパティは 2 である。</p>
+            </div>
+            <!-- END of 15.9.5.31 Body -->
+
+        </div>
+        <!-- END of 15.9.5.31 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.32">15.9.5.32 Date.prototype.setMinutes (min [, sec [, ms ] ] )</h3>
+
+
+            <div class="body level3">
+                <p><var>sec</var> が指定されないならば、 <var>sec</var> に getSeconds( ) の値を指定されたように振舞う。</p>
+
+                <p><var>ms</var> が指定されないならば、 <var>ms</var> に getMilliseconds( ) の値を指定されたように振舞う。</p>
+                <ol>
+                    <li><var>t</var> を LocalTime(この時間値) の結果とする。</li>
+                    <li>ToNumber(<var>min</var>) を呼出す。</li>
+                    <li><var>sec</var> が指定されないならば、 SecFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>sec</var>)
+                        を呼出す。
+                    </li>
+                    <li><var>ms</var> が指定されないならば、 msFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>ms</var>) を呼出す。
+                    </li>
+                    <li>MakeTime(HourFromTime(<var>t</var>), Result(2), Result(3), Result(4)) を算出する。</li>
+                    <li>UTC(MakeDate(Day(<var>t</var>), Result(5))) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを、 TimeClip(Result(6)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+                <p><code>setMinutes</code> メソッドの length プロパティは 3 である。</p>
+            </div>
+            <!-- END of 15.9.5.32 Body -->
+
+        </div>
+        <!-- END of 15.9.5.32 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.33">15.9.5.33 Date.prototype.setUTCMinutes (min [, sec [, ms ] ] )</h3>
+
+
+            <div class="body level3">
+                <p><var>sec</var> が指定されないならば、 <var>sec</var> に値 getUTCSeconds( ) の値を指定されたように振舞う。</p>
+
+                <p><var>ms</var> が指定されないならば、 <var>ms</var> に値 getUTCMilliseconds( ) の値を指定されたように振舞う。</p>
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li>ToNumber(<var>min</var>) を呼出す。</li>
+                    <li><var>sec</var> が指定されないならば、 SecFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>sec</var>)
+                        を呼出す。
+                    </li>
+                    <li><var>ms</var> が指定されないならば、 msFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>ms</var>) を呼出す。
+                    </li>
+                    <li>MakeTime(HourFromTime(<var>t</var>), Result(2), Result(3), Result(4)) を算出する。</li>
+                    <li>MakeDate(Day(<var>t</var>), Result(5)) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを、 TimeClip(Result(6)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+                <p><code>setUTCMinutes</code> メソッドの length プロパティは 3 である。</p>
+            </div>
+            <!-- END of 15.9.5.33 Body -->
+
+        </div>
+        <!-- END of 15.9.5.33 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.34">15.9.5.34 Date.prototype.setHours (hour [, min [, sec [, ms ] ] ] )</h3>
+
+
+            <div class="body level3">
+                <p><var>min</var> が指定されないならば、 <var>min</var> に getMinutes( ) の値を指定されたように振舞う。</p>
+
+                <p><var>sec</var> が指定されないならば、 <var>sec</var> に getSeconds( ) の値を指定されたように振舞う。</p>
+
+                <p><var>ms</var> が指定されないならば、 <var>ms</var> に getMilliseconds( ) の値を指定されたように振舞う。</p>
+                <ol>
+                    <li><var>t</var> を LocalTime(この時間値) の結果とする。</li>
+                    <li>ToNumber(<var>hour</var>) を呼出す。</li>
+                    <li><var>min</var> が指定されないならば、 MinFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>min</var>)
+                        を呼出す。
+                    </li>
+                    <li><var>sec</var> が指定されないならば、 SecFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>sec</var>)
+                        を呼出す。
+                    </li>
+                    <li><var>ms</var> が指定されないならば、 msFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>ms</var>) を呼出す。
+                    </li>
+                    <li>MakeTime(Result(2), Result(3), Result(4), Result(5)) を算出する。</li>
+                    <li>UTC(MakeDate(Day(<var>t</var>), Result(6))) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを、 TimeClip(Result(7)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+                <p><code>setHours</code> メソッドの length プロパティは 4 である。</p>
+            </div>
+            <!-- END of 15.9.5.34 Body -->
+
+        </div>
+        <!-- END of 15.9.5.34 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.35">15.9.5.35 Date.prototype.setUTCHours (hour [, min [, sec [, ms ] ] ] )</h3>
+
+
+            <div class="body level3">
+                <p><var>min</var> が指定されないならば、 <var>min</var> に getUTCMinutes( ) の値を指定されたように振舞う。</p>
+
+                <p><var>sec</var> が指定されないならば、<var>sec</var> に getUTCSeconds( ) の値を指定されたように振舞う。</p>
+
+                <p><var>ms</var> が指定されないならば、 <var>ms</var> に getUTCMilliseconds( ) の値を指定されたように振舞う。</p>
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li>ToNumber(<var>hour</var>) を呼出す。</li>
+                    <li><var>min</var> が指定されないならば、 MinFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>min</var>)
+                        を呼出す。
+                    </li>
+                    <li><var>sec</var> が指定されないならば、 SecFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>sec</var>)
+                        を呼出す。
+                    </li>
+                    <li><var>ms</var> が指定されないならば、 msFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>ms</var>) を呼出す。
+                    </li>
+                    <li>MakeTime(Result(2), Result(3), Result(4), Result(5)) を算出する。</li>
+                    <li>MakeDate(Day(<var>t</var>), Result(6)) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを、 TimeClip(Result(7)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+                <p><code>setUTCHours</code> メソッドの length プロパティは 4 である。</p>
+            </div>
+            <!-- END of 15.9.5.35 Body -->
+
+        </div>
+        <!-- END of 15.9.5.35 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.36">15.9.5.36 Date.prototype.setDate (date)</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> を LocalTime(this time value) の結果とする。</li>
+                    <li>ToNumber(<var>date</var>) を呼出す。</li>
+                    <li>MakeDay(YearFromTime(<var>t</var>), MonthFromTime(<var>t</var>), Result(2)) を算出する。</li>
+                    <li>UTC(MakeDate(Result(3), TimeWithinDay(<var>t</var>))) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを、 TimeClip(Result(4)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.36 Body -->
+
+        </div>
+        <!-- END of 15.9.5.36 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.37">15.9.5.37 Date.prototype.setUTCDate (date)</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li>ToNumber(<var>date</var>) を呼出す。</li>
+                    <li>MakeDay(YearFromTime(<var>t</var>), MonthFromTime(<var>t</var>), Result(2)) を算出する。</li>
+                    <li>MakeDate(Result(3), TimeWithinDay(<var>t</var>)) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを、 TimeClip(Result(4)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.9.5.37 Body -->
+
+        </div>
+        <!-- END of 15.9.5.37 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.38">15.9.5.38 Date.prototype.setMonth (month [, date ] )</h3>
+
+
+            <div class="body level3">
+                <p><var>date</var> が指定されないならば、 <var>date</var> に getDate( ) の値を指定されたように振舞う。</p>
+                <ol>
+                    <li><var>t</var> を LocalTime(この時間値) の結果とする。</li>
+                    <li>ToNumber(<var>month</var>) を呼出す。</li>
+                    <li><var>date</var> が指定されないならば、 DateFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>date</var>)
+                        を呼出す。
+                    </li>
+                    <li>MakeDay(YearFromTime(<var>t</var>), Result(2), Result(3)) を算出する。</li>
+                    <li>UTC(MakeDate(Result(4), TimeWithinDay(<var>t</var>))) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを、 TimeClip(Result(5)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+                <p><code>setMonth</code> メソッドの length プロパティは 2 である。</p>
+            </div>
+            <!-- END of 15.9.5.38 Body -->
+
+        </div>
+        <!-- END of 15.9.5.38 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.39">15.9.5.39 Date.prototype.setUTCMonth (month [, date ] )</h3>
+
+
+            <div class="body level3">
+                <p><var>date</var> が指定されないならば、 <var>date</var> に getUTCDate( ) の値を指定されたように振舞う。</p>
+                <ol>
+                    <li><var>t</var> をこの時間値とする。</li>
+                    <li>ToNumber(<var>month</var>) を呼出す。</li>
+                    <li><var>date</var> が指定されないならば、 DateFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>date</var>)
+                        を呼出す。
+                    </li>
+                    <li>MakeDay(YearFromTime(<var>t</var>), Result(2), Result(3)) を算出する。</li>
+                    <li>MakeDate(Result(4), TimeWithinDay(<var>t</var>)) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを、 TimeClip(Result(5)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+                <p><code>setUTCMonth</code> メソッドの length プロパティは 2 である。</p>
+            </div>
+            <!-- END of 15.9.5.39 Body -->
+
+        </div>
+        <!-- END of 15.9.5.39 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.40">15.9.5.40 Date.prototype.setFullYear (year [, month [, date ] ] )</h3>
+
+
+            <div class="body level3">
+                <p><var>month</var> が指定されないならば、 <var>month</var> に getMonth( ) の値を指定されたように振舞う。</p>
+
+                <p><var>date</var> が指定されないならば、 <var>date</var> に getDate( ) の値を指定されたように振舞う。</p>
+                <ol>
+                    <li><var>t</var> を LocalTime(この時間値) の結果とする; この時間値が NaN ならば、 <var>t</var> を +0 とする。</li>
+                    <li>ToNumber(<var>year</var>) を呼出す。</li>
+                    <li><var>month</var> が指定されないならば、 MonthFromTime(<var>t</var>) を算出する; そうでなければ、
+                        ToNumber(<var>month</var>) を呼出す。
+                    </li>
+                    <li><var>date</var> が指定されないならば、 DateFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>date</var>)
+                        を呼出す。
+                    </li>
+                    <li>MakeDay(Result(2), Result(3), Result(4)) を算出する。</li>
+                    <li>UTC(MakeDate(Result(5), TimeWithinDay(<var>t</var>))) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを、 TimeClip(Result(6)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値 を返す。</li>
+                </ol>
+                <p><code>setFullYear</code> メソッドの length プロパティは 3 である。</p>
+            </div>
+            <!-- END of 15.9.5.40 Body -->
+
+        </div>
+        <!-- END of 15.9.5.40 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.41">15.9.5.41 Date.prototype.setUTCFullYear (year [, month [, date ] ] )</h3>
+
+
+            <div class="body level3">
+                <p><var>month</var> が指定されないならば、 <var>month</var> に getUTCMonth( ) の値を指定されたように振舞う。</p>
+
+                <p><var>date</var> が指定されないならば、 <var>date</var> に getUTCDate( ) の値を指定されたように振舞う。</p>
+                <ol>
+                    <li><var>t</var> をこの時間値とする; この時間値が NaN ならば、 <var>t</var> を +0 とする。</li>
+                    <li>ToNumber(<var>year</var>) を呼出す。</li>
+                    <li><var>month</var> が指定されないならば、 MonthFromTime(<var>t</var>) を算出する; そうでなければ、
+                        ToNumber(<var>month</var>) を呼出す。
+                    </li>
+                    <li><var>date</var> が指定されないならば、 DateFromTime(<var>t</var>) を算出する; そうでなければ、 ToNumber(<var>date</var>)
+                        を呼出す。
+                    </li>
+                    <li>MakeDay(Result(2), Result(3), Result(4)) を算出する。</li>
+                    <li>MakeDate(Result(5), TimeWithinDay(<var>t</var>)) を算出する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティを、 TimeClip(Result(6)) に設定する。</li>
+                    <li><code class="keyword">this</code> 値の [[Value]] プロパティの値を返す。</li>
+                </ol>
+                <p><code>setUTCFullYear</code> メソッドの length プロパティは 3 である。</p>
+            </div>
+            <!-- END of 15.9.5.41 Body -->
+
+        </div>
+        <!-- END of 15.9.5.41 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.9.5.42">15.9.5.42 Date.prototype.toUTCString ( )</h3>
+
+
+            <div class="body level3">
+                <p>この関数は文字列値を返す。文字列の内容は実装依存であるが、 UTC の、簡便で人間に読解可能な形式の Date の表現が意図される。</p>
+            </div>
+            <!-- END of 15.9.5.42 Body -->
+
+        </div>
+        <!-- END of 15.9.5.42 -->
+
+    </div>
+    <!-- END of 15.9.5 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.9.6">15.9.6 Date インスタンスのプロパティ (Properties of Date Instances)</h2>
+
+
+        <div class="body level2">
+            <p>Date インスタンスは、 Date プロトタイプオブジェクトから継承したプロパティの上に、特にプロパティを持たない。</p>
+        </div>
+        <!-- END of 15.9.6 Body -->
+
+    </div>
+    <!-- END of 15.9.6 -->
+
+</div>
+<!-- END of 15.9 -->
+
+<h1>Page Contents</h1>
+<ul id="toc">
+    <li><a href="#section-15.9">15.9 Date オブジェクト (Date Objects)</a>
+        <ul>
+            <li><a href="#section-15.9.1">15.9.1 Date オブジェクトの概要及び内部演算子の定義 (Overview of Date Objects and Definitions of
+                Internal Operators)</a>
+                <ul>
+                    <li><a href="#section-15.9.1.1">15.9.1.1 時間の範囲 (Time Range)</a></li>
+                    <li><a href="#section-15.9.1.2">15.9.1.2 日数及び一日内の時間 (Day Number and Time within Day)</a></li>
+                    <li><a href="#section-15.9.1.3">15.9.1.3 年数 (Year Number)</a></li>
+                    <li><a href="#section-15.9.1.4">15.9.1.4 月数 (Month Number)</a></li>
+                    <li><a href="#section-15.9.1.5">15.9.1.5 日付数 (Date Number)</a></li>
+                    <li><a href="#section-15.9.1.6">15.9.1.6 曜日 (Week Day)</a></li>
+                    <li><a href="#section-15.9.1.7">15.9.1.7 地方調整時 (Local Time Zone Adjustment)</a></li>
+                    <li><a href="#section-15.9.1.8">15.9.1.8 夏時間調整 (Daylight Saving Time Adjustment)</a></li>
+                    <li><a href="#section-15.9.1.9">15.9.1.9 地方時 (Local Time)</a></li>
+                    <li><a href="#section-15.9.1.10">15.9.1.10 時、分、秒、ミリ秒 (Hours, Minutes, Second, and Milliseconds)</a>
+                    </li>
+                    <li><a href="#section-15.9.1.11">15.9.1.11 MakeTime (hour, min, sec, ms)</a></li>
+                    <li><a href="#section-15.9.1.12">15.9.1.12 MakeDay (year, month, date)</a></li>
+                    <li><a href="#section-15.9.1.13">15.9.1.13 MakeDate (day, time)</a></li>
+                    <li><a href="#section-15.9.1.14">15.9.1.14 TimeClip (time)</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.9.2">15.9.2 関数として呼ばれる Date コンストラクタ</a>
+                <ul>
+                    <li><a href="#section-15.9.2.1">15.9.2.1 Date ( [ year [, month [, date [, hours [, minutes [,
+                        seconds [, ms ] ] ] ] ] ] ] )</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.9.3">15.9.3 Date コンストラクタ</a>
+                <ul>
+                    <li><a href="#section-15.9.3.1">15.9.3.1 new Date (year, month [, date [, hours [, minutes [,
+                        seconds [, ms ] ] ] ] ] )</a></li>
+                    <li><a href="#section-15.9.3.2">15.9.3.2 new Date (value)</a></li>
+                    <li><a href="#section-15.9.3.3">15.9.3.3 new Date ( )</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.9.4">15.9.4 Date コンストラクタのプロパティ</a>
+                <ul>
+                    <li><a href="#section-15.9.4.1">15.9.4.1 Date.prototype</a></li>
+                    <li><a href="#section-15.9.4.2">15.9.4.2 Date.parse (string)</a></li>
+                    <li><a href="#section-15.9.4.3">15.9.4.3 Date.UTC (year, month [, date [, hours [, minutes [,
+                        seconds [, ms ] ] ] ] ] )</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.9.5">15.9.5 Date プロトタイプオブジェクトのプロパティ</a>
+                <ul>
+                    <li><a href="#section-15.9.5.1">15.9.5.1 Date.prototype.constructor</a></li>
+                    <li><a href="#section-15.9.5.2">15.9.5.2 Date.prototype.toString ( )</a></li>
+                    <li><a href="#section-15.9.5.3">15.9.5.3 Date.prototype.toDateString ( )</a></li>
+                    <li><a href="#section-15.9.5.4">15.9.5.4 Date.prototype.toTimeString ( )</a></li>
+                    <li><a href="#section-15.9.5.5">15.9.5.5 Date.prototype.toLocaleString ( )</a></li>
+                    <li><a href="#section-15.9.5.6">15.9.5.6 Date.prototype.toLocaleDateString ( )</a></li>
+                    <li><a href="#section-15.9.5.7">15.9.5.7 Date.prototype.toLocaleTimeString ( )</a></li>
+                    <li><a href="#section-15.9.5.8">15.9.5.8 Date.prototype.valueOf ( )</a></li>
+                    <li><a href="#section-15.9.5.9">15.9.5.9 Date.prototype.getTime ( )</a></li>
+                    <li><a href="#section-15.9.5.10">15.9.5.10 Date.prototype.getFullYear ( )</a></li>
+                    <li><a href="#section-15.9.5.11">15.9.5.11 Date.prototype.getUTCFullYear ( )</a></li>
+                    <li><a href="#section-15.9.5.12">15.9.5.12 Date.prototype.getMonth ( )</a></li>
+                    <li><a href="#section-15.9.5.13">15.9.5.13 Date.prototype.getUTCMonth ( )</a></li>
+                    <li><a href="#section-15.9.5.14">15.9.5.14 Date.prototype.getDate ( )</a></li>
+                    <li><a href="#section-15.9.5.15">15.9.5.15 Date.prototype.getUTCDate ( )</a></li>
+                    <li><a href="#section-15.9.5.16">15.9.5.16 Date.prototype.getDay ( )</a></li>
+                    <li><a href="#section-15.9.5.17">15.9.5.17 Date.prototype.getUTCDay ( )</a></li>
+                    <li><a href="#section-15.9.5.18">15.9.5.18 Date.prototype.getHours ( )</a></li>
+                    <li><a href="#section-15.9.5.19">15.9.5.19 Date.prototype.getUTCHours ( )</a></li>
+                    <li><a href="#section-15.9.5.20">15.9.5.20 Date.prototype.getMinutes ( )</a></li>
+                    <li><a href="#section-15.9.5.21">15.9.5.21 Date.prototype.getUTCMinutes ( )</a></li>
+                    <li><a href="#section-15.9.5.22">15.9.5.22 Date.prototype.getSeconds ( )</a></li>
+                    <li><a href="#section-15.9.5.23">15.9.5.23 Date.prototype.getUTCSeconds ( )</a></li>
+                    <li><a href="#section-15.9.5.24">15.9.5.24 Date.prototype.getMilliseconds ( )</a></li>
+                    <li><a href="#section-15.9.5.25">15.9.5.25 Date.prototype.getUTCMilliseconds ( )</a></li>
+                    <li><a href="#section-15.9.5.26">15.9.5.26 Date.prototype.getTimezoneOffset ( )</a></li>
+                    <li><a href="#section-15.9.5.27">15.9.5.27 Date.prototype.setTime (time)</a></li>
+                    <li><a href="#section-15.9.5.28">15.9.5.28 Date.prototype.setMilliseconds (ms)</a></li>
+                    <li><a href="#section-15.9.5.29">15.9.5.29 Date.prototype.setUTCMilliseconds (ms)</a></li>
+                    <li><a href="#section-15.9.5.30">15.9.5.30 Date.prototype.setSeconds (sec [, ms ] )</a></li>
+                    <li><a href="#section-15.9.5.31">15.9.5.31 Date.prototype.setUTCSeconds (sec [, ms ] )</a></li>
+                    <li><a href="#section-15.9.5.32">15.9.5.32 Date.prototype.setMinutes (min [, sec [, ms ] ] )</a>
+                    </li>
+                    <li><a href="#section-15.9.5.33">15.9.5.33 Date.prototype.setUTCMinutes (min [, sec [, ms ] ] )</a>
+                    </li>
+                    <li><a href="#section-15.9.5.34">15.9.5.34 Date.prototype.setHours (hour [, min [, sec [, ms ] ] ]
+                        )</a></li>
+                    <li><a href="#section-15.9.5.35">15.9.5.35 Date.prototype.setUTCHours (hour [, min [, sec [, ms ] ]
+                        ] )</a></li>
+                    <li><a href="#section-15.9.5.36">15.9.5.36 Date.prototype.setDate (date)</a></li>
+                    <li><a href="#section-15.9.5.37">15.9.5.37 Date.prototype.setUTCDate (date)</a></li>
+                    <li><a href="#section-15.9.5.38">15.9.5.38 Date.prototype.setMonth (month [, date ] )</a></li>
+                    <li><a href="#section-15.9.5.39">15.9.5.39 Date.prototype.setUTCMonth (month [, date ] )</a></li>
+                    <li><a href="#section-15.9.5.40">15.9.5.40 Date.prototype.setFullYear (year [, month [, date ] ]
+                        )</a></li>
+                    <li><a href="#section-15.9.5.41">15.9.5.41 Date.prototype.setUTCFullYear (year [, month [, date ] ]
+                        )</a></li>
+                    <li><a href="#section-15.9.5.42">15.9.5.42 Date.prototype.toUTCString ( )</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.9.6">15.9.6 Date インスタンスのプロパティ (Properties of Date Instances)</a></li>
+        </ul>
+    </li>
+</ul>
+
+<address>
+
+    Translate: <span>Fri Jul 19 22:26:20 2002</span>
+
+<span>TAKI &lt;<a rel="bookmark" title="Translator"
+                  href="mailto:TAKI%20%3Coz-07ams@mvh.biglobe.ne.jp%3E"
+        >oz-07ams&#64;mvh.biglobe.ne.jp</a>&gt;</span>
+
+</address>
+
+</body>
+
+</html>
+
+
+<!--
+     FILE ARCHIVED ON 21:07:24 Aug 2, 2014 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 16:15:04 Feb 6, 2015.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->

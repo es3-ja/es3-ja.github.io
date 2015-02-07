@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <title>13 関数定義 (Function Definition)</title>
+
+
+    <link rel="stylesheet" title="Metagraphix Graytone" type="text/css" href="css/ecma.css" media="all"/>
+    <link rel="stylesheet" title="Metagraphix NN4" type="text/javascript" href="js/n4.js" media="screen"/>
+
+    <link rel="bookmark" title="Translator"
+          href="mailto:TAKI%20%3Coz-07ams&#64;mvh.biglobe.ne.jp%3E"/>
+    <link rel="bookmark" title="Site Top"
+          href="http://www2u.biglobe.ne.jp/%7Eoz-07ams/"/>
+    <link rel="start begin toc" title="ECMA-262 revision 3"
+          href="index.html"/>
+    <link rel="prev" title="12_Statements"
+          href="12_Statements.html"/>
+    <link rel="next" title="14_Program"
+          href="14_Program.html"/>
+
+    <link rev="alternate" title="Original Document (PDF format)"
+          type="application/pdf" hreflang="en"
+          href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%203rd%20edition,%20December%201999.pdf"/>
+
+
+</head>
+
+<body>
+
+
+<p>
+    <a href="#toc">本頁の目次</a>
+    <a rel="contents" href="">目次</a>
+    <a rel="next" href="14_Program.html">次頁: 14_Program</a>
+    <a rel="prev" href="12_Statements.html">前頁: 12_Statements</a>
+</p>
+
+
+<div class="section level1">
+    <h1 id="section-13">13 関数定義 (Function Definition)</h1>
+
+
+    <div class="body level1">
+        <dl class="def">
+
+            <dt>Syntax</dt>
+
+            <dd>
+
+                <dl class="syntax">
+                    <dt id="FunctionDeclaration">FunctionDeclaration :</dt>
+                    <dd><code class="keyword">function</code> <a
+                            href="7_Lexical_Conventions.html#Identifier"
+                            class="nonterminal">Identifier</a> <samp>(</samp> <a
+                            href="13_Function_Definition.html#FormalParameterList"
+                            class="nonterminal">FormalParameterList</a><sub>opt</sub> <samp>)</samp> <samp>{</samp> <a
+                            href="13_Function_Definition.html#FunctionBody"
+                            class="nonterminal">FunctionBody</a> <samp>}</samp></dd>
+                    <dt id="FunctionExpression">FunctionExpression :</dt>
+                    <dd><code class="keyword">function</code> <a
+                            href="7_Lexical_Conventions.html#Identifier"
+                            class="nonterminal">Identifier</a><sub>opt</sub> <samp>(</samp> <a
+                            href="13_Function_Definition.html#FormalParameterList"
+                            class="nonterminal">FormalParameterList</a><sub>opt</sub> <samp>)</samp> <samp>{</samp> <a
+                            href="13_Function_Definition.html#FunctionBody"
+                            class="nonterminal">FunctionBody</a> <samp>}</samp></dd>
+                    <dt id="FormalParameterList">FormalParameterList :</dt>
+                    <dd>
+                        <a href="7_Lexical_Conventions.html#Identifier"
+                           class="nonterminal">Identifier</a></dd>
+                    <dd>
+                        <a href="13_Function_Definition.html#FormalParameterList"
+                           class="nonterminal">FormalParameterList</a> <samp>,</samp> <a
+                            href="7_Lexical_Conventions.html#Identifier"
+                            class="nonterminal">Identifier</a></dd>
+                    <dt id="FunctionBody">FunctionBody :</dt>
+                    <dd>
+                        <a href="14_Program.html#SourceElements"
+                           class="nonterminal">SourceElements</a></dd>
+                </dl>
+            </dd>
+
+            <dt>Semantics</dt>
+
+            <dd>
+
+                <p>生成規則 <a
+                        href="13_Function_Definition.html#FunctionDeclaration"
+                        class="nonterminal">FunctionDeclaration</a> : <code class="keyword">function</code> <a
+                        href="7_Lexical_Conventions.html#Identifier"
+                        class="nonterminal">Identifier</a> ( <a
+                        href="13_Function_Definition.html#FormalParameterList"
+                        class="nonterminal">FormalParameterList</a><sub>opt</sub> ) { <a
+                        href="13_Function_Definition.html#FunctionBody"
+                        class="nonterminal">FunctionBody</a> } は関数宣言のために次のように処理される:</p>
+                <ol>
+                    <li>
+                        <a href="13_Function_Definition.html#FormalParameterList"
+                           class="nonterminal">FormalParameterList</a> で指定されるパラメータと <a
+                            href="13_Function_Definition.html#FunctionBody"
+                            class="nonterminal">FunctionBody</a> で指定される body を用いて、<a
+                            href="13_Function_Definition.html#section-13.2">セクション 13.2</a> に指定されるように 新しい Function
+                        オブジェクトを生成する。処理中の実行コンテキストのスコープ連鎖内を Scope として渡す。
+                    </li>
+                    <li>名前 <a
+                            href="7_Lexical_Conventions.html#Identifier"
+                            class="nonterminal">Identifier</a> と Result(1) の値を用いて、(セクション10.1.3 で指定される)
+                        現在の変数オブジェクト(variable object)のプロパティを生成する。
+                    </li>
+                </ol>
+                <p>生成規則 <a
+                        href="13_Function_Definition.html#FunctionExpression"
+                        class="nonterminal">FunctionExpression</a> : <code class="keyword">function</code> ( <a
+                        href="13_Function_Definition.html#FormalParameterList"
+                        class="nonterminal">FormalParameterList</a><sub>opt</sub> ) { <a
+                        href="13_Function_Definition.html#FunctionBody"
+                        class="nonterminal">FunctionBody</a> } は次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="13_Function_Definition.html#FormalParameterList"
+                           class="nonterminal">FormalParameterList</a> で指定されるパラメータと <a
+                            href="13_Function_Definition.html#FunctionBody"
+                            class="nonterminal">FunctionBody</a> で指定される body を用いて、<a
+                            href="13_Function_Definition.html#section-13.2">セクション 13.2</a> に指定されるように 新しい Function
+                        オブジェクトを生成する。処理中の実行コンテキストのスコープ連鎖内を Scope として渡す。
+                    </li>
+                    <li>Result(2) を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="13_Function_Definition.html#FunctionExpression"
+                        class="nonterminal">FunctionExpression</a> : <code class="keyword">function</code> <a
+                        href="7_Lexical_Conventions.html#Identifier"
+                        class="nonterminal">Identifier</a> ( <a
+                        href="13_Function_Definition.html#FormalParameterList"
+                        class="nonterminal">FormalParameterList</a><sub>opt</sub> ) { <a
+                        href="13_Function_Definition.html#FunctionBody"
+                        class="nonterminal">FunctionBody</a> } は次のように評価される:</p>
+                <ol>
+                    <li>式 <code class="keyword">new</code> Object() によるものであるかのように、新しいオブジェクトを生成する。</li>
+                    <li>スコープ連鎖の前に Result(1) を追加する。</li>
+                    <li>
+                        <a href="13_Function_Definition.html#FormalParameterList"
+                           class="nonterminal">FormalParameterList</a> で指定されるパラメータと <a
+                            href="13_Function_Definition.html#FunctionBody"
+                            class="nonterminal">FunctionBody</a> で指定される body を用いて、<a
+                            href="13_Function_Definition.html#section-13.2">セクション 13.2</a> に指定されるように 新しい Function
+                        オブジェクトを生成する。処理中の実行コンテキストのスコープ連鎖内を Scope として渡す。
+                    </li>
+                    <li>オブジェクト Result(1) 内にプロパティを生成する。プロパティ名は <a
+                            href="7_Lexical_Conventions.html#Identifier"
+                            class="nonterminal">Identifier</a> で、値は Result(3)、属性は { DontDelete, ReadOnly } である。
+                    </li>
+                    <li>スコープ連鎖の前から Result(1) を除去する。</li>
+                    <li>Result(3) を返す。</li>
+                </ol>
+                <div class="note">
+                    <p><b>NOTE</b> <a
+                            href="13_Function_Definition.html#FunctionExpression"
+                            class="nonterminal">FunctionExpression</a> 内の <a
+                            href="7_Lexical_Conventions.html#Identifier"
+                            class="nonterminal">Identifier</a> は、 <a
+                            href="13_Function_Definition.html#FunctionExpression"
+                            class="nonterminal">FunctionExpression</a> の <a
+                            href="13_Function_Definition.html#FunctionBody"
+                            class="nonterminal">FunctionBody</a> の内部から参照が可能で、関数にそれ自身の再帰的呼び出しを許可する。しかしながら、 <a
+                            href="13_Function_Definition.html#FunctionDeclaration"
+                            class="nonterminal">FunctionDeclaration</a> とは異なり、 <a
+                            href="13_Function_Definition.html#FunctionExpression"
+                            class="nonterminal">FunctionExpression</a> 内の <a
+                            href="7_Lexical_Conventions.html#Identifier"
+                            class="nonterminal">Identifier</a> を参照はできず、 <a
+                            href="13_Function_Definition.html#FunctionExpression"
+                            class="nonterminal">FunctionExpression</a> を閉じるスコープに影響しない。</p>
+                </div>
+
+                <p>生成規則 <a
+                        href="13_Function_Definition.html#FunctionBody"
+                        class="nonterminal">FunctionBody</a> : <a
+                        href="14_Program.html#SourceElements"
+                        class="nonterminal">SourceElements</a> は次のように評価される:</p>
+                <ol>
+                    <li>関数宣言のために <a
+                            href="14_Program.html#SourceElements"
+                            class="nonterminal">SourceElements</a> を処理する。
+                    </li>
+                    <li>
+                        <a href="14_Program.html#SourceElements"
+                           class="nonterminal">SourceElements</a> を評価する。
+                    </li>
+                    <li>Result(2) を返す。</li>
+                </ol>
+            </dd>
+
+        </dl>
+
+    </div>
+    <!-- END of 13 Body -->
+
+
+    <div class="section level2">
+        <h2 id="section-13.1">13.1 定義 (Definitions)</h2>
+
+
+        <div class="body level2">
+            <p>関数オブジェクト生成の処理を述べるため、2 つの定義を要する:</p>
+        </div>
+        <!-- END of 13.1 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-13.1.1">13.1.1 等しい文法の生成規則 (Equated Grammar Productions)</h3>
+
+
+            <div class="body level3">
+                <p>
+                    <a href="13_Function_Definition.html#FunctionBody"
+                       class="nonterminal">FunctionBody</a> 文法生成規則を用いる 2 者は、次のうちの一つが真であるとき、等しいものであると定義される:</p>
+                <ul>
+                    <li>双方が、同じ ECMAScript プログラムのソーステキスト内の同じロケーションから取得された <a
+                            href="13_Function_Definition.html#FunctionBody"
+                            class="nonterminal">FunctionBody</a> を用いている。このソーステキストはグローバルコードから構成され、<a
+                            href="10_Execution_Contexts.html#section-10.1.2">セクション 10.1.2</a>
+                        の定義に従って、あるものはファンクションコードを含む。
+                    </li>
+                    <li>双方が、同じ eval 呼び出し(<a href="15-1_Global_Object.html#section-15.1.2.1">15.1.2.1</a>)
+                        のソーステキスト内の同じロケーションから取得された <a
+                                href="13_Function_Definition.html#FunctionBody"
+                                class="nonterminal">FunctionBody</a> を用いている。このソーステキストは eval コードから構成され、<a
+                                href="10_Execution_Contexts.html#section-10.1.2">セクション 10.1.2</a>
+                        の定義に従って、あるものはファンクションコードを含む。
+                    </li>
+                </ul>
+                <div class="note">
+                    <p><b>NOTE</b> Function コンストラクタ呼び出し(<a href="15-3_Function_Objects.html#section-15.3.1">15.3.1</a>,
+                        <a href="15-3_Function_Objects.html#section-15.3.2">15.3.2</a>) から取得される <a
+                                href="13_Function_Definition.html#FunctionBody"
+                                class="nonterminal">FunctionBody</a> を用いる 2 者は、けして等しいとはみなされない。2 つの異なる eval 呼び出しから取得される
+                        <a href="13_Function_Definition.html#FunctionBody"
+                           class="nonterminal">FunctionBody</a> を用いる 2 者も、それが同じ引数を渡されていたとしても、等しいとはみなされない。</p>
+                </div>
+
+            </div>
+            <!-- END of 13.1.1 Body -->
+
+        </div>
+        <!-- END of 13.1.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-13.1.2">13.1.2 結合オブジェクト (Joined Objects)</h3>
+
+
+            <div class="body level3">
+                <p>2 つ以上の Function オブジェクトが結合しているとき、それらは次の特殊な振る舞いを持つ:</p>
+                <ul>
+                    <li>オブジェクト <var>O</var> の非内部プロパティが作成または設定される時は、O に結合した全オブジェクトの該当するプロパティが常に直ちに作成され、同じ値および属性を設定される。
+                    </li>
+                    <li>オブジェクト <var>O</var> の非内部プロパティが削除される時は、 <var>O</var> に結合した全オブジェクトの該当するプロパティも常に直ちに削除される。</li>
+                    <li>オブジェクト <var>O</var> と <var>P</var> が結合していれば、それらは互いに == および === として比較する。</li>
+                    <li>結合は過渡的で対称である。その結果、オブジェクト <var>O</var> および <var>P</var> が結合し、オブジェクト <var>P</var> および <var>Q</var>
+                        が結合する場合、オブジェクト <var>O</var> および <var>Q</var> も自動的に結合する。
+                    </li>
+                </ul>
+                <div class="note">
+                    <p><b>NOTE</b> 互いに結合した 2
+                        つ以上のオブジェクトは、それらが異なる内部プロパティを持っているかもしれない点を除いて、事実上判別できない。本仕様において異なってもよいような内部プロパティこそが [[Scope]]
+                        である。結合されたオブジェクトは、正確な仕様技術用の道具としてこの標準の中で使用される。それは、実際の Function
+                        オブジェクトの実装法のガイドラインに使用されることを意図しない。もっと言えば、実際に実装は、2 つ以上の結合された Function オブジェクトの [[Scope]]
+                        プロパティの差が外部的に観測されず、その場合結合された Function オブジェクトの組を作らずに同じ Function
+                        オブジェクトを再使用するという時を検知するかもしれない。この標準は単に ECMAScript プログラムにみられる振る舞いの仕様であるので、これは合法的な最適化である。</p>
+                </div>
+
+            </div>
+            <!-- END of 13.1.2 Body -->
+
+        </div>
+        <!-- END of 13.1.2 -->
+
+    </div>
+    <!-- END of 13.1 -->
+
+
+    <div class="section level2">
+        <h2 id="section-13.2">13.2 Function オブジェクトの生成 (Creating Function Objects)</h2>
+
+
+        <div class="body level2">
+            <p>
+                <a href="13_Function_Definition.html#FormalParameterList"
+                   class="nonterminal">FormalParameterList</a> で指定される選択的なパラメータのリスト、FunctionBody で指定される本文、Scope
+                で指定されるスコープ連鎖を与えられ、Function オブジェクトは次のように生成される:</p>
+            <ol>
+                <li>このセクションのアルゴリズムのこれまでの呼び出しで生成されるオブジェクト <var>E</var> がすでに存在している場合、そしてその、このセクションのアルゴリズムの呼び出しが、今回与えられた <a
+                        href="13_Function_Definition.html#FunctionBody"
+                        class="nonterminal">FunctionBody</a> と等しい <a
+                        href="13_Function_Definition.html#FunctionBody"
+                        class="nonterminal">FunctionBody</a> を与えられた場合は、ステップ 13 へ。(これらの判定基準を満たす一つ以上のオブジェクト <var>E</var>
+                    が存在するならば、実装の裁量の一つを選択する)
+                </li>
+                <li>新しい ECMAScript オブジェクトを生成し、 <var>F</var> をそのオブジェクトとする。</li>
+                <li><var>F</var> の [[Class]] プロパティを &quot;Function&quot; に設定する。</li>
+                <li><var>F</var> の [[Prototype]] プロパティを、<a href="15-3_Function_Objects.html#section-15.3.3.1">セクション
+                    15.3.3.1</a> に定義する、オリジナルの Function prototype オブジェクトに設定する。
+                </li>
+                <li><var>F</var> の [[Call]] プロパティを、<a href="13_Function_Definition.html#section-13.2.1">セクション 13.2.1</a>
+                    に述べるように設定する。
+                </li>
+                <li><var>F</var> の [[Construct]] プロパティを、<a href="13_Function_Definition.html#section-13.2.2">セクション
+                    13.2.2</a> に述べるように設定する。
+                </li>
+                <li><var>F</var> の [[Scope]] プロパティを、 Scope と同じオブジェクトで構成される新しいスコープ連鎖(<a
+                        href="10_Execution_Contexts.html#section-10.1.4">10.1.4</a>) に設定する。
+                </li>
+                <li><var>F</var> の length プロパティを、FormalParameterList に指定される形式的プロパティの数に設定する。パラメータが指定されなければ、F の length
+                    プロパティを 0 に設定する。このプロパティは、<a href="15-3_Function_Objects.html#section-15.3.5.1">セクション 15.3.5.1</a>
+                    に定義される属性を与えられる。
+                </li>
+                <li>式 <code class="keyword">new</code> Object() により生成されるかのように、新しいオブジェクトを生成する。</li>
+                <li>Result(9) の constructor プロパティを <var>F</var> に設定する。このプロパティは 属性 { DontEnum } を与えられる。</li>
+                <li><var>F</var> の prototype プロパティを Result(9) に設定する。このプロパティは、<a
+                        href="15-3_Function_Objects.html#section-15.3.5.2">セクション 15.3.5.2</a> で定義される属性を与えられる。
+                </li>
+                <li><var>F</var> を返す。</li>
+                <li>実装の裁量で、ステップ 2 またはステップ 14 へ。</li>
+                <li><var>E</var> に連結される、新しい Native ECMAScript オブジェクトを生成し、F をそのオブジェクトとする。全ての非内部プロパティが <var>E</var> と
+                    <var>F</var> で一致するように、全ての非内部プロパティとその属性を <var>E</var> から <var>F</var> へ複写する。
+                </li>
+                <li><var>F</var> の [[Class]] プロパティを &quot;Function&quot; に設定する。</li>
+                <li><var>F</var> の [[Prototype]] プロパティを、<a href="15-3_Function_Objects.html#section-15.3.3.1">セクション
+                    15.3.3.1</a> で定義するオリジナルの Function prototype オブジェクトに設定する。
+                </li>
+                <li><var>F</var> の [[Call]] プロパティを、<a href="13_Function_Definition.html#section-13.2.1">セクション 13.2.1</a>
+                    で述べるように設定する。
+                </li>
+                <li><var>F</var> の [[Construct]] プロパティを、<a href="13_Function_Definition.html#section-13.2.2">セクション
+                    13.2.2</a> で述べるように設定する。
+                </li>
+                <li><var>F</var> の [[Scope]] プロパティを、Scope と同じオブジェクトで構成されるむ新しいスコープ連鎖(<a
+                        href="10_Execution_Contexts.html#section-10.1.4">10.1.4</a>) に設定する。
+                </li>
+                <li><var>F</var> を返す。</li>
+            </ol>
+            <div class="note">
+                <p><b>NOTE</b> prototype プロパティは、各関数に自動的に生成され、関数がコンストラクタとして利用される可能性を許可する。</p>
+            </div>
+
+            <p>ステップ 1 は実装に、B が <var>A</var> に依存しないところの入れ子の関数 <var>B</var> を持つ関数 <var>A</var>
+                の一般的なケースの最適化を許可する。このケースでは実装は <var>B</var> のために <var>A</var>
+                が呼出される度に毎回新しいものを生成する代わりに同じオブジェクトの再利用を許可される。ステップ 13 はこの最適化を選択的にする; これを実装しないことを選択する実装は、ステップ 2 に進む。</p>
+
+            <p>例えば、このコード:</p>
+<pre>function A() {
+  function B(x) {return x*x;}
+  return B;
+}
+
+function C() {
+  return eval("(function (x) {return x*x;})");
+}
+
+var b1 = A();
+var b2 = A();
+function  b3(x) {return x*x;}
+function  b4(x) {return x*x;}
+var b5 = C();
+var b6 = C();</pre>
+
+            <p>の中で、実装は、b1 と b2 の結合を許可される。だが要求はされない。実際、それらの [[Scope]] プロパティ間の違いを検知する方法がないので、b1 と b2
+                を同じオブジェクトに作成してもよい。一方、実装はソースコードの等しくない(<a href="13_Function_Definition.html#section-13.1.1">13.1.1</a>) b3
+                と b4 を結合してはならない。また実装は、2 つの異なる eval 呼び出しで生成されるためにソースコードの等しくない b5 と b6 も結合してはならない。</p>
+
+            <p>実際、それは、それらの [[Scope]] プロパティ間に違いが見られないことを実装が証明でき、それで 1 つのオブジェクトを再使用できる時にのみ、2 つの Function
+                オブジェクトの結合に生産的だろう。このポリシーに従うことによって、実装は、それ自体に結合しているオブジェクトの空虚なケースに遭遇するだけになる。</p>
+        </div>
+        <!-- END of 13.2 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-13.2.1">13.2.1 [[Call]]</h3>
+
+
+            <div class="body level3">
+                <p>Function オブジェクト <var>F</var> の [[Call]] プロパティが呼出されるとき、次のステップが取られる:</p>
+                <ol>
+                    <li><var>F</var> の <a
+                            href="13_Function_Definition.html#FormalParameterList"
+                            class="nonterminal">FormalParameterList</a> を用いる、新しい実行コンテキストを設置し、引数リストと<a
+                            href="10_Execution_Contexts.html#section-10.2.3">セクション 10.2.3</a> で述べる <code
+                            class="keyword">this</code> 値を渡す。
+                    </li>
+                    <li><var>F</var> の <a
+                            href="13_Function_Definition.html#FunctionBody"
+                            class="nonterminal">FunctionBody</a> を評価する。
+                    </li>
+                    <li>前の実行コンテキストを回復し、ステップ 1 で設置した実行コンテキストを出る。</li>
+                    <li>Result(2).type が <code class="keyword">throw</code> ならば、Result(2).value を投げる。</li>
+                    <li>Result(2).type が ならば、Result(2) を返す。value を返す。</li>
+                    <li>(Result(2).type must be normal.) undefined を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 13.2.1 Body -->
+
+        </div>
+        <!-- END of 13.2.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-13.2.2">13.2.2 [[Construct]]</h3>
+
+
+            <div class="body level3">
+                <p>Function オブジェクト <var>F</var> の [[Construct]] プロパティが呼出されるとき、次のステップが取られる:</p>
+                <ol>
+                    <li>新しい Native ECMAScript オブジェクトを生成する。</li>
+                    <li>Result(1) の [[Class]] プロパティを &quot;Object&quot; に設定する。</li>
+                    <li><var>F</var> の prototype プロパティの値を取得する。</li>
+                    <li>Result(3) がオブジェクトならば、Result(1) の [[Prototype]] プロパティを Result(3) に設定する。</li>
+                    <li>Result(3) がオブジェクトでなければ、Result(1) の [[Prototype]] プロパティを、<a
+                            href="15-2_Object_Objects.html#section-15.2.3.1">セクション 15.2.3.1</a> で述べるオリジナルの Object
+                        prototype オブジェクトに設定する。
+                    </li>
+                    <li><var>F</var> の [[Call]] プロパティを呼び出す。Result(1) を <code class="keyword">this</code> 値として提供し、引数値として
+                        [[Construct]] に渡された引数リストを提供する。
+                    </li>
+                    <li>Type(Result(6)) が Object ならば、Result(6) を返す。</li>
+                    <li>Result(1) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 13.2.2 Body -->
+
+        </div>
+        <!-- END of 13.2.2 -->
+
+    </div>
+    <!-- END of 13.2 -->
+
+</div>
+<!-- END of 13 -->
+
+<h1>Page Contents</h1>
+<ul id="toc">
+    <li><a href="#section-13">13 関数定義 (Function Definition)</a>
+        <ul>
+            <li><a href="#section-13.1">13.1 定義 (Definitions)</a>
+                <ul>
+                    <li><a href="#section-13.1.1">13.1.1 等しい文法の生成規則 (Equated Grammar Productions)</a></li>
+                    <li><a href="#section-13.1.2">13.1.2 結合オブジェクト (Joined Objects)</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-13.2">13.2 Function オブジェクトの生成 (Creating Function Objects)</a>
+                <ul>
+                    <li><a href="#section-13.2.1">13.2.1 [[Call]]</a></li>
+                    <li><a href="#section-13.2.2">13.2.2 [[Construct]]</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<address>
+
+    Translate: <span>Tue Jun 25 16:41:00 2002</span>
+
+<span>TAKI &lt;<a rel="bookmark" title="Translator"
+                  href="mailto:TAKI%20%3Coz-07ams@mvh.biglobe.ne.jp%3E"
+        >oz-07ams&#64;mvh.biglobe.ne.jp</a>&gt;</span>
+
+</address>
+
+</body>
+
+</html>
+
+
+<!--
+     FILE ARCHIVED ON 20:19:07 Aug 2, 2014 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 16:14:52 Feb 6, 2015.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->

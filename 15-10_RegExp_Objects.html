@@ -1,0 +1,2108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <title>15.10 RegExp (正規表現) オブジェクト (RegExp (Regular Expression) Objects)</title>
+
+
+    <link rel="stylesheet" title="Metagraphix Graytone" type="text/css" href="css/ecma.css" media="all"/>
+    <link rel="stylesheet" title="Metagraphix NN4" type="text/javascript" href="js/n4.js" media="screen"/>
+
+    <link rel="bookmark" title="Translator"
+          href="mailto:TAKI%20%3Coz-07ams&#64;mvh.biglobe.ne.jp%3E"/>
+    <link rel="bookmark" title="Site Top"
+          href="http://www2u.biglobe.ne.jp/%7Eoz-07ams/"/>
+    <link rel="start begin toc" title="ECMA-262 revision 3"
+          href="index.html"/>
+    <link rel="prev" title="15-9_Date_Objects"
+          href="15-9_Date_Objects.html"/>
+    <link rel="next" title="15-11_Error_Objects"
+          href="15-11_Error_Objects.html"/>
+
+    <link rev="alternate" title="Original Document (PDF format)"
+          type="application/pdf" hreflang="en"
+          href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%203rd%20edition,%20December%201999.pdf"/>
+
+
+</head>
+
+<body>
+
+
+<p>
+    <a href="#toc">本頁の目次</a>
+    <a rel="contents" href="">目次</a>
+    <a rel="next" href="15-11_Error_Objects.html">次頁: 15-11_Error_Objects</a>
+    <a rel="prev" href="15-9_Date_Objects.html">前頁: 15-9_Date_Objects</a>
+</p>
+
+
+<div class="section level1">
+    <h1 id="section-15.10">15.10 RegExp (正規表現) オブジェクト (RegExp (Regular Expression) Objects)</h1>
+
+
+    <div class="body level1">
+        <p>RegExp オブジェクトは、正規表現と関連するフラグで構成される。</p>
+
+        <div class="note">
+            <p><b>NOTE</b> 正規表現の書式と機能は、 Perl5 プログラミング言語の正規表現を模して作られる。</p>
+        </div>
+
+    </div>
+    <!-- END of 15.10 Body -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.10.1">15.10.1 パターン (Patterns)</h2>
+
+
+        <div class="body level2">
+            <p>RegExp コンストラクタは、入力パターン文字列に下記の文法を適用する。文法が文字列を <a
+                    href="15-10_RegExp_Objects.html#Pattern"
+                    class="nonterminal">Pattern</a> の 展開として解釈できなければ、エラーが発生する。</p>
+            <dl class="def">
+
+                <dt>Syntax</dt>
+
+                <dd>
+
+                    <dl class="syntax">
+                        <dt id="Pattern">Pattern ::</dt>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#Disjunction"
+                               class="nonterminal">Disjunction</a></dd>
+                        <dt id="Disjunction">Disjunction ::</dt>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#Alternative"
+                               class="nonterminal">Alternative</a></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#Alternative"
+                               class="nonterminal">Alternative</a> <samp>|</samp> <a
+                                href="15-10_RegExp_Objects.html#Disjunction"
+                                class="nonterminal">Disjunction</a></dd>
+                        <dt id="Alternative">Alternative ::</dt>
+                        <dd>
+                            <small>[empty]</small>
+                        </dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#Alternative"
+                               class="nonterminal">Alternative</a> <a
+                                href="15-10_RegExp_Objects.html#Term"
+                                class="nonterminal">Term</a></dd>
+                        <dt id="Term">Term ::</dt>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#Assertion"
+                               class="nonterminal">Assertion</a></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#Atom"
+                               class="nonterminal">Atom</a></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#Atom"
+                               class="nonterminal">Atom</a> <a
+                                href="15-10_RegExp_Objects.html#Quantifier"
+                                class="nonterminal">Quantifier</a></dd>
+                        <dt id="Assertion">Assertion ::</dt>
+                        <dd><samp>^</samp></dd>
+                        <dd>$</dd>
+                        <dd>\ <var>b</var></dd>
+                        <dd>\ <var>B</var></dd>
+                        <dt id="Quantifier">Quantifier ::</dt>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#QuantifierPrefix"
+                               class="nonterminal">QuantifierPrefix</a></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#QuantifierPrefix"
+                               class="nonterminal">QuantifierPrefix</a> <samp>?</samp></dd>
+                        <dt id="QuantifierPrefix">QuantifierPrefix ::</dt>
+                        <dd><samp>*</samp></dd>
+                        <dd><samp>+</samp></dd>
+                        <dd><samp>?</samp></dd>
+                        <dd><samp>{</samp> <a
+                                href="9_Type_Conversion.html#DecimalDigits"
+                                class="nonterminal">DecimalDigits</a> <samp>}</samp></dd>
+                        <dd><samp>{</samp> <a
+                                href="9_Type_Conversion.html#DecimalDigits"
+                                class="nonterminal">DecimalDigits</a> <samp>,</samp> <samp>}</samp></dd>
+                        <dd><samp>{</samp> <a
+                                href="9_Type_Conversion.html#DecimalDigits"
+                                class="nonterminal">DecimalDigits</a> <samp>,</samp> <a
+                                href="9_Type_Conversion.html#DecimalDigits"
+                                class="nonterminal">DecimalDigits</a> <samp>}</samp></dd>
+                        <dt id="Atom">Atom ::</dt>
+                        <dd>PatternCharacter</dd>
+                        <dd><samp>.</samp></dd>
+                        <dd>\ <a
+                                href="15-10_RegExp_Objects.html#AtomEscape"
+                                class="nonterminal">AtomEscape</a></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#CharacterClass"
+                               class="nonterminal">CharacterClass</a></dd>
+                        <dd><samp>(</samp> <a
+                                href="15-10_RegExp_Objects.html#Disjunction"
+                                class="nonterminal">Disjunction</a> <samp>)</samp></dd>
+                        <dd><samp>(</samp> <samp>?</samp> <samp>:</samp> <a
+                                href="15-10_RegExp_Objects.html#Disjunction"
+                                class="nonterminal">Disjunction</a> <samp>)</samp></dd>
+                        <dd><samp>(</samp> <samp>?</samp> <samp>=</samp> <a
+                                href="15-10_RegExp_Objects.html#Disjunction"
+                                class="nonterminal">Disjunction</a> <samp>)</samp></dd>
+                        <dd><samp>(</samp> <samp>?</samp> <samp>!</samp> <a
+                                href="15-10_RegExp_Objects.html#Disjunction"
+                                class="nonterminal">Disjunction</a> <samp>)</samp></dd>
+                        <dt id="PatternCharacter">PatternCharacter :: SourceCharacter but not any of:</dt>
+                        <dd><samp>^</samp> $ \ <samp>.</samp> <samp>*</samp> <samp>+</samp> <samp>?</samp>
+                            <samp>(</samp> <samp>)</samp> <samp>[</samp> <samp>]</samp> <samp>{</samp> <samp>}</samp>
+                            <samp>|</samp></dd>
+                        <dt id="AtomEscape">AtomEscape ::</dt>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#DecimalEscape"
+                               class="nonterminal">DecimalEscape</a></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#CharacterEscape"
+                               class="nonterminal">CharacterEscape</a></dd>
+                        <dd>CharacterClassEscape</dd>
+                        <dt id="CharacterEscape">CharacterEscape ::</dt>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#ControlEscape"
+                               class="nonterminal">ControlEscape</a></dd>
+                        <dd><var>c</var> <a
+                                href="15-10_RegExp_Objects.html#ControlLetter"
+                                class="nonterminal">ControlLetter</a></dd>
+                        <dd>
+                            <a href="7_Lexical_Conventions.html#HexEscapeSequence"
+                               class="nonterminal">HexEscapeSequence</a></dd>
+                        <dd>
+                            <a href="7_Lexical_Conventions.html#UnicodeEscapeSequence"
+                               class="nonterminal">UnicodeEscapeSequence</a></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#IdentityEscape"
+                               class="nonterminal">IdentityEscape</a></dd>
+                        <dt id="ControlEscape">ControlEscape :: one of</dt>
+                        <dd><var>f</var> <var>n</var> <var>r</var> <var>t</var> <var>v</var></dd>
+                        <dt id="ControlLetter">ControlLetter :: one of</dt>
+                        <dd>a <var>b</var> <var>c</var> <var>d</var> <var>e</var> <var>f</var> <var>g</var> <var>h</var>
+                            <var>i</var> <var>j</var> <var>k</var> <var>l</var> <var>m</var> <var>n</var> <var>o</var>
+                            <var>p</var> <var>q</var> <var>r</var> <var>s</var> <var>t</var> <var>u</var> <var>v</var>
+                            <var>w</var> <var>x</var> <var>y</var> <var>z</var></dd>
+                        <dd><var>A</var> <var>B</var> <var>C</var> <var>D</var> <var>E</var> <var>F</var> <var>G</var>
+                            <var>H</var> <var>I</var> <var>J</var> <var>K</var> <var>L</var> <var>M</var> <var>N</var>
+                            <var>O</var> <var>P</var> <var>Q</var> <var>R</var> <var>S</var> <var>T</var> <var>U</var>
+                            <var>V</var> <var>W</var> <var>X</var> <var>Y</var> <var>Z</var></dd>
+                        <dt id="IdentityEscape">IdentityEscape ::</dt>
+                        <dd>
+                            <a href="6_Source_Text.html#SourceCharacter"
+                               class="nonterminal">SourceCharacter</a> but not <a
+                                href="7_Lexical_Conventions.html#IdentifierPart"
+                                class="nonterminal">IdentifierPart</a></dd>
+                        <dt id="DecimalEscape">DecimalEscape ::</dt>
+                        <dd>
+                            <a href="7_Lexical_Conventions.html#DecimalIntegerLiteral"
+                               class="nonterminal">DecimalIntegerLiteral</a> <samp>[</samp>lookahead <samp>(</samp> <a
+                                href="9_Type_Conversion.html#DecimalDigit"
+                                class="nonterminal">DecimalDigit</a><samp>]</samp></dd>
+                        <dt id="CharacterClassEscape">CharacterClassEscape :: one of</dt>
+                        <dd><var>d</var> <var>D</var> <var>s</var> <var>S</var> <var>w</var> <var>W</var></dd>
+                        <dt id="CharacterClass">CharacterClass ::</dt>
+                        <dd><samp>[</samp>
+                            <small>[lookahead &notin; {<samp>^</samp>} ]</small>
+                            <a href="15-10_RegExp_Objects.html#ClassRanges"
+                               class="nonterminal">ClassRanges</a> <samp>]</samp></dd>
+                        <dd><samp>[</samp> <samp>^</samp> <a
+                                href="15-10_RegExp_Objects.html#ClassRanges"
+                                class="nonterminal">ClassRanges</a> <samp>]</samp></dd>
+                        <dt id="ClassRanges">ClassRanges ::</dt>
+                        <dd>
+                            <small>[empty]</small>
+                        </dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#NonemptyClassRanges"
+                               class="nonterminal">NonemptyClassRanges</a></dd>
+                        <dt id="NonemptyClassRanges">NonemptyClassRanges ::</dt>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#ClassAtom"
+                               class="nonterminal">ClassAtom</a></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#ClassAtom"
+                               class="nonterminal">ClassAtom</a> <a
+                                href="15-10_RegExp_Objects.html#NonemptyClassRangesNoDash"
+                                class="nonterminal">NonemptyClassRangesNoDash</a></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#ClassAtom"
+                               class="nonterminal">ClassAtom</a> <samp>-</samp> <a
+                                href="15-10_RegExp_Objects.html#ClassAtom"
+                                class="nonterminal">ClassAtom</a> <a
+                                href="15-10_RegExp_Objects.html#ClassRanges"
+                                class="nonterminal">ClassRanges</a></dd>
+                        <dt id="NonemptyClassRangesNoDash">NonemptyClassRangesNoDash ::</dt>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#ClassAtom"
+                               class="nonterminal">ClassAtom</a></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#ClassAtomNoDash"
+                               class="nonterminal">ClassAtomNoDash</a> <a
+                                href="15-10_RegExp_Objects.html#NonemptyClassRangesNoDash"
+                                class="nonterminal">NonemptyClassRangesNoDash</a></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#ClassAtomNoDash"
+                               class="nonterminal">ClassAtomNoDash</a> <samp>-</samp> <a
+                                href="15-10_RegExp_Objects.html#ClassAtom"
+                                class="nonterminal">ClassAtom</a> <a
+                                href="15-10_RegExp_Objects.html#ClassRanges"
+                                class="nonterminal">ClassRanges</a></dd>
+                        <dt id="ClassAtom">ClassAtom ::</dt>
+                        <dd><samp>-</samp></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#ClassAtomNoDash"
+                               class="nonterminal">ClassAtomNoDash</a></dd>
+                        <dt id="ClassAtomNoDash">ClassAtomNoDash ::</dt>
+                        <dd>
+                            <a href="6_Source_Text.html#SourceCharacter"
+                               class="nonterminal">SourceCharacter</a> but not one of \ <samp>]</samp> <samp>-</samp>
+                        </dd>
+                        <dd>\ <a
+                                href="15-10_RegExp_Objects.html#ClassEscape"
+                                class="nonterminal">ClassEscape</a></dd>
+                        <dt id="ClassEscape">ClassEscape ::</dt>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#DecimalEscape"
+                               class="nonterminal">DecimalEscape</a></dd>
+                        <dd><var>b</var></dd>
+                        <dd>
+                            <a href="15-10_RegExp_Objects.html#CharacterEscape"
+                               class="nonterminal">CharacterEscape</a></dd>
+                        <dd>CharacterClassEscape</dd>
+                    </dl>
+                </dd>
+
+            </dl>
+
+        </div>
+        <!-- END of 15.10.1 Body -->
+
+    </div>
+    <!-- END of 15.10.1 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.10.2">15.10.2 パターンの意味 (Pattern Semantics)</h2>
+
+
+        <div class="body level2">
+            <p>正規表現パターンは、下に述べる処理を用いる内部関数に変換される。実装は、同じ結果を得られるならば、下に述べるものよりもより効率のいいアルゴリズムの仕様が推奨される。</p>
+        </div>
+        <!-- END of 15.10.2 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.1">15.10.2.1 表記法 (Notation)</h3>
+
+
+            <div class="body level3">
+                <p>以下の説明では、次の変数を用いる:</p>
+                <ul>
+                    <li>Input は、正規表現パターンによりマッチされている文字列である。表記 input[<var>n</var>] は input の <var>n</var> 番目の文字を意味する。
+                        <var>n</var> の範囲は 0 から InputLength -1 までである。
+                    </li>
+                    <li>InputLength は、 Input 文字列の文字数である。</li>
+                    <li>NCapturingParens は、パターン内の左捕捉括弧の数の総数 (すなわち <a
+                            href="15-10_RegExp_Objects.html#Atom"
+                            class="nonterminal">Atom</a> :: ( <a
+                            href="15-10_RegExp_Objects.html#Disjunction"
+                            class="nonterminal">Disjunction</a> ) 生成規則が展開される回数の総数) である。左捕捉括弧は、 <a
+                            href="15-10_RegExp_Objects.html#Atom"
+                            class="nonterminal">Atom</a> :: ( <a
+                            href="15-10_RegExp_Objects.html#Disjunction"
+                            class="nonterminal">Disjunction</a> ) 生成規則の ( 終端記号によりマッチされる、任意の ( パターン文字である。
+                    </li>
+                    <li>IgnoreCase は、 RegExp オブジェクトの ignoreCase プロパティの設定である。</li>
+                    <li>Multiline は、 RegExp オブジェクトの multiline プロパティの設定である。</li>
+                </ul>
+                <p>さらに、以下の説明では、次の内部データ構造を用いる:</p>
+                <ul>
+                    <li>CharSet は、文字の数学的集合である。</li>
+                    <li>State は (endIndex, captures) のペアの並びで、 endIndex を整数、 captures を NCapturingParens 値の内部配列とする。 State
+                        は、正規表現のマッチングアルゴリズムにおいて部分マッチの状態を表すのに使用される。 endIndex は、その時点でパターンにマッチする最後の入力文字のインデックス + 1 であり、
+                        captures は捕捉括弧の結果を保持する。 captures の <var>n</var> 番目の要素は、捕捉括弧の <var>n</var>
+                        番目の集合によって取得される値を表す文字列であり、捕捉括弧の <var>n</var> 番目の集合がまだ届いていないならば undefined である。バックトラッキングのため、多くの
+                        state がマッチング処理間いつでも使用されてよい。
+                    </li>
+                    <li>MatchResult は、 State であるか、またはマッチに失敗したことを示す特殊トークン failure であり、どちらか一方である。</li>
+                    <li>Continuation 関数は、内部クロージャ (すなわち、引数が既に値に結合されている内部関数) であり、 1 個の引数 State をとり結果 MatchResult
+                        を返す。内部クロージャが、そのクロージャを生成する関数に結合された変数を参照するならば、クロージャが使用するのはクロージャが生成されたときにそれらの変数が持っていた値である。
+                        continuation は、引数 State で与えられる中間状態で開始して、入力文字列に対するパターンの残りの部分 (クロージャの結合済み引数で特定される)
+                        にマッチを試みる。マッチに成功したならば、 continuation はそれに達した最後の State を返す; match に失敗ならば、 continuation は failure
+                        を返す。
+                    </li>
+                    <li>Matcher 関数は、 2 個の引数 -- State と Continuation -- をとる内部クロージャで、結果 MutchResult を返す。 matcher は、引数
+                        State で与えられる中間状態から開始して、入力文字列に対してパターンの中央の部分パターン (クロージャの結合済み引数で特定される) にマッチを試みる。引数 Continuation
+                        は、パターンの残りにマッチさせるクロージャでなければならない。新しい State を得るためのパターンの部分パターンのマッチングの後、 matcher はその状態の上に
+                        Cantinuation を呼出し、パターンの残りがうまくマッチできるかテストする。マッチできるならば matcher は continuation に返された状態を返す; できないならば
+                        matcher は、成功するか、または全ての可能性をつかい尽くすまで、 Continuation を繰返し呼出し、その選択点で異なる選択を試してよい。
+                    </li>
+                    <li>AssertionTester 関数は、引数 State をとる内部クロージャで、結果 <code class="keyword">boolean</code> を返す。 assertion
+                        テスターは、入力文字列の現在の位置に対する特殊条件 (クロージャの結合済み引数で特定される) をテストし、条件にマッチすれば true 、マッチしなければ false を返す。
+                    </li>
+                    <li>EscapeValue は、文字または整数である。 EscapeValue を用いて <a
+                            href="15-10_RegExp_Objects.html#DecimalEscape"
+                            class="nonterminal">DecimalEscape</a> エスケープシーケンスの解釈をあらわす: 文字 ch は、エスケープシーケンスが文字 ch
+                        として解釈されることを意味し、一方整数 <var>n</var> は、エスケープシーケンスが <var>n</var> 番目の捕捉括弧集合の後方参照として解釈されることを意味する。
+                    </li>
+                </ul>
+            </div>
+            <!-- END of 15.10.2.1 Body -->
+
+        </div>
+        <!-- END of 15.10.2.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.2">15.10.2.2 Pattern</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Pattern"
+                        class="nonterminal">Pattern</a> :: <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#Disjunction"
+                           class="nonterminal">Disjunction</a> を評価し、 Matcher <var>m</var> を取得する。
+                    </li>
+                    <li>内部クロージャを返す。これは 2 個の引数、文字列 str と整数 index をとり、次を実行する:
+                        <ol>
+                            <li>Input を与えられた文字列 str とする。この変数は、<a href="15-10_RegExp_Objects.html#section-15.10.2">セクション
+                                15.10.2</a> 内の関数を通して使用される。
+                            </li>
+                            <li>InputLength を Input の長さとする。この変数は、<a href="15-10_RegExp_Objects.html#section-15.10.2">セクション
+                                15.10.2</a> 内の関数を通して使用される。
+                            </li>
+                            <li><var>c</var> を、成功の MatchResult として引数 State を常に返す Continuation とする。</li>
+                            <li>cap を、 1 から NCapturingParens までの添え字を持つ NCapturingParens 個の undefined 値 の内部配列とする。</li>
+                            <li><var>x</var> を State (index, cap) とする。</li>
+                            <li><var>m</var>(<var>x</var>, <var>c</var>) を呼出し、その結果を返す。</li>
+                        </ol>
+                    </li>
+                </ol>
+                <p>参考情報解説 (Informative comment): <a
+                        href="15-10_RegExp_Objects.html#Pattern"
+                        class="nonterminal">Pattern</a> は内部関数値に評価 (&quot;コンパイル&quot;) される。 RegExp.prototype.exec
+                    がこの関数を適用できるのは、文字列と、文字列内部のオフセットで、それは文字列内部のその厳密なオフセットで開始してパターンがマッチできるかどうかを決定するものである。
+                    そして、マッチするならば、それは捕捉括弧の値となるものである。 <a href="15-10_RegExp_Objects.html#section-15.10.2">セクション
+                        15.10.2</a> のアルゴリズムは、コンパイルするパターンが例外 SyntaxError を投げてもよいように設計される;
+                    一方、パターンが一旦コンパイルされると、文字列内のマッチを検索する結果の関数の適用は、例外を投げることが出来ない (out-of-memory など、どこでも発生しうる任意のホスト定義の例外を除く)。
+                </p>
+            </div>
+            <!-- END of 15.10.2.2 Body -->
+
+        </div>
+        <!-- END of 15.10.2.2 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.3">15.10.2.3 Disjunction</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> :: <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a> の評価は、 <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a> を評価して取得した Matcher を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> :: <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a> | <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#Alternative"
+                           class="nonterminal">Alternative</a> を評価し Matcher m1 を取得する。
+                    </li>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#Disjunction"
+                           class="nonterminal">Disjunction</a> を評価し Matcher m2 を取得する。
+                    </li>
+                    <li>内部 Matcher クロージャを返す。これは 2 個の引数、 State <var>x</var> と Cantinuation <var>x</var> をとり、次を実行する:
+                        <ol>
+                            <li>m1(<var>x</var>, <var>c</var>) を呼出し、結果を <var>r</var> とする。</li>
+                            <li><var>r</var> が failure でないならば、 <var>r</var> を返す。</li>
+                            <li>m2(<var>x</var>, <var>c</var>) を呼出し、その結果を返す。</li>
+                        </ol>
+                    </li>
+                </ol>
+                <p>参考情報解説: 正規表現演算子 | は 2 個の代替を区切る。パターンはまず左の <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a> (後に正規表現が続く) のマッチを試行する; 失敗したならば、右の <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> (後に正規表現が続く) のマッチを試行する。左の <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a>, 右の <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a>, 続き全てが選択点を持つならば、続きの全ての選択肢は左の <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a> 内の次の選択肢上への移動前に試行される。左の <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a> 内の選択肢を使い切ったならば、右の <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> が左の <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a> の代わりに試行される。 | によりスキップされたパターン成分内部の任意の捕捉括弧は、文字列の代わりに undefined
+                    値を生成する。つまり、例えば</p>
+                <pre>/a|ab/.exec("abc")</pre>
+
+                <p>は結果 &quot;a&quot; を返し、 &quot;ab&quot; は返さない。もっと言えば</p>
+                <pre>/((a)|(ab))((c)|(bc))/.exec("abc")</pre>
+
+                <p>は以下の配列</p>
+                <pre>["abc", "a", "a", undefined, "bc", undefined, "bc"]</pre>
+
+                <p>を返し、</p>
+                <pre>["abc", "ab", undefined, "ab", "c", "c", undefined]</pre>
+
+                <p>は返さない。</p>
+            </div>
+            <!-- END of 15.10.2.3 Body -->
+
+        </div>
+        <!-- END of 15.10.2.3 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.4">15.10.2.4 Alternative</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a> :: [empty] の評価は、Matcher を返す。この Matcher は 2 個の引数 State
+                    <var>x</var> と Continuation <var>c</var> をとり、 <var>c</var>(<var>x</var>) の結果を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a> :: <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a> <a
+                        href="15-10_RegExp_Objects.html#Term"
+                        class="nonterminal">Term</a> は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#Alternative"
+                           class="nonterminal">Alternative</a> を評価し、 Matcher m1 を得る。
+                    </li>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#Term"
+                           class="nonterminal">Term</a> を評価し、 Matcher m2 を得る。
+                    </li>
+                    <li>内部 Matcher クロージャを返す。このクロージャは 2 個の引数 State <var>x</var> と Continuation <var>c</var> をとり、次のように振舞う:
+                        <ol>
+                            <li>Continuation <var>d</var> を生成する。これは State 引数に <var>y</var> をとり m2(<var>y</var>,
+                                <var>c</var>) の結果を返す
+                            </li>
+                            <li>m1(<var>x</var>, <var>d</var>) を呼出し、その結果を返す。</li>
+                        </ol>
+                    </li>
+                </ol>
+                <p>参考情報解説: 連続する <a
+                        href="15-10_RegExp_Objects.html#Term"
+                        class="nonterminal">Term</a> は、入力文字列の連続する部分の同時マッチを試みる。 左の <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a>, 右の <a
+                        href="15-10_RegExp_Objects.html#Term"
+                        class="nonterminal">Term</a>, 続きの正規表現の全てが選択ポイントを持つならば、 結果の全選択肢が右の <a
+                        href="15-10_RegExp_Objects.html#Term"
+                        class="nonterminal">Term</a> の次の選択肢に移動する前に検査され、 右の <a
+                        href="15-10_RegExp_Objects.html#Term"
+                        class="nonterminal">Term</a> の全ての選択肢が左の <a
+                        href="15-10_RegExp_Objects.html#Alternative"
+                        class="nonterminal">Alternative</a> の次の選択肢に移動する前に検査される。</p>
+            </div>
+            <!-- END of 15.10.2.4 Body -->
+
+        </div>
+        <!-- END of 15.10.2.4 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.5">15.10.2.5 Term</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Term"
+                        class="nonterminal">Term</a> :: <a
+                        href="15-10_RegExp_Objects.html#Assertion"
+                        class="nonterminal">Assertion</a> の評価は 2 個の引数 State <var>x</var> と a Continuation <var>c</var>
+                    を取る内部 Matcher クロージャ を返す。このクロージャは次を実行する:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#Assertion"
+                           class="nonterminal">Assertion</a> を評価し、 AssertionTester <var>t</var> を取得する。
+                    </li>
+                    <li><var>t</var>(<var>x</var>) を呼び出し、結果の <code class="keyword">boolean</code> 値を <var>r</var> とする。
+                    </li>
+                    <li><var>r</var> が false ならば、 failure を返す。</li>
+                    <li><var>c</var>(<var>x</var>) を呼び出し、その結果を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Term"
+                        class="nonterminal">Term</a> :: <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> の評価は、 <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> を評価して Matcher を取得し、その Matcher を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Term"
+                        class="nonterminal">Term</a> :: <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> <a
+                        href="15-10_RegExp_Objects.html#Quantifier"
+                        class="nonterminal">Quantifier</a> は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#Atom"
+                           class="nonterminal">Atom</a> を評価し、 Matcher <var>m</var> を取得する。
+                    </li>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#Quantifier"
+                           class="nonterminal">Quantifier</a> を評価し、 3 つの結果:整数 min, 整数 (または &infin;) max, <code
+                            class="keyword">boolean</code> 値 greedy を取得する。
+                    </li>
+                    <li>max が有限数で min 未満ならば、例外 SyntaxError を投げる。</li>
+                    <li>parenIndex を、正規表現全体でこの生成規則展開の <a
+                            href="15-10_RegExp_Objects.html#Term"
+                            class="nonterminal">Term</a> の左に発生する左捕捉括弧の数とする。 これは、この生成規則の <a
+                            href="15-10_RegExp_Objects.html#Term"
+                            class="nonterminal">Term</a> に先行する <a
+                            href="15-10_RegExp_Objects.html#Atom"
+                            class="nonterminal">Atom</a> :: ( <a
+                            href="15-10_RegExp_Objects.html#Disjunction"
+                            class="nonterminal">Disjunction</a> ) 生成規則の展開総数に、この <a
+                            href="15-10_RegExp_Objects.html#Term"
+                            class="nonterminal">Term</a> を閉じている <a
+                            href="15-10_RegExp_Objects.html#Atom"
+                            class="nonterminal">Atom</a> :: ( <a
+                            href="15-10_RegExp_Objects.html#Disjunction"
+                            class="nonterminal">Disjunction</a> ) 生成規則の総数を加えた数である。
+                    </li>
+                    <li>parenCount を この生成規則の <a
+                            href="15-10_RegExp_Objects.html#Atom"
+                            class="nonterminal">Atom</a> 展開内の左捕捉括弧の数とする。これは、この生成規則の <a
+                            href="15-10_RegExp_Objects.html#Atom"
+                            class="nonterminal">Atom</a> に閉じられる <a
+                            href="15-10_RegExp_Objects.html#Atom"
+                            class="nonterminal">Atom</a> :: ( <a
+                            href="15-10_RegExp_Objects.html#Disjunction"
+                            class="nonterminal">Disjunction</a> ) 生成規則の総数である。
+                    </li>
+                    <li>内部 Matcher クロージャを返す。このクロージャは 2 個の引数 State <var>x</var> と a Continuation <var>c</var>
+                        をとり、次のように振舞う:
+                        <ol>
+                            <li>RepeatMatcher(<var>m</var>, min, max, greedy, <var>x</var>, <var>c</var>, parenIndex,
+                                parenCount) を呼び出し、その結果を返す。
+                            </li>
+                        </ol>
+                    </li>
+                </ol>
+                <p>内部補助関数 RepeatMatcher は 8 個のパラメタ: Matcher <var>m</var>, 整数 min, 整数 (or &infin;) max, <code
+                        class="keyword">boolean</code> 値 greedy, State <var>x</var>, Continuation <var>c</var>, 整数
+                    parenIndex, 整数 parenCount, を取る。そして次のように振舞う:</p>
+                <ol>
+                    <li>max が zero ならば、 <var>c</var>(<var>x</var>) を呼出しその結果を返す。</li>
+                    <li>内部 Continuation クロージャ <var>d</var> を生成する。このクロージャは 1 個の引数 State <var>y</var> をとり、次のように振舞う:
+                        <ul>
+                            <li>1. min が zero であり、かつ <var>y</var> の endIndex が <var>x</var> の endIndex と等しいならば、 failure
+                                を返す。
+                            </li>
+                            <li>2. min が zero ならば、min2 を zero とする; そうでなければ min2 を min-1 とする。</li>
+                            <li>3. max が &infin; ならば、max2 を &infin; とする; そうでなければ max2 を max-1 とする。</li>
+                            <li>4. RepeatMatcher(<var>m</var>, min2, max2, greedy, <var>y</var>, <var>c</var>,
+                                parenIndex, parenCount) を呼出し、その結果を返す。
+                            </li>
+                        </ul>
+                    </li>
+                    <li>cap を <var>x</var> の captures 内部配列の fresh copy とする。</li>
+                    <li>parenIndex &lt; <var>k</var> かつ <var>k</var> &le; parenIndex+parenCount を満たす整数 <var>k</var>
+                        のそれぞれについて、 cap[<var>k</var>] を undefined に設定する。
+                    </li>
+                    <li><var>e</var> を <var>x</var> の endIndex とする。</li>
+                    <li>xr を State (<var>e</var>, cap) とする。</li>
+                    <li>min が 0 以外ならば、 <var>m</var>(xr, <var>d</var>) を呼出し、その結果を返す。</li>
+                    <li>greedy が true ならば、ステップ 12 へ。</li>
+                    <li><var>c</var>(<var>x</var>) を呼出し、 <var>z</var> をその結果とする。</li>
+                    <li><var>z</var> が failure でないならば、 <var>z</var> を返す。</li>
+                    <li><var>m</var>(xr, <var>d</var>) を呼出し、その結果を返す。</li>
+                    <li><var>m</var>(xr, <var>d</var>) を呼出し、 <var>z</var> をその結果とする。</li>
+                    <li><var>z</var> が failure でないならば、 <var>z</var> を返す。</li>
+                    <li><var>c</var>(<var>x</var>) を呼出し、その結果を返す。</li>
+                </ol>
+                <p>参考情報解説: <a
+                        href="15-10_RegExp_Objects.html#Quantifier"
+                        class="nonterminal">Quantifier</a> の続く <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> は、 <a
+                        href="15-10_RegExp_Objects.html#Quantifier"
+                        class="nonterminal">Quantifier</a> で指定された回数だけ繰り返される。量指定子は貪欲でなくすることもできる。その場合、更なる後続のマッチを行ううえで <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> パターンの繰返し回数は可能な限り少ない。また貪欲にすることもできる。その場合、 <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> パターンは後続のマッチに可能な限り多くの回数繰り返される。マッチを行う入力文字列よりもむしろ <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> パターンが繰り返され、したがって <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> の異なる反復は、異なる入力部分文字列とマッチできる。</p>
+
+                <p>
+                    <a href="15-10_RegExp_Objects.html#Atom"
+                       class="nonterminal">Atom</a> と続きの正規表現がすべて選択点を持つ場合、 <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> はまず可能な限り多く(最短マッチでは少なく) のマッチを行う。続きの全選択肢は、最後の <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> 反復中での次の選択肢上に移動する前に、試行される。最後 (<var>n</var> 番目) の <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> 反復の全選択肢は、最後から一つ前 (<var>n</var>-1 番目) の <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> 反復中での次の選択肢上に移動する前に、試行される; その時点で、より多くの、またはより少ない <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> の反復が今度は可能であることが判明するかもしれない; (<var>n</var>-1) 番目の <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> の反復の中の次の選択肢上に移動する前に、(可能な限り少なく、または可能な限り多くのいずれかで再開し)、使い尽くされる。</p>
+                <pre>/a[a-z]{2,4}/.exec("abcdefghi")</pre>
+
+                <p>が &quot;abcde&quot; を返すことに較べて、</p>
+                <pre>/a[a-z]{2,4}?/.exec("abcdefghi")</pre>
+
+                <p>は &quot;abc&quot; を返す。</p>
+
+                <p>また、</p>
+                <pre>/(aa|aabaac|ba|b|c)*/.exec("aabaac")</pre>
+
+                <p>上の順の選択点による正規表現は</p>
+                <pre>["aaba", "ba"]</pre>
+
+                <p>という配列を返し、</p>
+<pre>["aabaac", "aabaac"]
+["aabaac", "c"]</pre>
+
+                <p>とはならない。</p>
+
+                <p>上記の選択点の順序は、2 数の最大公約数(単項表記で表す)を算出する正規表現の記述にも使用できる。次の例は、10 と 15 の最大公約数を算出する:</p>
+                <pre>"aaaaaaaaaa,aaaaaaaaaaaaaaa".replace(/^(a+)\1*,\1+$/,"$1")</pre>
+
+                <p>これは単項表記の最大公約数 &quot;aaaaa&quot; を返す。</p>
+
+                <p>ステップ 4 の RepeatMatcher は、 <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> が繰り返されるたびに <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> の captures をクリアする。 これは次の正規表現の振る舞いに見ることができる:</p>
+                <pre>/(z)((a+)?(b+)?(c))*/.exec("zaacbbbcac")</pre>
+
+                <p>これは次の配列を返し:</p>
+                <pre>["zaacbbbcac", "z", "ac", "a", undefined, "c"]</pre>
+
+                <p>次のようなものではない。</p>
+                <pre>["zaacbbbcac", "z", "ac", "a", "bbb", "c"]</pre>
+
+                <p>最も外側の * の各反復が、この場合 2 番目, <a href="3_References.html#section-3">3</a> 番目, <a
+                        href="4_Overview.html#section-4">4</a> 番目である捕捉文字列を含む、数量化された <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> に含まれていた全ての捕捉された文字列をクリアするためである。</p>
+
+                <p>ステップ 1 の RepeatMatcher のクロージャ <var>d</var> は、一旦最小反復数が満たされたらそれ以上空文字列にマッチする <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a>
+                    の展開を更に反復するために考えないことを宣言する。これは正規表現エンジンがパターンの無限ループに陥ることを防いでおり、次のような正規表現は:</p>
+                <pre>/(a*)*/.exec("b")</pre>
+
+                <p>また若干複雑には次のようなものは:</p>
+                <pre>/(a*)b\1+/.exec("baaaac")</pre>
+
+                <p>これらは次の配列を返す:</p>
+                <pre>["b", ""]</pre>
+
+            </div>
+            <!-- END of 15.10.2.5 Body -->
+
+        </div>
+        <!-- END of 15.10.2.5 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.6">15.10.2.6 Assertion</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Assertion"
+                        class="nonterminal">Assertion</a> :: ^ の評価は、内部 AssertionTester クロージャを返す。これは引数に State
+                    <var>x</var> を取り、次を実行する:</p>
+                <ol>
+                    <li><var>e</var> を <var>x</var> の endIndex とする。</li>
+                    <li><var>e</var> が 0 ならば、 true を返す。</li>
+                    <li>Multiline が false ならば、 false を返す。</li>
+                    <li>文字 Input[<var>e</var>-1] が行終端文字 &lt;LF&gt;, &lt;CR&gt;, &lt;LS&gt;, &lt;PS&gt; のうちの一つならば、 true
+                        を返す。
+                    </li>
+                    <li>false を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Assertion"
+                        class="nonterminal">Assertion</a> :: $ の評価は、内部 AssertionTester クロージャを返す。これは引数に State
+                    <var>x</var> を取り、次を実行する:</p>
+                <ol>
+                    <li><var>e</var> を <var>x</var> の endIndex とする。</li>
+                    <li><var>e</var> が InputLength と等しいならば、 true を返す。</li>
+                    <li>multiline が false ならば、 false を返す。</li>
+                    <li>文字 Input[<var>e</var>] が行終端文字 &lt;LF&gt;, &lt;CR&gt;, &lt;LS&gt;, &lt;PS&gt; のうちの一つならば、 true
+                        を返す。
+                    </li>
+                    <li>false を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Assertion"
+                        class="nonterminal">Assertion</a> :: \ <var>b</var> の評価は、内部 AssertionTester クロージャを返す。これは引数に
+                    State <var>x</var> を取り、次を実行する:</p>
+                <ol>
+                    <li><var>e</var> を <var>x</var> の endIndex とする。</li>
+                    <li>IsWordChar(<var>e</var>-1) を呼び出し、結果の <code class="keyword">boolean</code> 値を a とする。</li>
+                    <li>IsWordChar(<var>e</var>) を呼び出し、結果の <code class="keyword">boolean</code> 値を <var>b</var> とする。
+                    </li>
+                    <li>a が true かつ <var>b</var> が false ならば、 true を返す。</li>
+                    <li>a が false かつ <var>b</var> が true ならば、 true を返す。</li>
+                    <li>false を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Assertion"
+                        class="nonterminal">Assertion</a> :: \ <var>B</var> の評価は、内部 AssertionTester クロージャを返す。これは引数に
+                    State <var>x</var> を取り、次を実行する:</p>
+                <ol>
+                    <li><var>e</var> を <var>x</var> の endIndex とする。</li>
+                    <li>IsWordChar(<var>e</var>-1) を呼び出し、結果の <code class="keyword">boolean</code> 値を a とする。</li>
+                    <li>IsWordChar(<var>e</var>) を呼び出し、結果の <code class="keyword">boolean</code> 値を <var>b</var> とする。
+                    </li>
+                    <li>a が true かつ <var>b</var> が false ならば、 false を返す。</li>
+                    <li>a が false かつ <var>b</var> が true ならば、 false を返す。</li>
+                    <li>true を返す。</li>
+                </ol>
+                <p>内部補助関数 IsWordChar は整数パラメータ <var>e</var> をとり、次を実行する:</p>
+                <ol>
+                    <li><var>e</var> == -1 または <var>e</var> == InputLength ならば、 false を返す。</li>
+                    <li><var>c</var> を文字 Input[<var>e</var>] とする。</li>
+                    <li><var>c</var> が下表の 63 文字のうちの一つならば、 true を返す。
+                        <pre>a <var>b</var> <var>c</var> <var>d</var> <var>e</var> <var>f</var> <var>g</var> <var>h</var> <var>i</var> <var>j</var> <var>k</var> <var>l</var> <var>m</var> <var>n</var> <var>o</var> <var>p</var> <var>q</var> <var>r</var> <var>s</var> <var>t</var> <var>u</var> <var>v</var> <var>w</var> <var>x</var> <var>y</var> <var>z</var><br/>A <var>B</var> <var>C</var> <var>D</var> <var>E</var> <var>F</var> <var>G</var> <var>H</var> <var>I</var> <var>J</var> <var>K</var> <var>L</var> <var>M</var> <var>N</var> <var>O</var> <var>P</var> <var>Q</var> <var>R</var> <var>S</var> <var>T</var> <var>U</var> <var>V</var> <var>W</var> <var>X</var> <var>Y</var> <var>Z</var><br/>0 1 2 3 4 5 6 7 8 9 _</pre>
+                    </li>
+                    <li>false を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.10.2.6 Body -->
+
+        </div>
+        <!-- END of 15.10.2.6 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.7">15.10.2.7 Quantifier</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Quantifier"
+                        class="nonterminal">Quantifier</a> :: <a
+                        href="15-10_RegExp_Objects.html#QuantifierPrefix"
+                        class="nonterminal">QuantifierPrefix</a> は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#QuantifierPrefix"
+                           class="nonterminal">QuantifierPrefix</a> を評価し、 2 個の結果: 整数 min と整数 (または &infin;) max を取得する。
+                    </li>
+                    <li>3 個の結果 min, max, true を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Quantifier"
+                        class="nonterminal">Quantifier</a> :: <a
+                        href="15-10_RegExp_Objects.html#QuantifierPrefix"
+                        class="nonterminal">QuantifierPrefix</a> ? は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#QuantifierPrefix"
+                           class="nonterminal">QuantifierPrefix</a> を評価し、 2 個の結果: 整数 min と整数 (または &infin;) max を取得する。
+                    </li>
+                    <li>3 個の結果 min, max, false を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#QuantifierPrefix"
+                        class="nonterminal">QuantifierPrefix</a> :: * の評価は、 2 個の結果 0 と &infin; を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#QuantifierPrefix"
+                        class="nonterminal">QuantifierPrefix</a> :: + の評価は、 2 個の結果 1 と &infin; を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#QuantifierPrefix"
+                        class="nonterminal">QuantifierPrefix</a> :: ? の評価は、 2 個の結果 0 と 1 を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#QuantifierPrefix"
+                        class="nonterminal">QuantifierPrefix</a> :: { <a
+                        href="9_Type_Conversion.html#DecimalDigits"
+                        class="nonterminal">DecimalDigits</a> } は、次のように評価される:</p>
+                <ol>
+                    <li><var>i</var> を <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値とする(<a
+                            href="7_Lexical_Conventions.html#section-7.8.3">セクション 7.8.3</a> 参照)。
+                    </li>
+                    <li>2 個の結果 <var>i</var> と <var>i</var> を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#QuantifierPrefix"
+                        class="nonterminal">QuantifierPrefix</a> :: { <a
+                        href="9_Type_Conversion.html#DecimalDigits"
+                        class="nonterminal">DecimalDigits</a> , } は、次のように評価される:</p>
+                <ol>
+                    <li><var>i</var> を <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値とする。
+                    </li>
+                    <li>2 個の結果 <var>i</var> と &infin; を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#QuantifierPrefix"
+                        class="nonterminal">QuantifierPrefix</a> :: { <a
+                        href="9_Type_Conversion.html#DecimalDigits"
+                        class="nonterminal">DecimalDigits</a> , <a
+                        href="9_Type_Conversion.html#DecimalDigits"
+                        class="nonterminal">DecimalDigits</a> } は、次のように評価される:</p>
+                <ol>
+                    <li><var>i</var> を 1 個目の <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値とする。
+                    </li>
+                    <li><var>j</var> を 2 個目の <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値とする。
+                    </li>
+                    <li>2 個の結果 <var>i</var> と <var>j</var> を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.10.2.7 Body -->
+
+        </div>
+        <!-- END of 15.10.2.7 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.8">15.10.2.8 Atom</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> :: PatternCharacter は、次のように評価される:</p>
+                <ol>
+                    <li>ch を PatternCharacter で表される文字とする。</li>
+                    <li><var>A</var> を文字 ch を含む 1 要素 CharSet とする。</li>
+                    <li>CharacterSetMatcher(<var>A</var>, false) を呼出し、結果の Matcher を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> :: . は、次のように評価される:</p>
+                <ol>
+                    <li><var>A</var> を 4 個の行終端文字 &lt;LF&gt;, &lt;CR&gt;, &lt;LS&gt;, &lt;PS&gt; を除く全て文字の集合とする。</li>
+                    <li>CharacterSetMatcher(<var>A</var>, false) を呼び出し、その結果の Matcher を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> :: \ <a
+                        href="15-10_RegExp_Objects.html#AtomEscape"
+                        class="nonterminal">AtomEscape</a> の評価は、 <a
+                        href="15-10_RegExp_Objects.html#AtomEscape"
+                        class="nonterminal">AtomEscape</a> を評価して Matcher を取得し、その Matcher を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> :: <a
+                        href="15-10_RegExp_Objects.html#CharacterClass"
+                        class="nonterminal">CharacterClass</a> は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#CharacterClass"
+                           class="nonterminal">CharacterClass</a> を評価し、 CharSet <var>A</var> と <code class="keyword">boolean</code>
+                        値 invert を取得する。
+                    </li>
+                    <li>CharacterSetMatcher(<var>A</var>, invert) を呼び出し、その結果の Matcher を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> :: ( <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> ) は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#Disjunction"
+                           class="nonterminal">Disjunction</a> を評価し、 Matcher <var>m</var> を取得する。
+                    </li>
+                    <li>parenIndex を、正規表現全体において、この生成規則展開の最初の左括弧の左側に発生する左捕捉括弧の数とする。これは、この生成規則の <a
+                            href="15-10_RegExp_Objects.html#Atom"
+                            class="nonterminal">Atom</a> に先行する <a
+                            href="15-10_RegExp_Objects.html#Atom"
+                            class="nonterminal">Atom</a> :: ( <a
+                            href="15-10_RegExp_Objects.html#Disjunction"
+                            class="nonterminal">Disjunction</a> ) 生成規則の展開総数に、この <a
+                            href="15-10_RegExp_Objects.html#Atom"
+                            class="nonterminal">Atom</a> を閉じている <a
+                            href="15-10_RegExp_Objects.html#Atom"
+                            class="nonterminal">Atom</a> :: ( <a
+                            href="15-10_RegExp_Objects.html#Disjunction"
+                            class="nonterminal">Disjunction</a> ) 生成規則の総数を加えたものである。
+                    </li>
+                    <li>内部 Matcher クロージャを返す。このクロージャは 2 個の引数 State <var>x</var> and a Continuation <var>c</var>
+                        をとり、次のように振舞う:
+                        <ol>
+                            <li>内部 Continuation クロージャ <var>d</var> を作成する。このクロージャは 1 個の引数 State <var>y</var>
+                                をとり、次のように振舞う:
+                                <ol>
+                                    <li>cap を <var>y</var> の captures 内部配列の初期の複製 (fresh copy) とする。</li>
+                                    <li>xe を <var>x</var> の endIndex とする。</li>
+                                    <li>ye を <var>y</var> の endIndex とする。</li>
+                                    <li><var>s</var> を、 Input の 位置 xe から ye の直前までの文字を持つ fresh string とする。</li>
+                                    <li>cap[parenIndex+1] を <var>s</var> に設定する。</li>
+                                    <li><var>z</var> を State (ye, cap) とする。</li>
+                                    <li><var>c</var>(<var>z</var>) を呼出し、その結果を返す。</li>
+                                </ol>
+                            </li>
+                            <li><var>m</var>(<var>x</var>, <var>d</var>) を呼出し、その結果を返す。</li>
+                        </ol>
+                    </li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> :: ( ? : <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> ) の評価は、 <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> を評価して Matcher を取得し、その Matcher を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> :: ( ? = <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> ) は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#Disjunction"
+                           class="nonterminal">Disjunction</a> を評価して Matcher <var>m</var> を取得する。
+                    </li>
+                    <li>内部 Matcher クロージャを返す。そのクロージャは 2 個の引数 State <var>x</var> と Continuation <var>c</var> をとり、次のように振舞う:
+                        <ol>
+                            <li><var>d</var> を、成功する MatchResult としてその State 引数を常に返す Continuation とする。</li>
+                            <li><var>m</var>(<var>x</var>, <var>d</var>) を呼出し、 <var>r</var> をその結果とする。</li>
+                            <li><var>r</var> が failure ならば、 failure を返す。</li>
+                            <li><var>y</var> を <var>r</var> の State とする。</li>
+                            <li>cap を <var>y</var> の captures 内部配列とする。</li>
+                            <li>xe を <var>x</var> の endIndex とする。</li>
+                            <li><var>z</var> を State (xe, cap) とする。</li>
+                            <li><var>c</var>(<var>z</var>) を呼出し、その結果を返す。</li>
+                        </ol>
+                    </li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#Atom"
+                        class="nonterminal">Atom</a> :: ( ? ! <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> ) は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#Disjunction"
+                           class="nonterminal">Disjunction</a> を評価して Matcher <var>m</var> を取得する。
+                    </li>
+                    <li>内部 Matcher クロージャを返す。そのクロージャは 2 個の引数 State <var>x</var> と Continuation <var>c</var> をとり、次のように振舞う:
+                        <ol>
+                            <li><var>d</var> を、成功する MatchResult としてその State 引数を常に返す Continuation とする。</li>
+                            <li><var>m</var>(<var>x</var>, <var>d</var>) を呼出し、 <var>r</var> をその結果とする。</li>
+                            <li><var>r</var> が failure でないならば、 failure を返す。</li>
+                            <li><var>c</var>(<var>x</var>) を呼出し、その結果を返す。</li>
+                        </ol>
+                    </li>
+                </ol>
+                <p>内部補助関数 CharacterSetMatcher は 2 個の引数 CharSet <var>A</var> と <code class="keyword">boolean</code> フラグ
+                    invert をとり、次のように振舞う:</p>
+                <ol>
+                    <li>内部 Matcher クロージャを返す。そのクロージャは 2 個の引数 State <var>x</var> と Continuation <var>c</var> をとり、次のように振舞う:
+                        <ol>
+                            <li><var>e</var> を <var>x</var> の endIndex とする。</li>
+                            <li><var>e</var> == InputLength ならば、 failure を返す。</li>
+                            <li><var>c</var> を 文字 Input[<var>e</var>] とする。</li>
+                            <li>cc を Canonicalize(<var>c</var>) の結果とする。</li>
+                            <li>invert が true ならば、 ステップ 8 へ。</li>
+                            <li>集合 <var>A</var> に、 Canonicalize(a) == cc であるような元が存在しないならば、 failure を返す。</li>
+                            <li>ステップ 9 へ。</li>
+                            <li>集合 <var>A</var> に、 Canonicalize(a) == cc であるような元が存在するならば、 failure を返す。</li>
+                            <li>cap を <var>x</var> の captures 内部配列とする。</li>
+                            <li><var>y</var> を State (<var>e</var>+1, cap) とする。</li>
+                            <li><var>c</var>(<var>y</var>) を呼出し、その結果を返す。</li>
+                        </ol>
+                    </li>
+                </ol>
+                <p>内部補助関数 Canonicalize はパラメタに文字 ch をとり、次のように振舞う:</p>
+                <ol>
+                    <li>IgnoreCase が false ならば、 ch を返す。</li>
+                    <li><var>u</var> を ch を大文字に変換したものとする。これは文字列 ch に String.prototype.toUpperCase を呼出すのと同様のものである。</li>
+                    <li><var>u</var> が単一の文字により構成されるものでないならば、 ch を返す。</li>
+                    <li>cu を <var>u</var> の文字とする。</li>
+                    <li>ch のコードポイント値が 10 進数で 128 以上であり、かつ cu のコードポイント値が 10 進数で 128 未満ならば、 ch を返す。</li>
+                    <li>cu を返す。</li>
+                </ol>
+                <p>参考情報解説: ( <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> ) 形式の括弧は、 <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> パターンのグループ成分とともに、マッチ結果の保存を提示する。結果は後方参照 (\ に 0
+                    以外の10進数が続くもの)、置換文字列内での参照に用いられ、また正規表現マッチ関数から配列の一部を返される。括弧の捕捉の振る舞いの抑制には、代わりに (?: <a
+                            href="15-10_RegExp_Objects.html#Disjunction"
+                            class="nonterminal">Disjunction</a> ) 形式を用いる。</p>
+
+                <p>(?= <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> ) 形式は、 0 文字幅の肯定の先読みを指定する。成功するためには <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> 内部のパターンは現在位置においてマッチしなければならないが、後続のマッチングの前に現在位置は前進しない。 <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> が現在位置におけるマッチに何通りかある場合は、最初のものだけが検査される。他の正規表現演算子とは異なり、 (?=
+                    形式内への後方参照は存在しない (この独特の振る舞いは Perl から継承される)。 <a
+                            href="15-10_RegExp_Objects.html#Disjunction"
+                            class="nonterminal">Disjunction</a> が捕捉括弧とその捕捉への後方参照を含む後続のパターンで構成されるとき、このことが重要になる。</p>
+
+                <p>例えば、</p>
+                <pre>/(?=(a+))/.exec("baaabac")</pre>
+
+                <p>は、 1 個目の <var>b</var> の直後の空文字列にマッチし、それゆえ次の配列を返す:</p>
+                <pre>["", "aaa"]</pre>
+
+                <p>先読みへ後方参照の不足の例として、次を考えてみる:</p>
+                <pre>/(?=(a+))a*b\1/.exec("baaabac")</pre>
+
+                <p>この式が返すのは次であり:</p>
+                <pre>["aba", "a"]</pre>
+
+                <p>次のようにはならない:</p>
+                <pre>["aaaba", "a"]</pre>
+
+                <p>(?= <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> ) 形式は、 0 文字幅の否定の先読みを指定する。成功するためには <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> 内部のパターンは現在位置においてマッチに失敗しなければならない。現在位置は後続のマッチングの前に前進しない。 <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a> には捕捉括弧を含められるが、それらへの後方参照は <a
+                        href="15-10_RegExp_Objects.html#Disjunction"
+                        class="nonterminal">Disjunction</a>
+                    自身内部からの場合ものみ意味を持つ。パターン内の他の場所からのこれらの捕捉括弧への後方参照は、パターンに否定の先読みが成功してはならないため、常に undefined を返す。例えば:</p>
+                <pre>/(.*?)a(?!(a+)b\2c)\2(.*)/.exec("baaabaac")</pre>
+
+                <p>は、ある正の数 <var>n</var> 個の <code>a</code>, <a href="1_Scope.html#section-1">1</a> 個の <code>b</code>, 他の
+                    <var>n</var> 個の (1 個目の <code>\2</code> で指定される) <code>a</code>, <a
+                            href="1_Scope.html#section-1">1</a> 個の <code>c</code>, が直後に続かないような 1 個の <code>a</code>
+                    を検索する。 2 個目の <code>\2</code> は否定の先読みの外部であり、したがって undefined に対してマッチするので常に成功する。式全体は次の配列を返す:</p>
+                <pre>["baaabaac", "ba", undefined, "abaac"]</pre>
+
+                <p>文字ケースを区別しないマッチでは、全ての文字は比較の直前に暗黙に大文字に変換される。しかし、大文字への変換が 1 個以上の文字に展開される場合(&quot;&#xDF;&quot; (<code>\u00DF</code>)
+                    から &quot;<code>SS</code>&quot; に変換など)は、代わりに文字はそのまま残される。 ASCII 文字でなくても、大文字への変換がその文字を ASCII
+                    文字にする場合、その文字は残される。これは /[a-z]/i のような ASCII 文字のマッチのみを意図した正規表現のマッチから、\u0131 \u017F のような Unicode
+                    文字を遮る。なお、これらの変換が許可される場合、 /[^\W]/i は a, <var>b</var>, ..., <var>h</var>, にはマッチするが <var>i</var> や
+                    <var>s</var> にはマッチしない。</p>
+            </div>
+            <!-- END of 15.10.2.8 Body -->
+
+        </div>
+        <!-- END of 15.10.2.8 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.9">15.10.2.9 AtomEscape</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#AtomEscape"
+                        class="nonterminal">AtomEscape</a> :: <a
+                        href="15-10_RegExp_Objects.html#DecimalEscape"
+                        class="nonterminal">DecimalEscape</a> は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#DecimalEscape"
+                           class="nonterminal">DecimalEscape</a> を評価して EscapeValue <var>E</var> を取得する。
+                    </li>
+                    <li><var>E</var> が文字でなければ、ステップ 6 へ。</li>
+                    <li>ch を <var>E</var> の文字とする。</li>
+                    <li><var>A</var> を文字 ch を含む要素1個の CharSet とする。</li>
+                    <li>CharacterSetMatcher(<var>A</var>, false) を呼出し、結果の Matcher を返す。</li>
+                    <li><var>E</var> は整数でなければならない。 <var>n</var> をその整数とする。</li>
+                    <li><var>n</var>=0 または <var>n</var>&gt;NCapturingParens ならば、例外 SyntaxError を投げる。</li>
+                    <li>内部 Matcher クロージャを返す。このクロージャは 2 個の引数、 State <var>x</var> と Continuation <var>c</var>
+                        をとり、次のように振舞う:
+                        <ol>
+                            <li>cap を <var>x</var> の captures の内部配列とする。</li>
+                            <li><var>s</var> を cap[<var>n</var>] とする。</li>
+                            <li><var>s</var> が undefined ならば、 <var>c</var>(<var>x</var>) を呼出し、その結果を返す。</li>
+                            <li><var>e</var> を <var>x</var> の endIndex とする。</li>
+                            <li>len を <var>s</var> の length とする。</li>
+                            <li><var>f</var> を <var>e</var>+len とする。</li>
+                            <li><var>f</var>&gt;InputLength ならば、 failure を返す。</li>
+                            <li>Canonicalize(<var>s</var>[<var>i</var>]) が Canonicalize(Input [<var>e</var>+i])
+                                と同じ文字でないような 0 以上 len 未満の整数 <var>i</var> が存在するならば、 failure を返す。
+                            </li>
+                            <li><var>y</var> を State (<var>f</var>, cap) とする。</li>
+                            <li><var>c</var>(<var>y</var>) を呼出し、その結果を返す。</li>
+                        </ol>
+                    </li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#AtomEscape"
+                        class="nonterminal">AtomEscape</a> :: <a
+                        href="15-10_RegExp_Objects.html#CharacterEscape"
+                        class="nonterminal">CharacterEscape</a> は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#CharacterEscape"
+                           class="nonterminal">CharacterEscape</a> を評価し、文字 ch を取得する。
+                    </li>
+                    <li><var>A</var> を文字 ch を含む要素1個の CharSet とする。</li>
+                    <li>CharacterSetMatcher(<var>A</var>, false) を呼出し、結果の Matcher を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#AtomEscape"
+                        class="nonterminal">AtomEscape</a> :: CharacterClassEscape は、次のように評価される:</p>
+                <ol>
+                    <li>CharacterClassEscape を評価し、 CharSet <var>A</var> を取得する。</li>
+                    <li>CharacterSetMatcher(<var>A</var>, false) を呼出し、結果の Matcher を返す。</li>
+                </ol>
+                <p>参考情報解説: \ に 0 以外の10進数 <var>n</var> の続く形式のエスケープシーケンスは、捕捉括弧の <var>n</var> 番目の集合 (<a
+                        href="15-10_RegExp_Objects.html#section-15.10.2.11">セクション 15.10.2.11</a>) の結果にマッチする。正規表現中の捕捉括弧が
+                    <var>n</var> 個未満である場合はエラーである。正規表現が <var>n</var> 個以上の捕捉括弧を持つが <var>n</var> 番目が何も捕捉されず undefined
+                    である場合、その後方参照は常に成功する。</p>
+            </div>
+            <!-- END of 15.10.2.9 Body -->
+
+        </div>
+        <!-- END of 15.10.2.9 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.10">15.10.2.10 CharacterEscape</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#CharacterEscape"
+                        class="nonterminal">CharacterEscape</a> :: <a
+                        href="15-10_RegExp_Objects.html#ControlEscape"
+                        class="nonterminal">ControlEscape</a> の評価は、下の表に従って文字を返す:</p>
+                <table>
+                    <thead>
+                    <tr>
+                        <td>
+                            <a href="15-10_RegExp_Objects.html#ControlEscape"
+                               class="nonterminal">ControlEscape</a></td>
+                        <td>Unicode Value</td>
+                        <td>Name</td>
+                        <td>Symbol</td>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td><var>t</var></td>
+                        <td>\u0009</td>
+                        <td>horizontal tab</td>
+                        <td>&lt;HT&gt;</td>
+                    </tr>
+                    <tr>
+                        <td><var>n</var></td>
+                        <td>\u000A</td>
+                        <td>line feed (new line)</td>
+                        <td>&lt;LF&gt;</td>
+                    </tr>
+                    <tr>
+                        <td><var>v</var></td>
+                        <td>\u000B</td>
+                        <td>vertical tab</td>
+                        <td>&lt;VT&gt;</td>
+                    </tr>
+                    <tr>
+                        <td><var>f</var></td>
+                        <td>\u000C</td>
+                        <td>form feed</td>
+                        <td>&lt;FF&gt;</td>
+                    </tr>
+                    <tr>
+                        <td><var>r</var></td>
+                        <td>\u000D</td>
+                        <td>carriage <code class="keyword">return</code></td>
+                        <td>&lt;CR&gt;</td>
+                    </tr>
+                </table>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#CharacterEscape"
+                        class="nonterminal">CharacterEscape</a> :: <var>c</var> <a
+                        href="15-10_RegExp_Objects.html#ControlLetter"
+                        class="nonterminal">ControlLetter</a> は、次のように評価される:</p>
+                <ol>
+                    <li>ch を <a
+                            href="15-10_RegExp_Objects.html#ControlLetter"
+                            class="nonterminal">ControlLetter</a> で表される文字とする。
+                    </li>
+                    <li><var>i</var> を ch のコードポイント値とする。</li>
+                    <li><var>j</var> を <var>i</var> を 32 で割った余りとする。</li>
+                    <li><var>j</var> を番号とする Unicode 文字を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#CharacterEscape"
+                        class="nonterminal">CharacterEscape</a> :: <a
+                        href="7_Lexical_Conventions.html#HexEscapeSequence"
+                        class="nonterminal">HexEscapeSequence</a> の評価は、 <a
+                        href="7_Lexical_Conventions.html#HexEscapeSequence"
+                        class="nonterminal">HexEscapeSequence</a> の文字値 (<a
+                        href="7_Lexical_Conventions.html#section-7.8.4">セクション 7.8.4</a>) を評価して、結果の文字を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#CharacterEscape"
+                        class="nonterminal">CharacterEscape</a> :: <a
+                        href="7_Lexical_Conventions.html#UnicodeEscapeSequence"
+                        class="nonterminal">UnicodeEscapeSequence</a> の評価は、 <a
+                        href="7_Lexical_Conventions.html#UnicodeEscapeSequence"
+                        class="nonterminal">UnicodeEscapeSequence</a> の文字値 (<a
+                        href="7_Lexical_Conventions.html#section-7.8.4">セクション 7.8.4</a>) を評価して、結果の文字を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#CharacterEscape"
+                        class="nonterminal">CharacterEscape</a> :: <a
+                        href="15-10_RegExp_Objects.html#IdentityEscape"
+                        class="nonterminal">IdentityEscape</a> の評価は、 <a
+                        href="15-10_RegExp_Objects.html#IdentityEscape"
+                        class="nonterminal">IdentityEscape</a> で表される文字を返す。</p>
+            </div>
+            <!-- END of 15.10.2.10 Body -->
+
+        </div>
+        <!-- END of 15.10.2.10 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.11">15.10.2.11 DecimalEscape</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#DecimalEscape"
+                        class="nonterminal">DecimalEscape</a> :: <a
+                        href="7_Lexical_Conventions.html#DecimalIntegerLiteral"
+                        class="nonterminal">DecimalIntegerLiteral</a> [lookahead &notin; <a
+                        href="9_Type_Conversion.html#DecimalDigit"
+                        class="nonterminal">DecimalDigit</a>] は、次のように評価される。</p>
+                <ol>
+                    <li><var>i</var> を <a
+                            href="7_Lexical_Conventions.html#DecimalIntegerLiteral"
+                            class="nonterminal">DecimalIntegerLiteral</a> の数学値とする。
+                    </li>
+                    <li><var>i</var> が 0 ならば、 &lt;NUL&gt; 文字 (Unicode 値 0000) を構成する EscapeValue を返す。</li>
+                    <li>整数 <var>i</var> で構成する EscapeValue を返す。</li>
+                </ol>
+                <p>&quot;DecimalIntegerLiteral の数学値&quot; の定義は<a href="7_Lexical_Conventions.html#section-7.8.3">セクション
+                    7.8.3</a> である。</p>
+
+                <p>参考情報解説: 最初の数字が0以外である10進数 <var>n</var> が \ に続く場合、そのエスケープシーケンスは後方参照として考える。正規表現全体の左捕捉括弧の総数よりも
+                    <var>n</var> が大きい場合はエラーである。 \0 は NUL 文字を表し、10進数字を後に続けることはできない。</p>
+            </div>
+            <!-- END of 15.10.2.11 Body -->
+
+        </div>
+        <!-- END of 15.10.2.11 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.12">15.10.2.12 CharacterClassEscape</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 CharacterClassEscape :: <var>d</var> の評価は、0 から 9 までを含む文字の 10 個の要素集合を返す。</p>
+
+                <p>生成規則 CharacterClassEscape :: <var>D</var> の評価は、 CharacterClassEscape :: <var>d</var>
+                    が返す集合を除く全ての文字の集合を返す。</p>
+
+                <p>生成規則 CharacterClassEscape :: <var>s</var> の評価は、 <a
+                        href="7_Lexical_Conventions.html#WhiteSpace"
+                        class="nonterminal">WhiteSpace</a> (<a href="7_Lexical_Conventions.html#section-7.2">セクション
+                    7.2</a>) または <a
+                        href="7_Lexical_Conventions.html#LineTerminator"
+                        class="nonterminal">LineTerminator</a> (<a href="7_Lexical_Conventions.html#section-7.3">セクション
+                    7.3</a>) 生成規則の右辺上の文字を含む文字集合を返す。</p>
+
+                <p>生成規則 CharacterClassEscape :: <var>S</var> の評価は、 CharacterClassEscape :: <var>s</var>
+                    が返す集合を除く全ての文字集合を返す。</p>
+
+                <p>生成規則 CharacterClassEscape :: <var>w</var> の評価は、 63 個の文字を含む文字の集合を返す:</p>
+<pre>a b c d e f g h i j k l m n o p q r s t u v w x y z
+A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+0 1 2 3 4 5 6 7 8 9 _</pre>
+
+                <p>生成規則 CharacterClassEscape :: <var>W</var> の評価は、 CharacterClassEscape :: <var>w</var>
+                    が返す集合を除く全ての文字集合を返す。</p>
+            </div>
+            <!-- END of 15.10.2.12 Body -->
+
+        </div>
+        <!-- END of 15.10.2.12 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.13">15.10.2.13 CharacterClass</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#CharacterClass"
+                        class="nonterminal">CharacterClass</a> :: [ [lookahead &notin; {^}] <a
+                        href="15-10_RegExp_Objects.html#ClassRanges"
+                        class="nonterminal">ClassRanges</a> ] の評価は、 <a
+                        href="15-10_RegExp_Objects.html#ClassRanges"
+                        class="nonterminal">ClassRanges</a> を評価して CharSet を取得し、その CharSet とブーリアン値 false を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#CharacterClass"
+                        class="nonterminal">CharacterClass</a> :: [ ^ <a
+                        href="15-10_RegExp_Objects.html#ClassRanges"
+                        class="nonterminal">ClassRanges</a> ] の評価は、 <a
+                        href="15-10_RegExp_Objects.html#ClassRanges"
+                        class="nonterminal">ClassRanges</a> を評価して CharSet を取得し、その CharSet とブーリアン値 true を返す。</p>
+            </div>
+            <!-- END of 15.10.2.13 Body -->
+
+        </div>
+        <!-- END of 15.10.2.13 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.14">15.10.2.14 ClassRanges</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#ClassRanges"
+                        class="nonterminal">ClassRanges</a> :: [empty] の評価は、空の CharSet を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#ClassRanges"
+                        class="nonterminal">ClassRanges</a> :: <a
+                        href="15-10_RegExp_Objects.html#NonemptyClassRanges"
+                        class="nonterminal">NonemptyClassRanges</a> の評価は、 <a
+                        href="15-10_RegExp_Objects.html#NonemptyClassRanges"
+                        class="nonterminal">NonemptyClassRanges</a> を評価して CharSet を取得し、その CharSet を返す。</p>
+            </div>
+            <!-- END of 15.10.2.14 Body -->
+
+        </div>
+        <!-- END of 15.10.2.14 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.15">15.10.2.15 NonemptyClassRanges</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#NonemptyClassRanges"
+                        class="nonterminal">NonemptyClassRanges</a> :: <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> の評価は、 <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> を評価して CharSet を取得し、その CharSet を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#NonemptyClassRanges"
+                        class="nonterminal">NonemptyClassRanges</a> :: <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> <a
+                        href="15-10_RegExp_Objects.html#NonemptyClassRangesNoDash"
+                        class="nonterminal">NonemptyClassRangesNoDash</a> は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#ClassAtom"
+                           class="nonterminal">ClassAtom</a> を評価し、 CharSet <var>A</var> を取得する。
+                    </li>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#NonemptyClassRangesNoDash"
+                           class="nonterminal">NonemptyClassRangesNoDash</a> を評価し、 CharSet <var>B</var> を取得する。
+                    </li>
+                    <li>CharSet <var>A</var> と <var>B</var> の和集合を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#NonemptyClassRanges"
+                        class="nonterminal">NonemptyClassRanges</a> :: <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> - <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> <a
+                        href="15-10_RegExp_Objects.html#ClassRanges"
+                        class="nonterminal">ClassRanges</a> は、次のように評価される:</p>
+                <ol>
+                    <li>1 つ目の <a
+                            href="15-10_RegExp_Objects.html#ClassAtom"
+                            class="nonterminal">ClassAtom</a> を評価し CharSet <var>A</var> を取得する。
+                    </li>
+                    <li>2 つ目の <a
+                            href="15-10_RegExp_Objects.html#ClassAtom"
+                            class="nonterminal">ClassAtom</a> を評価し CharSet <var>B</var> を取得する。
+                    </li>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#ClassRanges"
+                           class="nonterminal">ClassRanges</a> を評価し CharSet <var>C</var> を取得する。
+                    </li>
+                    <li>CharacterRange(<var>A</var>, <var>B</var>) を呼出し、D を結果の CharSet とする。</li>
+                    <li>CharSet <var>D</var> と <var>C</var> の和集合を返す。</li>
+                </ol>
+                <p>内部補助関数 CharacterRange は、 2 個の CharSet パラメータ <var>A</var> と <var>B</var> をとり、次を実行する:</p>
+                <ol>
+                    <li><var>A</var> が厳密な 1 個の文字を含まない、または <var>B</var> が厳密な 1 個の文字を含まないならば、例外 SyntaxError を投げる。</li>
+                    <li>a を、 CharSet <var>A</var> 内の 1 個の文字とする。</li>
+                    <li><var>b</var> を、 CharSet <var>B</var> 内の 1 個の文字とする。</li>
+                    <li><var>i</var> を、文字 a のコードポイント値とする。</li>
+                    <li><var>j</var> を、文字 <var>b</var> のコードポイント値とする。</li>
+                    <li><var>i</var> &gt; <var>j</var> ならば、例外 SyntaxError を投げる。</li>
+                    <li><var>i</var> から <var>j</var> までの番号をもつ文字全てを含む集合を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 15.10.2.15 Body -->
+
+        </div>
+        <!-- END of 15.10.2.15 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.16">15.10.2.16 NonemptyClassRangesNoDash</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#NonemptyClassRangesNoDash"
+                        class="nonterminal">NonemptyClassRangesNoDash</a> :: <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> 評価は、 <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> 評価で CharSet を取得し、その CharSet を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#NonemptyClassRangesNoDash"
+                        class="nonterminal">NonemptyClassRangesNoDash</a> :: <a
+                        href="15-10_RegExp_Objects.html#ClassAtomNoDash"
+                        class="nonterminal">ClassAtomNoDash</a> <a
+                        href="15-10_RegExp_Objects.html#NonemptyClassRangesNoDash"
+                        class="nonterminal">NonemptyClassRangesNoDash</a> は、次のように評価される::</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#ClassAtomNoDash"
+                           class="nonterminal">ClassAtomNoDash</a> を評価し、 CharSet <var>A</var> を取得する。
+                    </li>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#NonemptyClassRangesNoDash"
+                           class="nonterminal">NonemptyClassRangesNoDash</a> を評価し、 CharSet <var>B</var> を取得する。
+                    </li>
+                    <li>CharSets <var>A</var> と <var>B</var> の和集合を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#NonemptyClassRangesNoDash"
+                        class="nonterminal">NonemptyClassRangesNoDash</a> :: <a
+                        href="15-10_RegExp_Objects.html#ClassAtomNoDash"
+                        class="nonterminal">ClassAtomNoDash</a> - <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> <a
+                        href="15-10_RegExp_Objects.html#ClassRanges"
+                        class="nonterminal">ClassRanges</a> は、次のように評価される::</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#ClassAtomNoDash"
+                           class="nonterminal">ClassAtomNoDash</a> を評価し、 CharSet <var>A</var> を取得する。
+                    </li>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#ClassAtom"
+                           class="nonterminal">ClassAtom</a> を評価し、 CharSet <var>B</var> を取得する。
+                    </li>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#ClassRanges"
+                           class="nonterminal">ClassRanges</a> を評価し、 CharSet <var>C</var> を取得する。
+                    </li>
+                    <li>CharacterRange(<var>A</var>, <var>B</var>) を呼出し、 <var>D</var> を結果の CharSet とする。</li>
+                    <li>CharSet <var>D</var> と <var>C</var> の和集合を返す。</li>
+                </ol>
+                <p>参考情報解説: <a
+                        href="15-10_RegExp_Objects.html#ClassRanges"
+                        class="nonterminal">ClassRanges</a> は、単一の <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> そして/または ダッシュで区切られた 2 個の <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> の範囲に展開してよい。文字ケースについては、 <a
+                        href="15-10_RegExp_Objects.html#ClassRanges"
+                        class="nonterminal">ClassRanges</a> は 1 つ目の <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> と 2 つ目の <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> までの間の全ての文字を含む。 <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> が単一の文字を表さない (例えば、一方が \w) ならば、また 1 つ目の <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> のコードポイント値が 2 つ目の <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> のコードポイント値より大きいならば、エラーが発生する。</p>
+
+                <p>パターンが文字ケースを区別しないとしても、範囲の両端の文字ケースは、文字の範囲への所属判定において重要である。たとえば、パターン /[<var>E</var>-F]/i は文字 <var>E</var>,
+                    <var>F</var>, <var>e</var>, <var>f</var> にのみマッチするのに対して、パターン /[<var>E</var>-f]/i は大文字小文字含めた ASCII
+                    文字だけでなく記号 [, \, ], ^, _, ` にもマッチする。</p>
+
+                <p>文字 - は文字通りに扱われうるか、範囲を示せるかである。 - が文字通りに扱われるのは、それが <a
+                        href="15-10_RegExp_Objects.html#ClassRanges"
+                        class="nonterminal">ClassRanges</a> の最初または最後の文字である場合、範囲指定の先頭または末尾である場合、直後に範囲指定が続く場合である。</p>
+            </div>
+            <!-- END of 15.10.2.16 Body -->
+
+        </div>
+        <!-- END of 15.10.2.16 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.17">15.10.2.17 ClassAtom</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> :: - の評価は、 1 個の文字 - で構成される CharSet を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> :: <a
+                        href="15-10_RegExp_Objects.html#ClassAtomNoDash"
+                        class="nonterminal">ClassAtomNoDash</a> の評価は、 <a
+                        href="15-10_RegExp_Objects.html#ClassAtomNoDash"
+                        class="nonterminal">ClassAtomNoDash</a> 評価で CharSet を取得し、その CharSet を返す。</p>
+            </div>
+            <!-- END of 15.10.2.17 Body -->
+
+        </div>
+        <!-- END of 15.10.2.17 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.18">15.10.2.18 ClassAtomNoDash</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#ClassAtomNoDash"
+                        class="nonterminal">ClassAtomNoDash</a> :: <a
+                        href="6_Source_Text.html#SourceCharacter"
+                        class="nonterminal">SourceCharacter</a> but not one of \ ] - の評価は、 <a
+                        href="6_Source_Text.html#SourceCharacter"
+                        class="nonterminal">SourceCharacter</a> で表される文字で構成される 1 要素の CharSet を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#ClassAtomNoDash"
+                        class="nonterminal">ClassAtomNoDash</a> :: \ <a
+                        href="15-10_RegExp_Objects.html#ClassEscape"
+                        class="nonterminal">ClassEscape</a> の評価は、 <a
+                        href="15-10_RegExp_Objects.html#ClassEscape"
+                        class="nonterminal">ClassEscape</a> 評価で CharSet を取得し、その CharSet を返す。</p>
+            </div>
+            <!-- END of 15.10.2.18 Body -->
+
+        </div>
+        <!-- END of 15.10.2.18 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.2.19">15.10.2.19 ClassEscape</h3>
+
+
+            <div class="body level3">
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#ClassEscape"
+                        class="nonterminal">ClassEscape</a> :: <a
+                        href="15-10_RegExp_Objects.html#DecimalEscape"
+                        class="nonterminal">DecimalEscape</a> は、次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="15-10_RegExp_Objects.html#DecimalEscape"
+                           class="nonterminal">DecimalEscape</a> を評価し、 EscapeValue <var>E</var> を取得する。
+                    </li>
+                    <li><var>E</var> が文字でなければ、 例外 SyntaxError を投げる。</li>
+                    <li>ch を <var>E</var> の文字とする。</li>
+                    <li>文字 ch で構成される、 1 要素の CharSet を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#ClassEscape"
+                        class="nonterminal">ClassEscape</a> :: <var>b</var> は、 1 個の文字 &lt;BS&gt; (Unicode 値 0008) で構成される
+                    CharSetを返して評価される。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#ClassEscape"
+                        class="nonterminal">ClassEscape</a> :: <a
+                        href="15-10_RegExp_Objects.html#CharacterEscape"
+                        class="nonterminal">CharacterEscape</a> の評価は、 <a
+                        href="15-10_RegExp_Objects.html#CharacterEscape"
+                        class="nonterminal">CharacterEscape</a> 評価で文字を取得し、その文字で構成される 1 要素の CharSet を返す。</p>
+
+                <p>生成規則 <a
+                        href="15-10_RegExp_Objects.html#ClassEscape"
+                        class="nonterminal">ClassEscape</a> :: CharacterClassEscape の評価は、 CharacterClassEscape 評価で
+                    CharSet を取得し、その CharSet を返す。</p>
+
+                <p>参考情報解説: <a
+                        href="15-10_RegExp_Objects.html#ClassAtom"
+                        class="nonterminal">ClassAtom</a> は、 \b, \B, 後方参照を除く残りの正規表現で許される任意のエスケープシーケンスを使用できる。 <a
+                        href="15-10_RegExp_Objects.html#CharacterClass"
+                        class="nonterminal">CharacterClass</a> 内部において、 \b は後退文字 (backspace character) を意味し、一方 \B
+                    と後方参照はエラーを発生させる。 <a
+                            href="15-10_RegExp_Objects.html#ClassAtom"
+                            class="nonterminal">ClassAtom</a> 内部での後方参照の使用はエラーを引き起こす。</p>
+            </div>
+            <!-- END of 15.10.2.19 Body -->
+
+        </div>
+        <!-- END of 15.10.2.19 -->
+
+    </div>
+    <!-- END of 15.10.2 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.10.3">15.10.3 関数として呼出される RegExp コンストラクタ (The RegExp Constructor Called as a Function)</h2>
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.3.1">15.10.3.1 RegExp(pattern, flags)</h3>
+
+
+            <div class="body level3">
+                <p><var>pattern</var> が [[Class]] プロパティが &quot;RegExp&quot; であるオブジェクト <var>R</var> で、かつ <var>flags</var>
+                    が undefined ならば、 <var>R</var> をそのまま返す。そうでなければ RegExp コンストラクタ (<a
+                            href="15-10_RegExp_Objects.html#section-15.10.4.1">セクション 15.10.4.1</a>) を呼出し、それに引数 <var>pattern</var>
+                    と <var>flags</var> を渡し、そのコンストラクタに構築されるオブジェクトを返す。</p>
+            </div>
+            <!-- END of 15.10.3.1 Body -->
+
+        </div>
+        <!-- END of 15.10.3.1 -->
+
+    </div>
+    <!-- END of 15.10.3 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.10.4">15.10.4 RegExp コンストラクタ (The RegExp Constructor)</h2>
+
+
+        <div class="body level2">
+            <p>RegExp が <code class="keyword">new</code> 式の一部として呼出されるとき、それはコンストラクタである: それは、新たに生成されるオブジェクトを初期化する。</p>
+        </div>
+        <!-- END of 15.10.4 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.4.1">15.10.4.1 new RegExp(pattern, flags)</h3>
+
+
+            <div class="body level3">
+                <p><var>pattern</var> が [[Class]] プロパティが &quot;RegExp&quot; である オブジェクト <var>R</var> で、かつ
+                    <var>flags</var> が undefined ならば、 <var>P</var> を <var>R</var> の構築に用いる <var>pattern</var> とし、
+                    <var>F</var> を <var>R</var> の構築に用いる <var>flags</var> とする。 <var>pattern</var> が [[Class]] プロパティが
+                    &quot;RegExp&quot; である オブジェクト <var>R</var> で、かつ <var>flags</var> が undefined でないならば、 例外 TypeError
+                    を投げる。 そうでなければ、 <var>P</var> を <var>pattern</var> が undefined ならば空文字列、そうでなければ
+                    ToString(<var>pattern</var>) とし、 <var>F</var> を <var>flags</var> が undefined ならば空文字列、そうでなければ
+                    ToString(<var>flags</var>) とする。</p>
+
+                <p>新規に構築されたオブジェクトの global プロパティは、 <var>F</var> が文字 &quot;g&quot; を含めば true, そうでなければ false である Boolean
+                    値に設定される。</p>
+
+                <p>新規に構築されたオブジェクトの ignoreCase プロパティは、 <var>F</var> が文字 &quot;i&quot; を含めば true, そうでなければ false である
+                    Boolean 値に設定される。</p>
+
+                <p>新規に構築されたオブジェクトの multiline プロパティは、 <var>F</var> が文字 &quot;m&quot; を含めば true, そうでなければ false である Boolean
+                    値に設定される。</p>
+
+                <p><var>F</var> が &quot;g&quot;, &quot;i&quot;, &quot;m&quot; 以外の文字を含むならば、また一旦出現したものと同じものを含むならば、例外
+                    SyntaxError を投げる。</p>
+
+                <p><var>P</var> の文字が書式 <a
+                        href="15-10_RegExp_Objects.html#Pattern"
+                        class="nonterminal">Pattern</a> を持たないならば、例外 SyntaxError を投げる。そうでなければ、新規に構築されたオブジェクトに <a
+                        href="15-10_RegExp_Objects.html#Pattern"
+                        class="nonterminal">Pattern</a> の評価 (&quot;compiling&quot;) により得られる [[Match]] プロパティを持たせる。 <a
+                        href="15-10_RegExp_Objects.html#Pattern"
+                        class="nonterminal">Pattern</a> の評価が例外 SyntaxError を投げてもよいことに注意。 (Note: <var>pattern</var> が <a
+                        href="7_Lexical_Conventions.html#StringLiteral"
+                        class="nonterminal">StringLiteral</a> ならば、 文字列が RegExp によって処理される前に、通常のエスケープシーケンスの変換が実行される。
+                    RegExp によって認識されるエスケープシーケンスを <var>pattern</var> に含めなければならないならば、 <a
+                            href="7_Lexical_Conventions.html#StringLiteral"
+                            class="nonterminal">StringLiteral</a> の内容の形成時に削除されることを防ぐために、 <a
+                            href="7_Lexical_Conventions.html#StringLiteral"
+                            class="nonterminal">StringLiteral</a> 内の文字 &quot;\&quot; はエスケープされなければならない。)</p>
+
+                <p>新規に構築されたオブジェクトの source プロパティは、 <var>P</var> に基づくPattern の書式の実装依存の文字列値に設定される。</p>
+
+                <p>新規に構築されたオブジェクトの lastIndex プロパティは、 0 に設定される。</p>
+
+                <p>新規に構築されたオブジェクトの [[Prototype]] プロパティは、 RegExp.prototype の初期値であるオリジナルの RegExp プロトタイプオブジェクトに設定される。</p>
+
+                <p>新規に構築されたオブジェクトの [[Class]] プロパティは、 &quot;RegExp&quot; に設定される</p>
+            </div>
+            <!-- END of 15.10.4.1 Body -->
+
+        </div>
+        <!-- END of 15.10.4.1 -->
+
+    </div>
+    <!-- END of 15.10.4 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.10.5">15.10.5 RegExp コンストラクタのプロパティ (Properties of the RegExp Constructor)</h2>
+
+
+        <div class="body level2">
+            <p>RegExp コンストラクタのの内部 [[Prototype]] プロパティの値は、 Function プロトタイプオブジェクト (<a
+                    href="15-3_Function_Objects.html#section-15.3.4">セクション 15.3.4</a>) である。</p>
+
+            <p>内部プロパティと length プロパティ (値は 2) の他に、 RegExp コンストラクタは次のプロパティを持つ:</p>
+        </div>
+        <!-- END of 15.10.5 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.5.1">15.10.5.1 RegExp.prototype</h3>
+
+
+            <div class="body level3">
+                <p>RegExp.prototype の初期値は RegExp プロトタイプオブジェクト (<a href="15-10_RegExp_Objects.html#section-15.10.6">セクション
+                    15.10.6</a>) である。</p>
+
+                <p>このプロパティは属性 { DontEnum, DontDelete, ReadOnly } を持つべきである。</p>
+            </div>
+            <!-- END of 15.10.5.1 Body -->
+
+        </div>
+        <!-- END of 15.10.5.1 -->
+
+    </div>
+    <!-- END of 15.10.5 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.10.6">15.10.6 RegExp プロトタイプオブジェクトのプロパティ (Properties of the RegExp Prototype Object)</h2>
+
+
+        <div class="body level2">
+            <p>RegExp プロトタイプオブジェクトの内部 [[Prototype]] プロパティの値は、 Object プロトタイプである。 RegExp プロトタイプオブジェクトの内部 [[Class]]
+                プロパティの値は、 &quot;Object&quot; である。</p>
+
+            <p>RegExp プロトタイプオブジェクトは、独自の valueOf プロパティを持たない; しかしながら、 valueOf プロパティを Object プロトタイプオブジェクトから継承する。</p>
+
+            <p>RegExp プロトタイプオブジェクトのプロパティである関数の以下の説明において、フレーズ &quot;この RegExp オブジェクト&quot; は、関数呼出しの <code
+                    class="keyword">this</code> 値であるオブジェクトを参照する; <code class="keyword">this</code> 値 が内部 [[Class]]
+                プロパティが &quot;RegExp&quot; のオブジェクトでない場合は、例外 TypeError が投げられる。</p>
+        </div>
+        <!-- END of 15.10.6 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.6.1">15.10.6.1 RegExp.prototype.constructor</h3>
+
+
+            <div class="body level3">
+                <p>RegExp.prototype.constructor の初期値は、組込み RegExp コンストラクタである。</p>
+            </div>
+            <!-- END of 15.10.6.1 Body -->
+
+        </div>
+        <!-- END of 15.10.6.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.6.2">15.10.6.2 RegExp.prototype.exec(string)</h3>
+
+
+            <div class="body level3">
+                <p>正規表現に対して <var>string</var> の正規表現マッチを行い、マッチの結果を含む Array オブジェクト、また文字列にマッチしなかった場合は null を返す。</p>
+
+                <p>文字列 ToString(<var>string</var>) は、次のように正規表現パターンの発生を検索される:</p>
+                <ol>
+                    <li><var>S</var> を ToString(<var>string</var>) の値とする。</li>
+                    <li>length を <var>S</var> の長さとする。</li>
+                    <li>lastIndex を lastIndex プロパティの値とする。</li>
+                    <li><var>i</var> を ToInteger(lastIndex) の値とする。</li>
+                    <li>global プロパティが false ならば、 <var>i</var> = 0 とする。</li>
+                    <li><var>I</var> &lt; 0 または <var>I</var> &gt; length ならば、 lastIndex を 0 に設定し、 null を返す。</li>
+                    <li>[[Match]] と呼出し、引数に <var>S</var> と <var>i</var> を与える。 [[Match]] が failure を返したならば、 ステップ 8 へ;
+                        そうでなければ、 <var>r</var> をその State 結果とし、 ステップ 10 へ。
+                    </li>
+                    <li><var>i</var> = <var>i</var>+1 とする。</li>
+                    <li>ステップ 6 へ。</li>
+                    <li><var>e</var> を <var>r</var> の endIndex 値とする。</li>
+                    <li>global プロパティが true ならば、 lastIndex を <var>e</var> に設定する。</li>
+                    <li><var>n</var> を <var>r</var> の captures 配列の長さとする。 (これは、<a
+                            href="15-10_RegExp_Objects.html#section-15.10.2.1">セクション 15.10.2.1</a> の NCapturingParens
+                        と同じ値である。)
+                    </li>
+                    <li>次のプロパティを持つ新しい配列を返す:
+                        <ul>
+                            <li>* index プロパティは、完全な文字列 <var>S</var> 内でマッチした部分文字列の位置に設定される。</li>
+                            <li>* input プロパティは、 <var>S</var> に設定される。</li>
+                            <li>* length プロパティは、 <var>n</var> + 1 に設定される。</li>
+                            <li>* 0 プロパティは、マッチした部分文字列 (すなわち オフセット <var>i</var> からオフセット <var>e</var> の前までの間のS の成分)
+                                に設定される。
+                            </li>
+                            <li>* <var>I</var> &gt; 0 かつ <var>I</var> &le; <var>n</var> であるような整数 <var>i</var> のそれぞれについて、
+                                ToString(<var>i</var>) を名前とするプロパティに <var>r</var> の captures 配列の <var>i</var> 番目の要素を設定する。
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+            <!-- END of 15.10.6.2 Body -->
+
+        </div>
+        <!-- END of 15.10.6.2 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.6.3">15.10.6.3 RegExp.prototype.test(string)</h3>
+
+
+            <div class="body level3">
+                <p>式 RegExp.prototype.exec(<var>string</var>) != null と同様である。</p>
+            </div>
+            <!-- END of 15.10.6.3 Body -->
+
+        </div>
+        <!-- END of 15.10.6.3 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.6.4">15.10.6.4 RegExp.prototype.toString()</h3>
+
+
+            <div class="body level3">
+                <p>src を現在の正規表現を表す <a
+                        href="15-10_RegExp_Objects.html#Pattern"
+                        class="nonterminal">Pattern</a> の書式の文字列とする。 src は、 source プロパティまた RegExp
+                    コンストラクタに供給されるソースコードと同一であってもなくてもよい; ただ、 src が現在の正規表現の flags を伴って RegExp
+                    コンストラクタに供給されたならば、結果の正規表現は、現在の正規表現と同様に振るまわなければならない。</p>
+
+                <p>toString は、文字列 &quot;/&quot;, src, &quot;/&quot; の連結で形成される文字列を返す; global プロパティが true ならば &quot;g&quot;、
+                    ignoreCase プロパティが true ならば &quot;i&quot;、 multiline プロパティが true ならば &quot;m&quot;
+                    を、連結する文字列に追加する。</p>
+
+                <div class="note">
+                    <p><b>NOTE</b> 実装は、 src 内の特殊文字をエスケープするために、 RegExp コンストラクタへ渡されるソースと異なることを許可されている src の利用を選択してよい。例えば、
+                        <code class="keyword">new</code> RegExp(&quot;/&quot;) から得られる正規表現において、 src は、数ある可能性の中から、 &quot;/&quot;
+                        または &quot;\/&quot; でありえる。後者は、書式 <a
+                                href="7_Lexical_Conventions.html#RegularExpressionLiteral"
+                                class="nonterminal">RegularExpressionLiteral</a> を持つ toString 呼出しの完全な結果 (&quot;/\//&quot;)
+                        を許可する。</p>
+                </div>
+
+            </div>
+            <!-- END of 15.10.6.4 Body -->
+
+        </div>
+        <!-- END of 15.10.6.4 -->
+
+    </div>
+    <!-- END of 15.10.6 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.10.7">15.10.7 RegExp インスタンスのプロパティ (Properties of RegExp Instances)</h2>
+
+
+        <div class="body level2">
+            <p>RegExp インスタンスは、上記に指定されるその [[Prototype]] オブジェクトからプロパティを継承し、また次のプロパティを持つ。</p>
+        </div>
+        <!-- END of 15.10.7 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.7.1">15.10.7.1 source</h3>
+
+
+            <div class="body level3">
+                <p><var>source</var> プロパティの値は、 現在の正規表現をあらわす <a
+                        href="15-10_RegExp_Objects.html#Pattern"
+                        class="nonterminal">Pattern</a> の書式の文字列値である。このプロパティは、属性 { DontDelete, ReadOnly, DontEnum }
+                    を持つべきである。</p>
+            </div>
+            <!-- END of 15.10.7.1 Body -->
+
+        </div>
+        <!-- END of 15.10.7.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.7.2">15.10.7.2 global</h3>
+
+
+            <div class="body level3">
+                <p><var>global</var> プロパティの値は、 flags が文字 &quot;g&quot; を含むかどうかを示す Boolean 値である。このプロパティは、属性 { DontDelete,
+                    ReadOnly, DontEnum } を持つべきである。</p>
+            </div>
+            <!-- END of 15.10.7.2 Body -->
+
+        </div>
+        <!-- END of 15.10.7.2 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.7.3">15.10.7.3 ignoreCase</h3>
+
+
+            <div class="body level3">
+                <p><var>ignoreCase</var> プロパティの値は、 flags が文字 &quot;i&quot; を含むかどうかを示す Boolean 値である。このプロパティは、属性 {
+                    DontDelete, ReadOnly, DontEnum } を持つべきである。</p>
+            </div>
+            <!-- END of 15.10.7.3 Body -->
+
+        </div>
+        <!-- END of 15.10.7.3 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.7.4">15.10.7.4 multiline</h3>
+
+
+            <div class="body level3">
+                <p><var>multiline</var> プロパティの値は、 flags が文字 &quot;m&quot; を含むかどうかを示す Boolean 値である。このプロパティは、属性 {
+                    DontDelete, ReadOnly, DontEnum } を持つべきである。</p>
+            </div>
+            <!-- END of 15.10.7.4 Body -->
+
+        </div>
+        <!-- END of 15.10.7.4 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.10.7.5">15.10.7.5 lastIndex</h3>
+
+
+            <div class="body level3">
+                <p><var>lastIndex</var> プロパティの値は、文字列の次のマッチを開始する位置を特定する整数である。このプロパティは、属性 { DontDelete, DontEnum }
+                    を持つべきである。</p>
+            </div>
+            <!-- END of 15.10.7.5 Body -->
+
+        </div>
+        <!-- END of 15.10.7.5 -->
+
+    </div>
+    <!-- END of 15.10.7 -->
+
+</div>
+<!-- END of 15.10 -->
+
+<h1>Page Contents</h1>
+<ul id="toc">
+    <li><a href="#section-15.10">15.10 RegExp (正規表現) オブジェクト (RegExp (Regular Expression) Objects)</a>
+        <ul>
+            <li><a href="#section-15.10.1">15.10.1 パターン (Patterns)</a></li>
+            <li><a href="#section-15.10.2">15.10.2 パターンの意味 (Pattern Semantics)</a>
+                <ul>
+                    <li><a href="#section-15.10.2.1">15.10.2.1 表記法 (Notation)</a></li>
+                    <li><a href="#section-15.10.2.2">15.10.2.2 Pattern</a></li>
+                    <li><a href="#section-15.10.2.3">15.10.2.3 Disjunction</a></li>
+                    <li><a href="#section-15.10.2.4">15.10.2.4 Alternative</a></li>
+                    <li><a href="#section-15.10.2.5">15.10.2.5 Term</a></li>
+                    <li><a href="#section-15.10.2.6">15.10.2.6 Assertion</a></li>
+                    <li><a href="#section-15.10.2.7">15.10.2.7 Quantifier</a></li>
+                    <li><a href="#section-15.10.2.8">15.10.2.8 Atom</a></li>
+                    <li><a href="#section-15.10.2.9">15.10.2.9 AtomEscape</a></li>
+                    <li><a href="#section-15.10.2.10">15.10.2.10 CharacterEscape</a></li>
+                    <li><a href="#section-15.10.2.11">15.10.2.11 DecimalEscape</a></li>
+                    <li><a href="#section-15.10.2.12">15.10.2.12 CharacterClassEscape</a></li>
+                    <li><a href="#section-15.10.2.13">15.10.2.13 CharacterClass</a></li>
+                    <li><a href="#section-15.10.2.14">15.10.2.14 ClassRanges</a></li>
+                    <li><a href="#section-15.10.2.15">15.10.2.15 NonemptyClassRanges</a></li>
+                    <li><a href="#section-15.10.2.16">15.10.2.16 NonemptyClassRangesNoDash</a></li>
+                    <li><a href="#section-15.10.2.17">15.10.2.17 ClassAtom</a></li>
+                    <li><a href="#section-15.10.2.18">15.10.2.18 ClassAtomNoDash</a></li>
+                    <li><a href="#section-15.10.2.19">15.10.2.19 ClassEscape</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.10.3">15.10.3 関数として呼出される RegExp コンストラクタ (The RegExp Constructor Called as a
+                Function)</a>
+                <ul>
+                    <li><a href="#section-15.10.3.1">15.10.3.1 RegExp(pattern, flags)</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.10.4">15.10.4 RegExp コンストラクタ (The RegExp Constructor)</a>
+                <ul>
+                    <li><a href="#section-15.10.4.1">15.10.4.1 new RegExp(pattern, flags)</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.10.5">15.10.5 RegExp コンストラクタのプロパティ (Properties of the RegExp Constructor)</a>
+                <ul>
+                    <li><a href="#section-15.10.5.1">15.10.5.1 RegExp.prototype</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.10.6">15.10.6 RegExp プロトタイプオブジェクトのプロパティ (Properties of the RegExp Prototype
+                Object)</a>
+                <ul>
+                    <li><a href="#section-15.10.6.1">15.10.6.1 RegExp.prototype.constructor</a></li>
+                    <li><a href="#section-15.10.6.2">15.10.6.2 RegExp.prototype.exec(string)</a></li>
+                    <li><a href="#section-15.10.6.3">15.10.6.3 RegExp.prototype.test(string)</a></li>
+                    <li><a href="#section-15.10.6.4">15.10.6.4 RegExp.prototype.toString()</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.10.7">15.10.7 RegExp インスタンスのプロパティ (Properties of RegExp Instances)</a>
+                <ul>
+                    <li><a href="#section-15.10.7.1">15.10.7.1 source</a></li>
+                    <li><a href="#section-15.10.7.2">15.10.7.2 global</a></li>
+                    <li><a href="#section-15.10.7.3">15.10.7.3 ignoreCase</a></li>
+                    <li><a href="#section-15.10.7.4">15.10.7.4 multiline</a></li>
+                    <li><a href="#section-15.10.7.5">15.10.7.5 lastIndex</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<address>
+
+    Translate: <span>Sat May 18 12:18:50 2002</span>
+
+<span>TAKI &lt;<a rel="bookmark" title="Translator"
+                  href="mailto:TAKI%20%3Coz-07ams@mvh.biglobe.ne.jp%3E"
+        >oz-07ams&#64;mvh.biglobe.ne.jp</a>&gt;</span>
+
+</address>
+
+</body>
+
+</html>
+
+
+<!--
+     FILE ARCHIVED ON 22:52:24 Aug 2, 2014 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 16:15:05 Feb 6, 2015.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->

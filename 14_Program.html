@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <title>14 プログラム (Program)</title>
+
+
+    <link rel="stylesheet" title="Metagraphix Graytone" type="text/css" href="css/ecma.css" media="all"/>
+    <link rel="stylesheet" title="Metagraphix NN4" type="text/javascript" href="js/n4.js" media="screen"/>
+
+    <link rel="bookmark" title="Translator"
+          href="mailto:TAKI%20%3Coz-07ams&#64;mvh.biglobe.ne.jp%3E"/>
+    <link rel="bookmark" title="Site Top"
+          href="http://www2u.biglobe.ne.jp/%7Eoz-07ams/"/>
+    <link rel="start begin toc" title="ECMA-262 revision 3"
+          href="index.html"/>
+    <link rel="prev" title="13_Function_Definition"
+          href="13_Function_Definition.html"/>
+    <link rel="next" title="15_Native_ECMAScript_Objects"
+          href="15_Native_ECMAScript_Objects.html"/>
+
+    <link rev="alternate" title="Original Document (PDF format)"
+          type="application/pdf" hreflang="en"
+          href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%203rd%20edition,%20December%201999.pdf"/>
+
+
+</head>
+
+<body>
+
+
+<p>
+    <a href="#toc">本頁の目次</a>
+    <a rel="contents" href="">目次</a>
+    <a rel="next" href="15_Native_ECMAScript_Objects.html">次頁: 15_Native_ECMAScript_Objects</a>
+    <a rel="prev" href="13_Function_Definition.html">前頁: 13_Function_Definition</a>
+</p>
+
+
+<div class="section level1">
+    <h1 id="section-14">14 プログラム (Program)</h1>
+
+
+    <div class="body level1">
+        <dl class="def">
+
+            <dt>Syntax</dt>
+
+            <dd>
+
+                <dl class="syntax">
+                    <dt id="Program">Program :</dt>
+                    <dd>
+                        <a href="14_Program.html#SourceElements"
+                           class="nonterminal">SourceElements</a></dd>
+                    <dt id="SourceElements">SourceElements :</dt>
+                    <dd>
+                        <a href="14_Program.html#SourceElement"
+                           class="nonterminal">SourceElement</a></dd>
+                    <dd>
+                        <a href="14_Program.html#SourceElements"
+                           class="nonterminal">SourceElements</a> <a
+                            href="14_Program.html#SourceElement"
+                            class="nonterminal">SourceElement</a></dd>
+                    <dt id="SourceElement">SourceElement :</dt>
+                    <dd>
+                        <a href="12_Statements.html#Statement"
+                           class="nonterminal">Statement</a></dd>
+                    <dd>
+                        <a href="13_Function_Definition.html#FunctionDeclaration"
+                           class="nonterminal">FunctionDeclaration</a></dd>
+                </dl>
+            </dd>
+
+            <dt>Semantics</dt>
+
+            <dd>
+
+                <p>生成規則 <a
+                        href="14_Program.html#Program"
+                        class="nonterminal">Program</a> : <a
+                        href="14_Program.html#SourceElements"
+                        class="nonterminal">SourceElements</a> は次のように評価される:</p>
+                <ol>
+                    <li>関数宣言のために <a
+                            href="14_Program.html#SourceElements"
+                            class="nonterminal">SourceElements</a> を処理する。
+                    </li>
+                    <li>
+                        <a href="14_Program.html#SourceElements"
+                           class="nonterminal">SourceElements</a> を評価する。
+                    </li>
+                    <li>Result(2) を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="14_Program.html#SourceElements"
+                        class="nonterminal">SourceElements</a> : <a
+                        href="14_Program.html#SourceElement"
+                        class="nonterminal">SourceElement</a> は関数宣言のためには次のように処理される:</p>
+                <ol>
+                    <li>関数宣言のための <a
+                            href="14_Program.html#SourceElement"
+                            class="nonterminal">SourceElement</a> を処理する。
+                    </li>
+                </ol>
+                <p>生成規則 <a
+                        href="14_Program.html#SourceElements"
+                        class="nonterminal">SourceElements</a> : <a
+                        href="14_Program.html#SourceElement"
+                        class="nonterminal">SourceElement</a> は次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="14_Program.html#SourceElement"
+                           class="nonterminal">SourceElement</a> を評価する。
+                    </li>
+                    <li>Result(1) を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="14_Program.html#SourceElements"
+                        class="nonterminal">SourceElements</a> : <a
+                        href="14_Program.html#SourceElements"
+                        class="nonterminal">SourceElements</a> <a
+                        href="14_Program.html#SourceElement"
+                        class="nonterminal">SourceElement</a> は関数宣言のためには次のように処理される:</p>
+                <ol>
+                    <li>関数宣言のために <a
+                            href="14_Program.html#SourceElements"
+                            class="nonterminal">SourceElements</a> を処理する。
+                    </li>
+                    <li>関数宣言のために <a
+                            href="14_Program.html#SourceElement"
+                            class="nonterminal">SourceElement</a> を処理する。
+                    </li>
+                </ol>
+                <p>生成規則 <a
+                        href="14_Program.html#SourceElements"
+                        class="nonterminal">SourceElements</a> : <a
+                        href="14_Program.html#SourceElements"
+                        class="nonterminal">SourceElements</a> <a
+                        href="14_Program.html#SourceElement"
+                        class="nonterminal">SourceElement</a> は次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="14_Program.html#SourceElements"
+                           class="nonterminal">SourceElements</a> を評価する。
+                    </li>
+                    <li>Result(1) が中途完了ならば、 Result(1) を返す。</li>
+                    <li>
+                        <a href="14_Program.html#SourceElement"
+                           class="nonterminal">SourceElement</a> を評価する。
+                    </li>
+                    <li>Result(3) を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="14_Program.html#SourceElement"
+                        class="nonterminal">SourceElement</a> : <a
+                        href="12_Statements.html#Statement"
+                        class="nonterminal">Statement</a> は関数宣言のためアクション無しで処理される。</p>
+
+                <p>生成規則 <a
+                        href="14_Program.html#SourceElement"
+                        class="nonterminal">SourceElement</a> : <a
+                        href="12_Statements.html#Statement"
+                        class="nonterminal">Statement</a> 次のように評価される:</p>
+                <ol>
+                    <li>
+                        <a href="12_Statements.html#Statement"
+                           class="nonterminal">Statement</a> を評価.
+                    </li>
+                    <li>Result(1) を返す。</li>
+                </ol>
+                <p>生成規則 <a
+                        href="14_Program.html#SourceElement"
+                        class="nonterminal">SourceElement</a> : <a
+                        href="13_Function_Definition.html#FunctionDeclaration"
+                        class="nonterminal">FunctionDeclaration</a> は関数宣言のためには次のように処理される:</p>
+                <ol>
+                    <li>関数宣言のために <a
+                            href="13_Function_Definition.html#FunctionDeclaration"
+                            class="nonterminal">FunctionDeclaration</a> を処理する。(<a
+                            href="13_Function_Definition.html#section-13">セクション 13</a> 参照)
+                    </li>
+                </ol>
+                <p>生成規則 <a
+                        href="14_Program.html#SourceElement"
+                        class="nonterminal">SourceElement</a> : <a
+                        href="13_Function_Definition.html#FunctionDeclaration"
+                        class="nonterminal">FunctionDeclaration</a> は次のように評価される:</p>
+                <ol>
+                    <li>(normal, empty, empty) を返す。</li>
+                </ol>
+            </dd>
+
+        </dl>
+
+    </div>
+    <!-- END of 14 Body -->
+
+</div>
+<!-- END of 14 -->
+
+<h1>Page Contents</h1>
+<ul id="toc">
+    <li><a href="#section-14">14 プログラム (Program)</a></li>
+</ul>
+
+<address>
+
+    Translate: <span>Sun Apr  7 08:52:56 2002</span>
+
+<span>TAKI &lt;<a rel="bookmark" title="Translator"
+                  href="mailto:TAKI%20%3Coz-07ams@mvh.biglobe.ne.jp%3E"
+        >oz-07ams&#64;mvh.biglobe.ne.jp</a>&gt;</span>
+
+</address>
+
+</body>
+
+</html>
+
+
+<!--
+     FILE ARCHIVED ON 22:25:18 Aug 2, 2014 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 16:14:53 Feb 6, 2015.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->

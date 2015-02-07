@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <title>9 型変換 (Type Conversion)</title>
+
+
+    <link rel="stylesheet" title="Metagraphix Graytone" type="text/css" href="css/ecma.css" media="all"/>
+    <link rel="stylesheet" title="Metagraphix NN4" type="text/javascript" href="js/n4.js" media="screen"/>
+
+    <link rel="bookmark" title="Translator"
+          href="mailto:TAKI%20%3Coz-07ams&#64;mvh.biglobe.ne.jp%3E"/>
+    <link rel="bookmark" title="Site Top"
+          href="http://www2u.biglobe.ne.jp/%7Eoz-07ams/"/>
+    <link rel="start begin toc" title="ECMA-262 revision 3"
+          href="index.html"/>
+    <link rel="prev" title="8_Types"
+          href="8_Types.html"/>
+    <link rel="next" title="10_Execution_Contexts"
+          href="10_Execution_Contexts.html"/>
+
+    <link rev="alternate" title="Original Document (PDF format)"
+          type="application/pdf" hreflang="en"
+          href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%203rd%20edition,%20December%201999.pdf"/>
+
+
+</head>
+
+<body>
+
+
+<p>
+    <a href="#toc">本頁の目次</a>
+    <a rel="contents" href="">目次</a>
+    <a rel="next" href="10_Execution_Contexts.html">次頁: 10_Execution_Contexts</a>
+    <a rel="prev" href="8_Types.html">前頁: 8_Types</a>
+</p>
+
+
+<div class="section level1">
+    <h1 id="section-9">9 型変換 (Type Conversion)</h1>
+
+
+    <div class="body level1">
+        <p>ECMAScript ランタイムシステムは、必要時に自動型変換を行う。一定の構成物の意味論を計画にするため、変換演算子のセットの定義が有用である。これらの演算子は言語の一部ではない;
+            ここでは、言語の意味論の仕様を助けるためにこれらを定義する。変換演算子は多様的である; つまり、標準的な型を受け入れることはできるが、 Reference, List, Completion (内部的型)
+            を受け入れることはできない。</p>
+    </div>
+    <!-- END of 9 Body -->
+
+
+    <div class="section level2">
+        <h2 id="section-9.1">9.1 ToPrimitive</h2>
+
+
+        <div class="body level2">
+            <p>ToPrimitive 演算子は引数 Value と選択的な引数 PreferredType をとる。 ToPrimitive 演算子はその引数の値を非 Object
+                型に変換する。オブジェクトが一つ以上のプリミティブ型に変換可能である場合、選択的な PreferredType ヒントをそのタイプに選んでよい。変換は次の表にしたがって発生する:</p>
+            <table>
+                <thead>
+                <tr>
+                    <td>入力型</td>
+                    <td>結果</td>
+                </tr>
+                </thead>
+                <tr>
+                    <td>Undefined</td>
+                    <td>結果は入力引数と等しい。(無変換)</td>
+                </tr>
+                <tr>
+                    <td>Null</td>
+                    <td>結果は入力引数と等しい。(無変換)</td>
+                </tr>
+                <tr>
+                    <td>Boolean</td>
+                    <td>結果は入力引数と等しい。(無変換)</td>
+                </tr>
+                <tr>
+                    <td>Number</td>
+                    <td>結果は入力引数と等しい。(無変換)</td>
+                </tr>
+                <tr>
+                    <td>String</td>
+                    <td>結果は入力引数と等しい。(無変換)</td>
+                </tr>
+                <tr>
+                    <td>Object</td>
+                    <td>Object のデフォルトの値を返す。オブジェクトのデフォルトの値は、オブジェクトの内部メソッド [[DefaultValue]] に選択的ヒント PreferredType
+                        を渡して取得される。[[DefalutValue]] メソッドの挙動は、全ての ECMAScript オブジェクトの仕様によって定義される。(<a
+                                href="8_Types.html#section-8.6.2.6">セクション 8.6.2.6</a>)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- END of 9.1 Body -->
+
+    </div>
+    <!-- END of 9.1 -->
+
+
+    <div class="section level2">
+        <h2 id="section-9.2">9.2 ToBoolean</h2>
+
+
+        <div class="body level2">
+            <p>ToBoolean 演算子は、次の表にしたがって引数を Boolean 型の値に変換する。</p>
+            <table>
+                <thead>
+                <tr>
+                    <td>入力型</td>
+                    <td>結果</td>
+                </tr>
+                </thead>
+                <tr>
+                    <td>Undefined</td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <td>Null</td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <td>Boolean</td>
+                    <td>結果は入力引数と等しい。(無変換)</td>
+                </tr>
+                <tr>
+                    <td>Number</td>
+                    <td>引数が +0, -0, NaN ならば結果は false; そうでなければ true</td>
+                </tr>
+                <tr>
+                    <td>String</td>
+                    <td>引数が空文字列 (長さ 0) ならば結果は false; そうでなければ true</td>
+                </tr>
+                <tr>
+                    <td>Object</td>
+                    <td>true</td>
+                </tr>
+            </table>
+        </div>
+        <!-- END of 9.2 Body -->
+
+    </div>
+    <!-- END of 9.2 -->
+
+
+    <div class="section level2">
+        <h2 id="section-9.3">9.3 ToNumber</h2>
+
+
+        <div class="body level2">
+            <p>ToNumber 演算子は、次の表にしたがって引数を Number 型の値に変換する。</p>
+            <table>
+                <thead>
+                <tr>
+                    <td>入力型</td>
+                    <td>結果</td>
+                </tr>
+                </thead>
+                <tr>
+                    <td>Undefined</td>
+                    <td>NaN</td>
+                </tr>
+                <tr>
+                    <td>Null</td>
+                    <td>+0</td>
+                </tr>
+                <tr>
+                    <td>Boolean</td>
+                    <td>引数が true ならば結果は 1．false ならば +0。</td>
+                </tr>
+                <tr>
+                    <td>Number</td>
+                    <td>結果は入力引数と等しい。(無変換)</td>
+                </tr>
+                <tr>
+                    <td>String</td>
+                    <td>下の文法と注意を参照。</td>
+                </tr>
+                <tr>
+                    <td>Object</td>
+                    <td>次のステップを適用:
+                        <ul>
+                            <li>1. ToPrimitive(input argument, hint Number) を呼出す。</li>
+                            <li>2. ToNumber(Result(1)) を呼出す。</li>
+                            <li>3. Result(2) を返す。</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- END of 9.3 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-9.3.1">9.3.1 String 型に適用される ToNumber (ToNumber Applied to the String Type)</h3>
+
+
+            <div class="body level3">
+                <p>文字列に適用される ToNumber は、入力文字列に 次の文法を適用する。文法が文字列を <a
+                        href="9_Type_Conversion.html#StringNumericLiteral"
+                        class="nonterminal">StringNumericLiteral</a> として解釈不能ならば、 ToNumber の結果は NaN である。</p>
+                <dl class="syntax">
+                    <dt id="StringNumericLiteral">StringNumericLiteral :::</dt>
+                    <dd>
+                        <a href="9_Type_Conversion.html#StrWhiteSpace"
+                           class="nonterminal">StrWhiteSpace</a><sub>opt</sub></dd>
+                    <dd>
+                        <a href="9_Type_Conversion.html#StrWhiteSpace"
+                           class="nonterminal">StrWhiteSpace</a><sub>opt</sub> <a
+                            href="9_Type_Conversion.html#StrNumericLiteral"
+                            class="nonterminal">StrNumericLiteral</a> <a
+                            href="9_Type_Conversion.html#StrWhiteSpace"
+                            class="nonterminal">StrWhiteSpace</a><sub>opt</sub></dd>
+                    <dt id="StrWhiteSpace">StrWhiteSpace :::</dt>
+                    <dd>
+                        <a href="9_Type_Conversion.html#StrWhiteSpaceChar"
+                           class="nonterminal">StrWhiteSpaceChar</a> <a
+                            href="9_Type_Conversion.html#StrWhiteSpace"
+                            class="nonterminal">StrWhiteSpace</a><sub>opt</sub></dd>
+                    <dt id="StrWhiteSpaceChar">StrWhiteSpaceChar :::</dt>
+                    <dd><samp>&lt;</samp>TAB<samp>&gt;</samp></dd>
+                    <dd><samp>&lt;</samp>SP<samp>&gt;</samp></dd>
+                    <dd><samp>&lt;</samp>NBSP<samp>&gt;</samp></dd>
+                    <dd><samp>&lt;</samp>FF<samp>&gt;</samp></dd>
+                    <dd><samp>&lt;</samp>VT<samp>&gt;</samp></dd>
+                    <dd><samp>&lt;</samp>CR<samp>&gt;</samp></dd>
+                    <dd><samp>&lt;</samp>LF<samp>&gt;</samp></dd>
+                    <dd><samp>&lt;</samp>LS<samp>&gt;</samp></dd>
+                    <dd><samp>&lt;</samp>PS<samp>&gt;</samp></dd>
+                    <dd><samp>&lt;</samp>USP<samp>&gt;</samp></dd>
+                    <dt id="StrNumericLiteral">StrNumericLiteral :::</dt>
+                    <dd>
+                        <a href="9_Type_Conversion.html#StrDecimalLiteral"
+                           class="nonterminal">StrDecimalLiteral</a></dd>
+                    <dd>
+                        <a href="9_Type_Conversion.html#HexIntegerLiteral"
+                           class="nonterminal">HexIntegerLiteral</a></dd>
+                    <dt id="StrDecimalLiteral">StrDecimalLiteral :::</dt>
+                    <dd>
+                        <a href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                           class="nonterminal">StrUnsignedDecimalLiteral</a></dd>
+                    <dd><samp>+</samp> <a
+                            href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                            class="nonterminal">StrUnsignedDecimalLiteral</a></dd>
+                    <dd><samp>-</samp> <a
+                            href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                            class="nonterminal">StrUnsignedDecimalLiteral</a></dd>
+                    <dt id="StrUnsignedDecimalLiteral">StrUnsignedDecimalLiteral :::</dt>
+                    <dd>Infinity</dd>
+                    <dd>
+                        <a href="9_Type_Conversion.html#DecimalDigits"
+                           class="nonterminal">DecimalDigits</a> <samp>.</samp> <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a><sub>opt</sub> <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a><sub>opt</sub></dd>
+                    <dd><samp>.</samp> <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a><sub>opt</sub></dd>
+                    <dd>
+                        <a href="9_Type_Conversion.html#DecimalDigits"
+                           class="nonterminal">DecimalDigits</a> <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a><sub>opt</sub></dd>
+                    <dt id="DecimalDigits">DecimalDigits :::</dt>
+                    <dd>
+                        <a href="9_Type_Conversion.html#DecimalDigit"
+                           class="nonterminal">DecimalDigit</a></dd>
+                    <dd>
+                        <a href="9_Type_Conversion.html#DecimalDigits"
+                           class="nonterminal">DecimalDigits</a> <a
+                            href="9_Type_Conversion.html#DecimalDigit"
+                            class="nonterminal">DecimalDigit</a></dd>
+                    <dt id="DecimalDigit">DecimalDigit ::: one of</dt>
+                    <dd>0 1 2 3 4 5 6 7 8 9</dd>
+                    <dt id="ExponentPart">ExponentPart :::</dt>
+                    <dd>
+                        <a href="9_Type_Conversion.html#ExponentIndicator"
+                           class="nonterminal">ExponentIndicator</a> <a
+                            href="9_Type_Conversion.html#SignedInteger"
+                            class="nonterminal">SignedInteger</a></dd>
+                    <dt id="ExponentIndicator">ExponentIndicator ::: one of</dt>
+                    <dd><var>e</var> <var>E</var></dd>
+                    <dt id="SignedInteger">SignedInteger :::</dt>
+                    <dd>
+                        <a href="9_Type_Conversion.html#DecimalDigits"
+                           class="nonterminal">DecimalDigits</a></dd>
+                    <dd><samp>+</samp> <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a></dd>
+                    <dd><samp>-</samp> <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a></dd>
+                    <dt id="HexIntegerLiteral">HexIntegerLiteral :::</dt>
+                    <dd>0x <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a></dd>
+                    <dd>0X <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a></dd>
+                    <dd>
+                        <a href="9_Type_Conversion.html#HexIntegerLiteral"
+                           class="nonterminal">HexIntegerLiteral</a> <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a></dd>
+                    <dt id="HexDigit">HexDigit ::: one of</dt>
+                    <dd>0 1 2 3 4 5 6 7 8 9 a <var>b</var> <var>c</var> <var>d</var> <var>e</var> <var>f</var>
+                        <var>A</var> <var>B</var> <var>C</var> <var>D</var> <var>E</var> <var>F</var></dd>
+                </dl>
+                <p>
+                    <a href="9_Type_Conversion.html#StringNumericLiteral"
+                       class="nonterminal">StringNumericLiteral</a> と <a
+                        href="7_Lexical_Conventions.html#NumericLiteral"
+                        class="nonterminal">NumericLiteral</a> の構文間にいくつか注目すべき相違点がある (<a
+                        href="7_Lexical_Conventions.html#section-7.8.3">セクション 7.8.3</a>):</p>
+                <ul>
+                    <li>
+                        <a href="9_Type_Conversion.html#StringNumericLiteral"
+                           class="nonterminal">StringNumericLiteral</a> には、空白または行終端子が、先行また後続してよい。
+                    </li>
+                    <li>10 進数である <a
+                            href="9_Type_Conversion.html#StringNumericLiteral"
+                            class="nonterminal">StringNumericLiteral</a> は may have any number of leading 0 digits.
+                    </li>
+                    <li>10 進数である <a
+                            href="9_Type_Conversion.html#StringNumericLiteral"
+                            class="nonterminal">StringNumericLiteral</a> は、符号を示す + または - が先行してよい。
+                    </li>
+                    <li>空や空白である <a
+                            href="9_Type_Conversion.html#StringNumericLiteral"
+                            class="nonterminal">StringNumericLiteral</a> は +0 に変換される。
+                    </li>
+                </ul>
+                <p>文字列の数値への変換は、全体に数値リテラルの数値の決定と似ている (<a href="7_Lexical_Conventions.html#section-7.8.3">セクション 7.8.3</a>)
+                    が、いくつかの点で異なり、従って string numeric literal の Number 型の値への変換処理はここに全て与えられる。この値は 2 ステップで決定される: まず、数学値 (MV)
+                    が string numeric literal から派生する; 次に、この数学値が次のように丸められる。</p>
+                <ul>
+                    <li>
+                        <a href="9_Type_Conversion.html#StringNumericLiteral"
+                           class="nonterminal">StringNumericLiteral</a> ::: [empty] の数学値は、 0 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StringNumericLiteral"
+                           class="nonterminal">StringNumericLiteral</a> ::: <a
+                            href="9_Type_Conversion.html#StrWhiteSpace"
+                            class="nonterminal">StrWhiteSpace</a> の数学値は、 0 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StringNumericLiteral"
+                           class="nonterminal">StringNumericLiteral</a> ::: <a
+                            href="9_Type_Conversion.html#StrWhiteSpace"
+                            class="nonterminal">StrWhiteSpace</a><sub>opt</sub> <a
+                            href="9_Type_Conversion.html#StrNumericLiteral"
+                            class="nonterminal">StrNumericLiteral</a> <a
+                            href="9_Type_Conversion.html#StrWhiteSpace"
+                            class="nonterminal">StrWhiteSpace</a><sub>opt</sub> の数学値は、空白が存在するかどうかにかかわらず、 <a
+                            href="9_Type_Conversion.html#StrNumericLiteral"
+                            class="nonterminal">StrNumericLiteral</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrNumericLiteral"
+                           class="nonterminal">StrNumericLiteral</a> ::: <a
+                            href="9_Type_Conversion.html#StrDecimalLiteral"
+                            class="nonterminal">StrDecimalLiteral</a> の数学値は、 <a
+                            href="9_Type_Conversion.html#StrDecimalLiteral"
+                            class="nonterminal">StrDecimalLiteral</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrNumericLiteral"
+                           class="nonterminal">StrNumericLiteral</a> ::: <a
+                            href="9_Type_Conversion.html#HexIntegerLiteral"
+                            class="nonterminal">HexIntegerLiteral</a> の数学値は、 <a
+                            href="9_Type_Conversion.html#HexIntegerLiteral"
+                            class="nonterminal">HexIntegerLiteral</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrDecimalLiteral"
+                           class="nonterminal">StrDecimalLiteral</a> ::: <a
+                            href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                            class="nonterminal">StrUnsignedDecimalLiteral</a> の数学値は、 <a
+                            href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                            class="nonterminal">StrUnsignedDecimalLiteral</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrDecimalLiteral"
+                           class="nonterminal">StrDecimalLiteral</a> ::: + <a
+                            href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                            class="nonterminal">StrUnsignedDecimalLiteral</a> の数学値は、 <a
+                            href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                            class="nonterminal">StrUnsignedDecimalLiteral</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrDecimalLiteral"
+                           class="nonterminal">StrDecimalLiteral</a> ::: - <a
+                            href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                            class="nonterminal">StrUnsignedDecimalLiteral</a> の数学値は、 負の <a
+                            href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                            class="nonterminal">StrUnsignedDecimalLiteral</a> の数学値である。 (StrUnsignedDecimalLiteral の数学値が
+                        0 ならば、負の数学値も 0 であることに注意。下に述べる丸め規則は handles <var>the</var> conversion of <code class="keyword">this</code>
+                        sign less mathematical zero <var>to</var> a floating-point +0 or -0 as appropriate )
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                           class="nonterminal">StrUnsignedDecimalLiteral</a> ::: Infinity の数学値は、 1010000 (a value so
+                        large that it will round <var>to</var> +∞) である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                           class="nonterminal">StrUnsignedDecimalLiteral</a> ::: <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a>. の数学値は、 <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                           class="nonterminal">StrUnsignedDecimalLiteral</a> ::: <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a>. <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値は、 <var>n</var> を 2 つ目の <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の文字数として、 1 つ目の <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値に (2 つ目の <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値 × 10<sup>-n</sup>) を足す。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                           class="nonterminal">StrUnsignedDecimalLiteral</a> ::: <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a>. <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a> の数学値は、 <var>e</var> を <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a> の数学値として、 <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値 × 10<sup>e</sup> である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                           class="nonterminal">StrUnsignedDecimalLiteral</a>::: <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a>. <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a> の数学値は、 <var>n</var> を 2 つ目の <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の文字数、 <var>e</var> を <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a> の数学値として、 (1 つ目の <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値 ＋ (2 つ目の <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値 × 10<sup>n</sup>) ) × 10<sup>e</sup> である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                           class="nonterminal">StrUnsignedDecimalLiteral</a>:::. <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値は、 <var>n</var> を <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の文字数として、 <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値 × 10<sup>n</sup> である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                           class="nonterminal">StrUnsignedDecimalLiteral</a>:::. <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a> の数学値は、n を <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の文字数、 <var>e</var> を <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a> の数学値として、 <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値 × 10<sup>e-n</sup> である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                           class="nonterminal">StrUnsignedDecimalLiteral</a>::: <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値は、 <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                           class="nonterminal">StrUnsignedDecimalLiteral</a>::: <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a> の数学値は、e を <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a> の数学値として、 <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値 × 10<sup>e</sup> である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#DecimalDigits"
+                           class="nonterminal">DecimalDigits</a> ::: <a
+                            href="9_Type_Conversion.html#DecimalDigit"
+                            class="nonterminal">DecimalDigit</a> の数学値は、 <a
+                            href="9_Type_Conversion.html#DecimalDigit"
+                            class="nonterminal">DecimalDigit</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#DecimalDigits"
+                           class="nonterminal">DecimalDigits</a> ::: <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> <a
+                            href="9_Type_Conversion.html#DecimalDigit"
+                            class="nonterminal">DecimalDigit</a> の数学値は、 (DecimalDigits の数学値 × 10) ＋ <a
+                            href="9_Type_Conversion.html#DecimalDigit"
+                            class="nonterminal">DecimalDigit</a> の数学値 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#ExponentPart"
+                           class="nonterminal">ExponentPart</a> ::: <a
+                            href="9_Type_Conversion.html#ExponentIndicator"
+                            class="nonterminal">ExponentIndicator</a> <a
+                            href="9_Type_Conversion.html#SignedInteger"
+                            class="nonterminal">SignedInteger</a> の数学値は、 <a
+                            href="9_Type_Conversion.html#SignedInteger"
+                            class="nonterminal">SignedInteger</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#SignedInteger"
+                           class="nonterminal">SignedInteger</a> ::: <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値は、 <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#SignedInteger"
+                           class="nonterminal">SignedInteger</a> ::: + <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値は、 <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#SignedInteger"
+                           class="nonterminal">SignedInteger</a> ::: - <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値は、負の <a
+                            href="9_Type_Conversion.html#DecimalDigits"
+                            class="nonterminal">DecimalDigits</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#DecimalDigit"
+                           class="nonterminal">DecimalDigit</a> ::: 0 または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: 0 の数学値は、 0 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#DecimalDigit"
+                           class="nonterminal">DecimalDigit</a> ::: 1 または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: 1 の数学値は、 1 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#DecimalDigit"
+                           class="nonterminal">DecimalDigit</a> ::: 2 または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: 2 の数学値は、 2 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#DecimalDigit"
+                           class="nonterminal">DecimalDigit</a> ::: 3 または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: 3 の数学値は、 3 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#DecimalDigit"
+                           class="nonterminal">DecimalDigit</a> ::: 4 または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: 4 の数学値は、 4 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#DecimalDigit"
+                           class="nonterminal">DecimalDigit</a> ::: 5 または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: 5 の数学値は、 5 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#DecimalDigit"
+                           class="nonterminal">DecimalDigit</a> ::: 6 または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: 6 の数学値は、 6 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#DecimalDigit"
+                           class="nonterminal">DecimalDigit</a> ::: 7 または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: 7 の数学値は、 7 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#DecimalDigit"
+                           class="nonterminal">DecimalDigit</a> ::: 8 または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: 8 の数学値は、 8 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#DecimalDigit"
+                           class="nonterminal">DecimalDigit</a> ::: 9 または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: 9 の数学値は、 9 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#HexDigit"
+                           class="nonterminal">HexDigit</a> ::: a または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: <var>A</var> の数学値は、 10 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#HexDigit"
+                           class="nonterminal">HexDigit</a> ::: <var>b</var> または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: <var>B</var> の数学値は、 11 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#HexDigit"
+                           class="nonterminal">HexDigit</a> ::: <var>c</var> または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: <var>C</var> の数学値は、 12 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#HexDigit"
+                           class="nonterminal">HexDigit</a> ::: <var>d</var> または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: <var>D</var> の数学値は、 13 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#HexDigit"
+                           class="nonterminal">HexDigit</a> ::: <var>e</var> または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: <var>E</var> の数学値は、 14 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#HexDigit"
+                           class="nonterminal">HexDigit</a> ::: <var>f</var> または <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> ::: <var>F</var> の数学値は、 15 である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#HexIntegerLiteral"
+                           class="nonterminal">HexIntegerLiteral</a> ::: 0x <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> の数学値は、 <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#HexIntegerLiteral"
+                           class="nonterminal">HexIntegerLiteral</a> ::: 0X <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> の数学値は、 <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> の数学値である。
+                    </li>
+                    <li>
+                        <a href="9_Type_Conversion.html#HexIntegerLiteral"
+                           class="nonterminal">HexIntegerLiteral</a> ::: <a
+                            href="9_Type_Conversion.html#HexIntegerLiteral"
+                            class="nonterminal">HexIntegerLiteral</a> <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> の数学値は、 (HexIntegerLiteral の数学値 × 16) ＋ <a
+                            href="9_Type_Conversion.html#HexDigit"
+                            class="nonterminal">HexDigit</a> の数学値 である。
+                    </li>
+                </ul>
+                <p>一旦数値文字列リテラルの厳密な数学値が決定されたら、 Number 型の値に丸められる。数学値が 0 ならば、丸められる値は、数値文字列リテラル内の最初の非空白文字が '-' でなければ +0 であり、
+                    '-' ならば -0 である。 そうではなく、リテラルが <a
+                            href="9_Type_Conversion.html#StrUnsignedDecimalLiteral"
+                            class="nonterminal">StrUnsignedDecimalLiteral</a> を含まず、そのリテラルが 20 を超える有効数字数\でなければ、数値が 20
+                    番目以降の各有効数字を数字 0 で置換して生成されるリテラルの数学値の数値、または 20 番目以降の各有効数字を数字 0 で置換して生成されるリテラルの数学値の数値、そして 20
+                    番目の数字の位置でリテラルを増加のどちらかでありえる場合、丸められる値は (<a href="8_Types.html#section-8.5">セクション 8.5</a> で定義される意味の)
+                    数学値の数値でなければならない。数字はそれが <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a> の一部\でなく次の二点のどちらかあれば有効数字 (significant) である。</p>
+                <ul>
+                    <li>0 でない。</li>
+                    <li>その左側が 0 以外の数字でその右側が 0 以外の数字で <a
+                            href="9_Type_Conversion.html#ExponentPart"
+                            class="nonterminal">ExponentPart</a> 内でない。
+                    </li>
+                </ul>
+            </div>
+            <!-- END of 9.3.1 Body -->
+
+        </div>
+        <!-- END of 9.3.1 -->
+
+    </div>
+    <!-- END of 9.3 -->
+
+
+    <div class="section level2">
+        <h2 id="section-9.4">9.4 ToInteger</h2>
+
+
+        <div class="body level2">
+            <p>ToInteger 演算子は引数を整数値に変換する。この演算子は次のように機能する:</p>
+            <ol>
+                <li>入力引数に ToNumber を呼出す。</li>
+                <li>Result(1) が NaN ならば、 +0 を返す。</li>
+                <li>Result(1) が +0, -0, +∞, -∞ ならば、 Result(1) を返す。</li>
+                <li>sign( Result(1)) * floor(abs(Result(1)) ) を算出する。</li>
+                <li>Result(4) を返す。</li>
+            </ol>
+        </div>
+        <!-- END of 9.4 Body -->
+
+    </div>
+    <!-- END of 9.4 -->
+
+
+    <div class="section level2">
+        <h2 id="section-9.5">9.5 ToInt32: (Signed 32 Bit Integer)</h2>
+
+
+        <div class="body level2">
+            <p>ToInt32 演算子は、引数を -2<sup>31</sup> から 2<sup>31</sup>-1 を含めた範囲内で、 2<sup>32</sup> 個の整数値の一つに変換する。</p>
+
+            <p>この演算子は次のように機能する:</p>
+            <ol>
+                <li>入力引数に ToNumber を呼出す。</li>
+                <li>Result(1) が NaN, +0, -0, +∞, or -∞ ならば、 +0 を返す。</li>
+                <li>sign(Result(1)) * floor(abs(Result(1))) を算出する。</li>
+                <li>Result(3) modulo 2<sup>32</sup> を算出する; すなわち、 Result(3) との数学的な差が数学的に 2<sup>32</sup> の整数倍であるような、大きさ
+                    2<sup>32</sup> 未満の正符号付き Number 型の 有限整数値 <var>k</var> である。
+                </li>
+                <li>Result(4) が 2<sup>31</sup> 以上ならば、 Result(4) - 2<sup>32</sup> を返す。そうでなければ Result(4) を返す。</li>
+            </ol>
+            <div class="note">
+                <p><b>NOTE</b> 上記の ToInt32 の定義を与える:</p>
+
+                <p>ToInt32 演算は idempotent である: 生成された結果に適用するならば、2 回目の適用は値を変更せずに残す。</p>
+
+                <p><var>x</var> の全ての値にとって、ToInt32(ToUint32(<var>x</var>)) は ToInt32(<var>x</var>) 等価である。 (+∞ と -∞ は +0
+                    にマップされるのは後者のプロパティの保存である。)</p>
+
+                <p>ToInt32 は -0 を +0 にマップする。</p>
+            </div>
+
+        </div>
+        <!-- END of 9.5 Body -->
+
+    </div>
+    <!-- END of 9.5 -->
+
+
+    <div class="section level2">
+        <h2 id="section-9.6">9.6 ToUint32: (Unsigned 32 Bit Integer)</h2>
+
+
+        <div class="body level2">
+            <p>ToUint32 演算子は引数を、 0 から 2<sup>32</sup>-1 を含む範囲の 2<sup>32</sup> 個の整数値の一つに変換する。個の演算子は次のように機能する:</p>
+            <ol>
+                <li>入力引数に ToNumber を呼出す。</li>
+                <li>Result(1) が NaN, +0, -0, +∞, -∞ ならば、 +0 を返す。</li>
+                <li>sign(Result(1)) * floor(abs(Result(1))) を算出する。</li>
+                <li>Result(3) modulo 2<sup>32</sup> を算出する; すなわち、 Result(3) と <var>k</var> との数学的な差が数学的に 2<sup>32</sup>
+                    の整数倍であるような、大きさ 2<sup>32</sup> 未満の正符号付き Number 型の有限整数値 <var>k</var> である。
+                </li>
+                <li>Result(4) を返す。</li>
+            </ol>
+            <div class="note">
+                <p><b>NOTE</b> 上記の ToUInt32 の定義を与える:</p>
+
+                <p>ステップ 5 は ToUint32 と ToInt32 との間の違いである。</p>
+
+                <p>ToUint32 演算は idempotent である: 生成された結果に適用するならば、2 回目の適用は値を変更せずに残す。</p>
+
+                <p><var>x</var> の全ての値にとって、ToUint32(ToInt32(<var>x</var>)) は ToUint32(<var>x</var>) 等価である。 (+∞ と -∞ は +0
+                    にマップされるのは後者のプロパティの保存である。)</p>
+
+                <p>ToUint32 は -0 を +0 にマップする。</p>
+            </div>
+
+        </div>
+        <!-- END of 9.6 Body -->
+
+    </div>
+    <!-- END of 9.6 -->
+
+
+    <div class="section level2">
+        <h2 id="section-9.7">9.7 ToUint16: (Unsigned 16 Bit Integer)</h2>
+
+
+        <div class="body level2">
+            <p>ToUint16 演算子は、引数を 0 から 2<sup>16</sup>-1 までの範囲の 2<sup>16</sup> 個の整数値のうちの一つに変換する。この演算は次のように機能する:</p>
+            <ol>
+                <li>入力引数に ToNumber を呼出す。</li>
+                <li>Result(1) が NaN, +0, -0, +∞, -∞ ならば、 +0 を返す。</li>
+                <li>sign(Result(1)) * floor(abs(Result(1))) を算出する。</li>
+                <li>Result(3) modulo 2<sup>16</sup> を算出する; すなわち、 Result(3) と <var>k</var> との数学的な差が数学的に 2<sup>16</sup>
+                    の整数倍であるような、大きさ 2<sup>16</sup> 未満の正符号付き Number 型の有限整数値 <var>k</var> である。
+                </li>
+                <li>Result(4) を返す。</li>
+            </ol>
+            <div class="note">
+                <p><b>NOTE</b> 上記の ToUint16 の定義を与える:</p>
+
+                <p>ToUint32 と ToUint16 との間の違いは、ステップ 4 にて 2<sup>32</sup> に 2<sup>16</sup> を代用しているだけである。</p>
+
+                <p>ToUint16 は -0 を +0 にマップする。</p>
+            </div>
+
+        </div>
+        <!-- END of 9.7 Body -->
+
+    </div>
+    <!-- END of 9.7 -->
+
+
+    <div class="section level2">
+        <h2 id="section-9.8">9.8 ToString</h2>
+
+
+        <div class="body level2">
+            <p>ToString 演算子は、次の表に従って引数を String 型の値に変換する。</p>
+            <table>
+                <thead>
+                <tr>
+                    <td>入力型</td>
+                    <td>結果</td>
+                </tr>
+                </thead>
+                <tr>
+                    <td>Undefined</td>
+                    <td>&quot;undefined&quot;</td>
+                </tr>
+                <tr>
+                    <td>Null</td>
+                    <td>&quot;null&quot;</td>
+                </tr>
+                <tr>
+                    <td>Boolean</td>
+                    <td>引数が true ならば、結果は &quot;true&quot; 。引数が false ならば、結果は &quot;false&quot; 。</td>
+                </tr>
+                <tr>
+                    <td>Number</td>
+                    <td>下のノートを参照。</td>
+                </tr>
+                <tr>
+                    <td>String</td>
+                    <td>入力引数を返す。 (無変換)</td>
+                </tr>
+                <tr>
+                    <td>Object</td>
+                    <td>次のステップを適用:
+                        <ul>
+                            <li>ToPrimitive(入力引数, hint String) を呼出す。</li>
+                            <li>ToString(Result(1)) を呼出す。</li>
+                            <li>Result(2) を返す。</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- END of 9.8 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-9.8.1">9.8.1 Number 型に適用される ToString (ToString Applied to the Number Type)</h3>
+
+
+            <div class="body level3">
+                <p>ToString 演算子は、次のように数 <var>m</var> を文字列形式に変換する:</p>
+                <ol>
+                    <li><var>m</var> が NaN ならば、文字列 &quot;NaN&quot; を返す。</li>
+                    <li><var>m</var> が +0 または -0 ならば、文字列 &quot;0&quot; を返す。</li>
+                    <li><var>m</var> が 0 未満ならば、文字 &quot;-&quot; と ToString(-m) を連結した文字列を返す。</li>
+                    <li><var>m</var> が無限数ならば文字列 &quot;Infinity&quot; を返す。</li>
+                    <li>そうでないならば、 <var>n</var>, <var>k</var>, <var>s</var> を、 <var>k</var> &ge; 1, <a
+                            href="10_Execution_Contexts.html#section-10">10</a><sup>k-1</sup> &le; <var>s</var> &lt;
+                        10<sup>k</sup>, <var>s</var> × 10<sup>n-k</sup> の数値が <var>m</var>, 可能な限り小さい <var>k</var>
+                        であるような整数とする。 <var>k</var> は <var>s</var> の 10 進表記の字数であること、 <var>s</var> は 10 で割りきれないこと、
+                        <var>s</var> の最小桁数字はこれらの基準によって必ずしも一意に決定されないことに注意。
+                    </li>
+                    <li><var>k</var> &le; <var>n</var> &le; 21 ならば、 <var>n</var>-k 個の文字 '0' の出現の続く、 <var>s</var> の 10
+                        進表記である <var>k</var> 個の数字 (0 は先行しない) で構成する文字列を返す。
+                    </li>
+                    <li>0 &lt; <var>n</var> &le; 21 ならば、最大桁 <var>s</var> の 10 進表記の <var>n</var> 個の数字, 小数点 '.',
+                        <var>s</var> の 10 進表記の残りの <var>k</var>-n 個の数字の続く文字列を返す。
+                    </li>
+                    <li>-6 &lt; <var>n</var> &le; 0 ならば、文字 '0', 小数点 '.', -n 個の文字 '0', <var>s</var> の 10 進表記である
+                        <var>k</var> の続く文字列を返す。
+                    </li>
+                    <li>そうでなければ、 <var>k</var> = 1 ならば、 <var>s</var> の単一の数字, 小文字 'e', <var>n</var>-1 の正負に従う正符号 '+' または負符号
+                        '-', 整数 abs(<var>n</var>-1) の 10 進表記 (0 は先行しない) の続く文字列を返す。
+                    </li>
+                    <li><var>s</var> の 10 進表記の最大桁の数字, 小数点 '.', <var>s</var> の 10 進表記の残り <var>k</var>-1 個の数字, 小文字 'e',
+                        <var>n</var>-1 の正負に従う正符号 '+' または負符号 '-', 整数 abs(<var>n</var>-1) の 10 進表記 (0 は先行しない) の続く文字列を返す。
+                    </li>
+                </ol>
+                <div class="note">
+                    <p><b>NOTE</b> 次の観察は実装ガイドラインとして有用かもしれないが、この標準の標準必須条件の一部ではない。</p>
+
+                    <p><var>x</var> が -0 以外の任意の数値ならば、 ToNumber(ToString(<var>x</var>)) は厳密に <var>x</var> と同じ数値である。</p>
+
+                    <p><var>s</var> の最小桁数字は、ステップ 5 に挙げた要求によって常に一意に決定されるとは限らない。</p>
+
+                    <p>上記の規則によって要求されるよりも拠り正確な規定を提供する実装には、次のステップ 5 の代替バージョンをガイドラインとして使用することが奨められる:</p>
+                    <blockquote><p>そうでないならば、 <var>n</var>, <var>k</var>, <var>s</var> を <var>k</var> ≧ 1, <a
+                            href="10_Execution_Contexts.html#section-10">10</a><sup>k-1</sup> ≦ <var>s</var> &lt; 10k,
+                        <var>s</var> × 10<sup>n-k</sup> の数値を <var>m</var>, <var>k</var> はできるだけ小さいような整数値とする。 <var>s</var>
+                        が複数存在しうるならば、 <var>s</var> × 10<sup>n-k</sup> が値で <var>m</var> に最も近くなるような <var>s</var> を選択する。
+                        <var>s</var> として可能な値が 2 つあれば、偶数である方をを選ぶ。 <var>k</var> は <var>s</var> の 10 進表記の数字の数で、
+                        <var>s</var> は 10 で割り切れないことに注意。</p></blockquote>
+                    <p>ECMAScript 実装者は、浮動小数点数の 2 進数から 10 進数への変換のために David <var>M</var>. Gay による役に立つペーパー及びコードを検索できる:</p>
+                    <blockquote><p>Gay, David <var>M</var>. Correctly Rounded Binary-Decimal and Decimal-Binary
+                        Conversions. Numerical Analysis Manuscript 90-10. AT&amp;T Bell Laboratories (Murray Hill, New
+                        Jersey). November 30, 1990. http://cm.bell-labs.com/cm/cs/doc/90/4-10.ps.gz で利用可能。関連コードが
+                        http://cm.bell-labs.com/netlib/fp/dtoa.c.gz 及び http://cm.bell-labs.com/netlib/fp/g_fmt.c.gz
+                        で利用可能。様々な netlib ミラーサイトでも検索できる。</p></blockquote>
+                </div>
+
+            </div>
+            <!-- END of 9.8.1 Body -->
+
+        </div>
+        <!-- END of 9.8.1 -->
+
+    </div>
+    <!-- END of 9.8 -->
+
+
+    <div class="section level2">
+        <h2 id="section-9.9">9.9 ToObject</h2>
+
+
+        <div class="body level2">
+            <p>ToObject 演算子は次の表に従って引数をオブジェクト型の値に変換する:</p>
+            <table>
+                <thead>
+                <tr>
+                    <td>入力型</td>
+                    <td>結果</td>
+                </tr>
+                </thead>
+                <tr>
+                    <td>Undefined</td>
+                    <td>例外 TypeError を投げる。</td>
+                </tr>
+                <tr>
+                    <td>Null</td>
+                    <td>例外 TypeError を投げる。</td>
+                </tr>
+                <tr>
+                    <td>Boolean</td>
+                    <td>[[value]] プロパティがそのブーリアンである Boolean オブジェクトを新しく作成する。 <a
+                            href="15-6_Boolean_Objects.html#section-15.6">セクション 15.6</a> Boolean オブジェクトの説明を参照。
+                    </td>
+                </tr>
+                <tr>
+                    <td>Number</td>
+                    <td>[[value]] プロパティがその数値である Number オブジェクトを新しく作成する。 <a href="15-7_Number_Objects.html#section-15.7">セクション
+                        15.7</a> Number オブジェクトの説明を参照。
+                    </td>
+                </tr>
+                <tr>
+                    <td>String</td>
+                    <td>[[value]] プロパティがその文字列である String オブジェクトを新しく作成する。 <a href="15-5_String_Objects.html#section-15.5">セクション
+                        15.5</a> String オブジェクトの説明を参照。
+                    </td>
+                </tr>
+                <tr>
+                    <td>Object</td>
+                    <td>結果は入力引数である (変換しない)。</td>
+                </tr>
+            </table>
+        </div>
+        <!-- END of 9.9 Body -->
+
+    </div>
+    <!-- END of 9.9 -->
+
+</div>
+<!-- END of 9 -->
+
+<h1>Page Contents</h1>
+<ul id="toc">
+    <li><a href="#section-9">9 型変換 (Type Conversion)</a>
+        <ul>
+            <li><a href="#section-9.1">9.1 ToPrimitive</a></li>
+            <li><a href="#section-9.2">9.2 ToBoolean</a></li>
+            <li><a href="#section-9.3">9.3 ToNumber</a>
+                <ul>
+                    <li><a href="#section-9.3.1">9.3.1 String 型に適用される ToNumber (ToNumber Applied to the String Type)</a>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#section-9.4">9.4 ToInteger</a></li>
+            <li><a href="#section-9.5">9.5 ToInt32: (Signed 32 Bit Integer)</a></li>
+            <li><a href="#section-9.6">9.6 ToUint32: (Unsigned 32 Bit Integer)</a></li>
+            <li><a href="#section-9.7">9.7 ToUint16: (Unsigned 16 Bit Integer)</a></li>
+            <li><a href="#section-9.8">9.8 ToString</a>
+                <ul>
+                    <li><a href="#section-9.8.1">9.8.1 Number 型に適用される ToString (ToString Applied to the Number Type)</a>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#section-9.9">9.9 ToObject</a></li>
+        </ul>
+    </li>
+</ul>
+
+<address>
+
+    Translate: <span>Sat May 18 09:43:24 2002</span>
+
+<span>TAKI &lt;<a rel="bookmark" title="Translator"
+                  href="mailto:TAKI%20%3Coz-07ams@mvh.biglobe.ne.jp%3E"
+        >oz-07ams&#64;mvh.biglobe.ne.jp</a>&gt;</span>
+
+</address>
+
+</body>
+
+</html>
+
+
+<!--
+     FILE ARCHIVED ON 17:59:51 Jul 24, 2014 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 16:14:47 Feb 6, 2015.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <title>15.11 Error オブジェクト (Error Objects)</title>
+
+
+    <link rel="stylesheet" title="Metagraphix Graytone" type="text/css" href="css/ecma.css" media="all"/>
+    <link rel="stylesheet" title="Metagraphix NN4" type="text/javascript" href="js/n4.js" media="screen"/>
+
+    <link rel="bookmark" title="Translator"
+          href="mailto:TAKI%20%3Coz-07ams&#64;mvh.biglobe.ne.jp%3E"/>
+    <link rel="bookmark" title="Site Top"
+          href="http://www2u.biglobe.ne.jp/%7Eoz-07ams/"/>
+    <link rel="start begin toc" title="ECMA-262 revision 3"
+          href="index.html"/>
+    <link rel="prev" title="15-10_RegExp_Objects"
+          href="15-10_RegExp_Objects.html"/>
+    <link rel="next" title="A_Grammar_Summary"
+          href="A_Grammar_Summary.html"/>
+
+    <link rev="alternate" title="Original Document (PDF format)"
+          type="application/pdf" hreflang="en"
+          href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%203rd%20edition,%20December%201999.pdf"/>
+
+
+</head>
+
+<body>
+
+
+<p>
+    <a href="#toc">本頁の目次</a>
+    <a rel="contents" href="">目次</a>
+    <a rel="next" href="A_Grammar_Summary.html">次頁: A_Grammar_Summary</a>
+    <a rel="prev" href="15-10_RegExp_Objects.html">前頁: 15-10_RegExp_Objects</a>
+</p>
+
+
+<div class="section level1">
+    <h1 id="section-15.11">15.11 Error オブジェクト (Error Objects)</h1>
+
+
+    <div class="body level1">
+        <p>実行時エラーが発生したとき、Error オブジェクトのインスタンスが例外として投げられる。 Error オブジェクトはユーザ定義の例外クラスのための基本オブジェクトとして出されてもよい。</p>
+    </div>
+    <!-- END of 15.11 Body -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.11.1">15.11.1 関数として呼ばれる Error コンストラクタ (The Error Constructor Called as a Function)</h2>
+
+
+        <div class="body level2">
+            <p>コンストラクタとしてではなく関数として Error が呼ばれるとき、それは新しい Error オブジェクトを生成して初期化する。それゆえ関数呼出し Error(...) は、同じ引数を持つオブジェクト生成式
+                <code class="keyword">new</code> Error(...) と等価である。</p>
+        </div>
+        <!-- END of 15.11.1 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.1.1">15.11.1.1 Error (message)</h3>
+
+
+            <div class="body level3">
+                <p>新規に構築されたオブジェクトの [[Prototype]] プロパティは、 Error.prototype (<a
+                        href="15-11_Error_Objects.html#section-15.11.3.1">セクション 15.11.3.1</a>) の初期値である、オリジナルの Error
+                    プロトタイプオブジェクトに設定される。</p>
+
+                <p>新規に構築されたオブジェクトの [[Class]] プロパティは、 &quot;Error&quot; に設定される。</p>
+
+                <p>引数 <var>message</var> が undefined でないならば、新規に構築されたオブジェクトの <var>message</var> プロパティは、 ToString(<var>message</var>)
+                    に設定される。</p>
+            </div>
+            <!-- END of 15.11.1.1 Body -->
+
+        </div>
+        <!-- END of 15.11.1.1 -->
+
+    </div>
+    <!-- END of 15.11.1 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.11.2">15.11.2 Error コンストラクタ (The Error Constructor)</h2>
+
+
+        <div class="body level2">
+            <p>Error が <code class="keyword">new</code> 式の一部として呼出されるとき、それはコンストラクタである: それは新規に生成されたオブジェクトを初期化する。</p>
+        </div>
+        <!-- END of 15.11.2 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.2.1">15.11.2.1 new Error (message)</h3>
+
+
+            <div class="body level3">
+                <p>新規に構築されたオブジェクトの [[Prototype]] プロパティは、 Error.prototype (<a
+                        href="15-11_Error_Objects.html#section-15.11.3.1">セクション 15.11.3.1</a>) の初期値である、オリジナルの Error
+                    プロトタイプオブジェクトに設定される。</p>
+
+                <p>新規に構築されたオブジェクトの [[Class]] プロパティは、 &quot;Error&quot; に設定される。</p>
+
+                <p>引数 <var>message</var> が undefined でないならば、新規に構築されたオブジェクトの <var>message</var> プロパティは、 ToString(<var>message</var>)
+                    に設定される。</p>
+            </div>
+            <!-- END of 15.11.2.1 Body -->
+
+        </div>
+        <!-- END of 15.11.2.1 -->
+
+    </div>
+    <!-- END of 15.11.2 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.11.3">15.11.3 Error コンストラクタのプロパティ (Properties of the Error Constructor)</h2>
+
+
+        <div class="body level2">
+            <p>Error コンストラクタの内部 [[Prototype]] プロパティの値は、 Function プロトタイプオブジェクト (<a
+                    href="15-3_Function_Objects.html#section-15.3.4">セクション 15.3.4</a>) である。</p>
+
+            <p>内部プロパティと length プロパティ (値は 1) の他に、 Error コンストラクタは次のプロパティを持つ:</p>
+        </div>
+        <!-- END of 15.11.3 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.3.1">15.11.3.1 Error.prototype</h3>
+
+
+            <div class="body level3">
+                <p>Error.prototype の初期値は、 Error プロトタイプオブジェクト (<a href="15-11_Error_Objects.html#section-15.11.4">セクション
+                    15.11.4</a>) である。</p>
+
+                <p>このプロパティは、属性 { DontEnum, DontDelete, ReadOnly } を持つ。</p>
+            </div>
+            <!-- END of 15.11.3.1 Body -->
+
+        </div>
+        <!-- END of 15.11.3.1 -->
+
+    </div>
+    <!-- END of 15.11.3 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.11.4">15.11.4 Error プロトタイプオブジェクトのプロパティ</h2>
+
+
+        <div class="body level2">
+            <p>Error プロトタイプオブジェクトは、それ自身が Error オブジェクト ([[Class]] が &quot;Error&quot;) である。</p>
+
+            <p>Error プロトタイプオブジェクトの内部 [[Prototype]] プロパティの値は、 Object プロトタイプオブジェクト (<a
+                    href="15-2_Object_Objects.html#section-15.2.3.1">セクション 15.2.3.1</a>) である。</p>
+        </div>
+        <!-- END of 15.11.4 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.4.1">15.11.4.1 Error.prototype.constructor</h3>
+
+
+            <div class="body level3">
+                <p>Error.prototype.constructor の初期値は、組込み Error コンストラクタである。</p>
+            </div>
+            <!-- END of 15.11.4.1 Body -->
+
+        </div>
+        <!-- END of 15.11.4.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.4.2">15.11.4.2 Error.prototype.name</h3>
+
+
+            <div class="body level3">
+                <p>Error.prototype.name の初期値は、 &quot;Error&quot; である。</p>
+            </div>
+            <!-- END of 15.11.4.2 Body -->
+
+        </div>
+        <!-- END of 15.11.4.2 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.4.3">15.11.4.3 Error.prototype.message</h3>
+
+
+            <div class="body level3">
+                <p>Error.prototype.message の初期値は、実装依存の文字列である。</p>
+            </div>
+            <!-- END of 15.11.4.3 Body -->
+
+        </div>
+        <!-- END of 15.11.4.3 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.4.4">15.11.4.4 Error.prototype.toString ( )</h3>
+
+
+            <div class="body level3">
+                <p>実装が定義した文字列を返す。</p>
+            </div>
+            <!-- END of 15.11.4.4 Body -->
+
+        </div>
+        <!-- END of 15.11.4.4 -->
+
+    </div>
+    <!-- END of 15.11.4 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.11.5">15.11.5 Error インスタンスのプロパティ</h2>
+
+
+        <div class="body level2">
+            <p>Error インスタンスは、 Error プロトタイプオブジェクトから継承するものの上に特にプロパティを持たない。</p>
+        </div>
+        <!-- END of 15.11.5 Body -->
+
+    </div>
+    <!-- END of 15.11.5 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.11.6">15.11.6 この標準において使用されるネイティブエラー型 (Native Error Types Used in This Standard)</h2>
+
+
+        <div class="body level2">
+            <p>実行時エラーが検出されたとき、下記の NativeError オブジェクトの一つが投げられる。これらのオブジェクトは全て、<a
+                    href="15-11_Error_Objects.html#section-15.11.7">セクション 15.11.7</a> に述べたような同じ構造を共有する。</p>
+        </div>
+        <!-- END of 15.11.6 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.6.1">15.11.6.1 EvalError</h3>
+
+
+            <div class="body level3">
+                <p>定義に沿わない方法でグローバル関数 eval が使用された事を示す。<a href="15-1_Global_Object.html#section-15.1.2.1">セクション
+                    15.1.2.1</a> 参照。</p>
+            </div>
+            <!-- END of 15.11.6.1 Body -->
+
+        </div>
+        <!-- END of 15.11.6.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.6.2">15.11.6.2 RangeError</h3>
+
+
+            <div class="body level3">
+                <p>Indicates a 数値が許可された範囲を超過したことを示す。<a href="15-4_Array_Objects.html#section-15.4.2.2">セクション
+                    15.4.2.2</a>, <a href="15-4_Array_Objects.html#section-15.4.5.1">15.4.5.1</a>, <a
+                        href="15-7_Number_Objects.html#section-15.7.4.5">15.7.4.5</a>, <a
+                        href="15-7_Number_Objects.html#section-15.7.4.6">15.7.4.6</a>, <a
+                        href="15-7_Number_Objects.html#section-15.7.4.7">15.7.4.7</a> 参照。</p>
+            </div>
+            <!-- END of 15.11.6.2 Body -->
+
+        </div>
+        <!-- END of 15.11.6.2 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.6.3">15.11.6.3 ReferenceError</h3>
+
+
+            <div class="body level3">
+                <p>不正な reference 値が検出されたことを示す。<a href="8_Types.html#section-8.7.1">セクション 8.7.1</a>, <a
+                        href="8_Types.html#section-8.7.2">8.7.2</a> 参照。</p>
+            </div>
+            <!-- END of 15.11.6.3 Body -->
+
+        </div>
+        <!-- END of 15.11.6.3 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.6.4">15.11.6.4 SyntaxError</h3>
+
+
+            <div class="body level3">
+                <p>解析エラーが発生したことを示す。<a href="15-1_Global_Object.html#section-15.1.2.1">セクション 15.1.2.1</a>, <a
+                        href="15-3_Function_Objects.html#section-15.3.2.1">15.3.2.1</a>, <a
+                        href="15-10_RegExp_Objects.html#section-15.10.2.5">15.10.2.5</a>, <a
+                        href="15-10_RegExp_Objects.html#section-15.10.2.9">15.10.2.9</a>, <a
+                        href="15-10_RegExp_Objects.html#section-15.10.2.15">15.10.2.15</a>, <a
+                        href="15-10_RegExp_Objects.html#section-15.10.2.19">15.10.2.19</a>, <a
+                        href="15-10_RegExp_Objects.html#section-15.10.4.1">15.10.4.1</a> 参照。</p>
+            </div>
+            <!-- END of 15.11.6.4 Body -->
+
+        </div>
+        <!-- END of 15.11.6.4 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.6.5">15.11.6.5 TypeError</h3>
+
+
+            <div class="body level3">
+                <p>オペランドの実際の型が期待されたものと異なることを示す。<a href="8_Types.html#section-8.6.2">セクション 8.6.2</a>, <a
+                        href="8_Types.html#section-8.6.2.6">8.6.2.6</a>, <a href="9_Type_Conversion.html#section-9.9">9.9</a>,
+                    <a href="11_Expressions.html#section-11.2.2">11.2.2</a>, <a
+                            href="11_Expressions.html#section-11.2.3">11.2.3</a>, <a
+                            href="11_Expressions.html#section-11.8.6">11.8.6</a>, <a
+                            href="11_Expressions.html#section-11.8.7">11.8.7</a>, <a
+                            href="15-3_Function_Objects.html#section-15.3.4.2">15.3.4.2</a>, <a
+                            href="15-3_Function_Objects.html#section-15.3.4.3">15.3.4.3</a>, <a
+                            href="15-3_Function_Objects.html#section-15.3.4.4">15.3.4.4</a>, <a
+                            href="15-3_Function_Objects.html#section-15.3.5.3">15.3.5.3</a>, <a
+                            href="15-4_Array_Objects.html#section-15.4.4.2">15.4.4.2</a>, <a
+                            href="15-4_Array_Objects.html#section-15.4.4.3">15.4.4.3</a>, <a
+                            href="15-5_String_Objects.html#section-15.5.4.2">15.5.4.2</a>, <a
+                            href="15-5_String_Objects.html#section-15.5.4.3">15.5.4.3</a>, <a
+                            href="15-6_Boolean_Objects.html#section-15.6.4">15.6.4</a>, <a
+                            href="15-6_Boolean_Objects.html#section-15.6.4.2">15.6.4.2</a>, <a
+                            href="15-6_Boolean_Objects.html#section-15.6.4.3">15.6.4.3</a>, <a
+                            href="15-7_Number_Objects.html#section-15.7.4">15.7.4</a>, <a
+                            href="15-7_Number_Objects.html#section-15.7.4.2">15.7.4.2</a>, <a
+                            href="15-7_Number_Objects.html#section-15.7.4.4">15.7.4.4</a>, <a
+                            href="15-9_Date_Objects.html#section-15.9.5">15.9.5</a>, <a
+                            href="15-9_Date_Objects.html#section-15.9.5.9">15.9.5.9</a>, <a
+                            href="15-9_Date_Objects.html#section-15.9.5.27">15.9.5.27</a>, <a
+                            href="15-10_RegExp_Objects.html#section-15.10.4.1">15.10.4.1</a>, <a
+                            href="15-10_RegExp_Objects.html#section-15.10.6">15.10.6</a> を参照。</p>
+            </div>
+            <!-- END of 15.11.6.5 Body -->
+
+        </div>
+        <!-- END of 15.11.6.5 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.6.6">15.11.6.6 URIError</h3>
+
+
+            <div class="body level3">
+                <p>グローバル URI ハンドリング関数の一つが、定義に沿わない方法で使用されたことを示す。<a href="15-1_Global_Object.html#section-15.1.3">セクション
+                    15.1.3</a> 参照。</p>
+            </div>
+            <!-- END of 15.11.6.6 Body -->
+
+        </div>
+        <!-- END of 15.11.6.6 -->
+
+    </div>
+    <!-- END of 15.11.6 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.11.7">15.11.7 NativeError オブジェクトの構造 (NativeError Object Structure)</h2>
+
+
+        <div class="body level2">
+            <p>ECMAScript 実装が実行時エラーを検出したとき、<a href="15-11_Error_Objects.html#section-15.11.6">セクション 15.11.6</a> に定義される
+                NativeError オブジェクトの一つのインスタンスを投げる。これらのオブジェクトのそれぞれは下に述べる構造をもち、プロトタイプオブジェクトの name
+                プロパティ、およびプロトタイプオブジェクトの実装依存の message プロパティにおいて NativeError の代わりにコンストラクタ名として使用される名前だけが異なる。</p>
+
+            <p>エラーオブジェクトのそれぞれについて、定義内の NativeError の reference は、<a href="15-11_Error_Objects.html#section-15.11.6">セクション
+                15.11.6</a> からの適切なエラーオブジェクト名で置換されるべきである。</p>
+        </div>
+        <!-- END of 15.11.7 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.7.1">15.11.7.1 関数として呼ばれる NativeError コンストラクタ (NativeError Constructors Called as
+                Functions)</h3>
+
+
+            <div class="body level3">
+                <p>コンストラクタとしてではなく関数として NativeError
+                    が呼ばれるとき、それは新しいオブジェクトを生成して初期化する。オブジェクトの関数としての呼出しは、同じ引数を持つコンストラクタ呼出しと等価である。</p>
+            </div>
+            <!-- END of 15.11.7.1 Body -->
+
+        </div>
+        <!-- END of 15.11.7.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.7.2">15.11.7.2 NativeError (message)</h3>
+
+
+            <div class="body level3">
+                <p>新規に構築されたオブジェクトの [[Prototype]] プロパティは、このエラーコンストラクタのプロトタイプオブジェクトである。新規に構築されたオブジェクトの [[Class]] プロパティは、
+                    &quot;Error&quot; に設定される。</p>
+
+                <p>引数 <var>message</var> が undefined でないならば、新規に構築されたオブジェクトの <var>message</var> プロパティは、 ToString(<var>message</var>)
+                    に設定される。</p>
+            </div>
+            <!-- END of 15.11.7.2 Body -->
+
+        </div>
+        <!-- END of 15.11.7.2 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.7.3">15.11.7.3 NativeError コンストラクタ (NativeError Constructors)</h3>
+
+
+            <div class="body level3">
+                <p>NativeError コンストラクタが <code class="keyword">new</code> 式の一部として呼出されるとき、それはコンストラクタである:
+                    それは新規に生成されたオブジェクトを初期化する。</p>
+            </div>
+            <!-- END of 15.11.7.3 Body -->
+
+        </div>
+        <!-- END of 15.11.7.3 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.7.4">15.11.7.4 New NativeError (message)</h3>
+
+
+            <div class="body level3">
+                <p>新規に構築されたオブジェクトの [[Prototype]] プロパティは、NativeError コンストラクタのプロトタイプオブジェクトに設定される。新規に構築されたオブジェクトの [[Class]]
+                    プロパティは、 &quot;Error&quot; に設定される。</p>
+
+                <p>引数 <var>message</var> が undefined でないならば、新規に構築されたオブジェクトの <var>message</var> プロパティは、 ToString(<var>message</var>)
+                    に設定される。</p>
+            </div>
+            <!-- END of 15.11.7.4 Body -->
+
+        </div>
+        <!-- END of 15.11.7.4 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.7.5">15.11.7.5 NativeError コンストラクタのプロパティ (Properties of the NativeError
+                Constructors)</h3>
+
+
+            <div class="body level3">
+                <p>NativeError コンストラクタの内部 [[Prototype]] プロパティの値は、 Function プロトタイプオブジェクト (<a
+                        href="15-3_Function_Objects.html#section-15.3.4">セクション 15.3.4</a>) である。</p>
+
+                <p>内部プロパティと length プロパティ (値は 1 ) の他に、各 NativeError コンストラクタは次のプロパティを持つ:</p>
+            </div>
+            <!-- END of 15.11.7.5 Body -->
+
+        </div>
+        <!-- END of 15.11.7.5 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.7.6">15.11.7.6 NativeError.prototype</h3>
+
+
+            <div class="body level3">
+                <p>NativeError.prototype の初期値は、 NativeError プロトタイプオブジェクト (<a
+                        href="15-11_Error_Objects.html#section-15.11.7.7">セクション 15.11.7.7</a>) である。各 NativeError
+                    コンストラクタは別個のプロトタイプオブジェクトを持つ。</p>
+
+                <p>このプロパティは、属性 { DontEnum, DontDelete, ReadOnly } を持つ。</p>
+            </div>
+            <!-- END of 15.11.7.6 Body -->
+
+        </div>
+        <!-- END of 15.11.7.6 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.7.7">15.11.7.7 NativeError プロトタイプオブジェクトのプロパティ (Properties of the NativeError Prototype
+                Objects)</h3>
+
+
+            <div class="body level3">
+                <p>各 NativeError プロトタイプオブジェクトは、 Error オブジェクト ([[Class]] が &quot;Error&quot;) である。</p>
+
+                <p>各 NativeError プロトタイプオブジェクトの内部 [[Prototype]] プロパティの値は、 Error プロトタイプオブジェクト (<a
+                        href="15-11_Error_Objects.html#section-15.11.4">セクション 15.11.4</a>) である。</p>
+            </div>
+            <!-- END of 15.11.7.7 Body -->
+
+        </div>
+        <!-- END of 15.11.7.7 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.7.8">15.11.7.8 NativeError.prototype.constructor</h3>
+
+
+            <div class="body level3">
+                <p>与えられた NativeError コンストラクタのプロトタイプの constructor プロパティの初期値は、 NativeError コンストラクタ関数自身 (<a
+                        href="15-11_Error_Objects.html#section-15.11.7">セクション 15.11.7</a>) である。</p>
+            </div>
+            <!-- END of 15.11.7.8 Body -->
+
+        </div>
+        <!-- END of 15.11.7.8 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.7.9">15.11.7.9 NativeError.prototype.name</h3>
+
+
+            <div class="body level3">
+                <p>与えられた NativeError コンストラクタのプロトタイプの name プロパティの初期値は、 コンストラクタの名前 (NativeError の代わりに使われる名前) である。</p>
+            </div>
+            <!-- END of 15.11.7.9 Body -->
+
+        </div>
+        <!-- END of 15.11.7.9 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.7.10">15.11.7.10 NativeError.prototype.message</h3>
+
+
+            <div class="body level3">
+                <p>与えられた NativeError コンストラクタのプロトタイプの message プロパティの初期値は、実装依存の文字列である。</p>
+
+                <div class="note">
+                    <p><b>NOTE</b> NativeError コンストラクタのプロトタイプは独自の toString 関数を持たないが、エラーのインスタンスはそれを Error
+                        プロトタイプオブジェクトから継承する</p>
+                </div>
+
+            </div>
+            <!-- END of 15.11.7.10 Body -->
+
+        </div>
+        <!-- END of 15.11.7.10 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.11.7.11">15.11.7.11 NativeError インスタンスのプロパティ (Properties of NativeError Instances)</h3>
+
+
+            <div class="body level3">
+                <p>NativeError インスタンスは、 Error プロトタイプオブジェクトから継承するものの上に特にプロパティを持たない。</p>
+            </div>
+            <!-- END of 15.11.7.11 Body -->
+
+        </div>
+        <!-- END of 15.11.7.11 -->
+
+    </div>
+    <!-- END of 15.11.7 -->
+
+</div>
+<!-- END of 15.11 -->
+
+<h1>Page Contents</h1>
+<ul id="toc">
+    <li><a href="#section-15.11">15.11 Error オブジェクト (Error Objects)</a>
+        <ul>
+            <li><a href="#section-15.11.1">15.11.1 関数として呼ばれる Error コンストラクタ (The Error Constructor Called as a
+                Function)</a>
+                <ul>
+                    <li><a href="#section-15.11.1.1">15.11.1.1 Error (message)</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.11.2">15.11.2 Error コンストラクタ (The Error Constructor)</a>
+                <ul>
+                    <li><a href="#section-15.11.2.1">15.11.2.1 new Error (message)</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.11.3">15.11.3 Error コンストラクタのプロパティ (Properties of the Error Constructor)</a>
+                <ul>
+                    <li><a href="#section-15.11.3.1">15.11.3.1 Error.prototype</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.11.4">15.11.4 Error プロトタイプオブジェクトのプロパティ</a>
+                <ul>
+                    <li><a href="#section-15.11.4.1">15.11.4.1 Error.prototype.constructor</a></li>
+                    <li><a href="#section-15.11.4.2">15.11.4.2 Error.prototype.name</a></li>
+                    <li><a href="#section-15.11.4.3">15.11.4.3 Error.prototype.message</a></li>
+                    <li><a href="#section-15.11.4.4">15.11.4.4 Error.prototype.toString ( )</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.11.5">15.11.5 Error インスタンスのプロパティ</a></li>
+            <li><a href="#section-15.11.6">15.11.6 この標準において使用されるネイティブエラー型 (Native Error Types Used in This Standard)</a>
+                <ul>
+                    <li><a href="#section-15.11.6.1">15.11.6.1 EvalError</a></li>
+                    <li><a href="#section-15.11.6.2">15.11.6.2 RangeError</a></li>
+                    <li><a href="#section-15.11.6.3">15.11.6.3 ReferenceError</a></li>
+                    <li><a href="#section-15.11.6.4">15.11.6.4 SyntaxError</a></li>
+                    <li><a href="#section-15.11.6.5">15.11.6.5 TypeError</a></li>
+                    <li><a href="#section-15.11.6.6">15.11.6.6 URIError</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.11.7">15.11.7 NativeError オブジェクトの構造 (NativeError Object Structure)</a>
+                <ul>
+                    <li><a href="#section-15.11.7.1">15.11.7.1 関数として呼ばれる NativeError コンストラクタ (NativeError Constructors
+                        Called as Functions)</a></li>
+                    <li><a href="#section-15.11.7.2">15.11.7.2 NativeError (message)</a></li>
+                    <li><a href="#section-15.11.7.3">15.11.7.3 NativeError コンストラクタ (NativeError Constructors)</a></li>
+                    <li><a href="#section-15.11.7.4">15.11.7.4 New NativeError (message)</a></li>
+                    <li><a href="#section-15.11.7.5">15.11.7.5 NativeError コンストラクタのプロパティ (Properties of the NativeError
+                        Constructors)</a></li>
+                    <li><a href="#section-15.11.7.6">15.11.7.6 NativeError.prototype</a></li>
+                    <li><a href="#section-15.11.7.7">15.11.7.7 NativeError プロトタイプオブジェクトのプロパティ (Properties of the
+                        NativeError Prototype Objects)</a></li>
+                    <li><a href="#section-15.11.7.8">15.11.7.8 NativeError.prototype.constructor</a></li>
+                    <li><a href="#section-15.11.7.9">15.11.7.9 NativeError.prototype.name</a></li>
+                    <li><a href="#section-15.11.7.10">15.11.7.10 NativeError.prototype.message</a></li>
+                    <li><a href="#section-15.11.7.11">15.11.7.11 NativeError インスタンスのプロパティ (Properties of NativeError
+                        Instances)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<address>
+
+    Translate: <span>Sun Apr  7 08:52:56 2002</span>
+
+<span>TAKI &lt;<a rel="bookmark" title="Translator"
+                  href="mailto:TAKI%20%3Coz-07ams@mvh.biglobe.ne.jp%3E"
+        >oz-07ams&#64;mvh.biglobe.ne.jp</a>&gt;</span>
+
+</address>
+
+</body>
+
+</html>
+
+
+<!--
+     FILE ARCHIVED ON 21:19:35 Aug 2, 2014 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 16:15:06 Feb 6, 2015.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->

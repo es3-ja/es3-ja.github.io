@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <title>15.8 Math オブジェクト (The Math Object)</title>
+
+
+    <link rel="stylesheet" title="Metagraphix Graytone" type="text/css" href="css/ecma.css" media="all"/>
+    <link rel="stylesheet" title="Metagraphix NN4" type="text/javascript" href="js/n4.js" media="screen"/>
+
+    <link rel="bookmark" title="Translator"
+          href="mailto:TAKI%20%3Coz-07ams&#64;mvh.biglobe.ne.jp%3E"/>
+    <link rel="bookmark" title="Site Top"
+          href="http://www2u.biglobe.ne.jp/%7Eoz-07ams/"/>
+    <link rel="start begin toc" title="ECMA-262 revision 3"
+          href="index.html"/>
+    <link rel="prev" title="15-7_Number_Objects"
+          href="15-7_Number_Objects.html"/>
+    <link rel="next" title="15-9_Date_Objects"
+          href="15-9_Date_Objects.html"/>
+
+    <link rev="alternate" title="Original Document (PDF format)"
+          type="application/pdf" hreflang="en"
+          href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%203rd%20edition,%20December%201999.pdf"/>
+
+
+</head>
+
+<body>
+
+
+<p>
+    <a href="#toc">本頁の目次</a>
+    <a rel="contents" href="">目次</a>
+    <a rel="next" href="15-9_Date_Objects.html">次頁: 15-9_Date_Objects</a>
+    <a rel="prev" href="15-7_Number_Objects.html">前頁: 15-7_Number_Objects</a>
+</p>
+
+
+<div class="section level1">
+    <h1 id="section-15.8">15.8 Math オブジェクト (The Math Object)</h1>
+
+
+    <div class="body level1">
+        <p>Math オブジェクトは、関数であるものもある名前のついたプロパティを持つ、単一のオブジェクトである。</p>
+
+        <p>Math オブジェクトの内部 [[Prototype]] プロパティの値は、 Object プロトタイプオブジェクトである (<a
+                href="15-2_Object_Objects.html#section-15.2.3.1">セクション 15.2.3.1</a>)。 Math オブジェクトの内部 [[Class]] プロパティの値は、
+            &quot;Math&quot; である。</p>
+
+        <p>Math オブジェクトは [[Construct]] プロパティを持たない; Math オブジェクトを <code class="keyword">new</code> 式でコンストラクタとして使用することは出来ない。
+        </p>
+
+        <p>Math オブジェクトは [[Call]] プロパティを持たない; Math オブジェクトを関数として呼出すことは出来ない。</p>
+
+        <div class="note">
+            <p><b>NOTE</b> 本仕様において、フレーズ &quot;x の数値&quot; は<a href="8_Types.html#section-8.5">セクション 8.5</a>
+                に定義する技術的な意味を持つ。</p>
+        </div>
+
+    </div>
+    <!-- END of 15.8 Body -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.8.1">15.8.1 Math オブジェクトの値プロパティ (Value Properties of the Math Object)</h2>
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.1.1">15.8.1.1 E</h3>
+
+
+            <div class="body level3">
+                <p>自然対数の低 <var>e</var> の数値であり、おおよそ 2.7182818284590452354 である。</p>
+
+                <p>このプロパティは、属性 { DontEnum, DontDelete, ReadOnly } を持つ。</p>
+            </div>
+            <!-- END of 15.8.1.1 Body -->
+
+        </div>
+        <!-- END of 15.8.1.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.1.2">15.8.1.2 LN10</h3>
+
+
+            <div class="body level3">
+                <p>10 の自然対数の数値であり、おおよそ 2.302585092994046 である。</p>
+
+                <p>このプロパティは、属性 { DontEnum, DontDelete, ReadOnly } を持つ。</p>
+            </div>
+            <!-- END of 15.8.1.2 Body -->
+
+        </div>
+        <!-- END of 15.8.1.2 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.1.3">15.8.1.3 LN2</h3>
+
+
+            <div class="body level3">
+                <p>2 の自然対数の数値であり、おおよそ 0.6931471805599453 である。</p>
+
+                <p>このプロパティは、属性 { DontEnum, DontDelete, ReadOnly } を持つ。</p>
+            </div>
+            <!-- END of 15.8.1.3 Body -->
+
+        </div>
+        <!-- END of 15.8.1.3 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.1.4">15.8.1.4 LOG2E</h3>
+
+
+            <div class="body level3">
+                <p>2 を低とする、自然対数の低 <var>e</var> の対数の数値; この値はおおよそ 1.4426950408889634 である。</p>
+
+                <p>このプロパティは、属性 { DontEnum, DontDelete, ReadOnly } を持つ。</p>
+
+                <div class="note">
+                    <p><b>NOTE</b> Math.LOG2E の値はおおよそ Math.LN2 の値の逆数である。</p>
+                </div>
+
+            </div>
+            <!-- END of 15.8.1.4 Body -->
+
+        </div>
+        <!-- END of 15.8.1.4 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.1.5">15.8.1.5 LOG10E</h3>
+
+
+            <div class="body level3">
+                <p>10 を低とする、自然対数の低 <var>e</var> の対数の数値; この値はおおよそ 0.4342944819032518 である。</p>
+
+                <p>このプロパティは、属性 { DontEnum, DontDelete, ReadOnly } を持つ。</p>
+
+                <div class="note">
+                    <p><b>NOTE</b> Math.LOG10E の値は、おおよそ Math.LN10 の値の逆数である。</p>
+                </div>
+
+            </div>
+            <!-- END of 15.8.1.5 Body -->
+
+        </div>
+        <!-- END of 15.8.1.5 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.1.6">15.8.1.6 PI</h3>
+
+
+            <div class="body level3">
+                <p>&pi;, 直径に対する円周の比 の数値であり、おおよそ 3.1415926535897932 である。</p>
+
+                <p>このプロパティは、属性 { DontEnum, DontDelete, ReadOnly } を持つ。</p>
+            </div>
+            <!-- END of 15.8.1.6 Body -->
+
+        </div>
+        <!-- END of 15.8.1.6 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.1.7">15.8.1.7 SQRT1_2</h3>
+
+
+            <div class="body level3">
+                <p>1/2 の平方根の数値であり、おおよそ 0.7071067811865476 である。</p>
+
+                <p>このプロパティは、属性 { DontEnum, DontDelete, ReadOnly } を持つ。</p>
+
+                <div class="note">
+                    <p><b>NOTE</b> Math.SQRT1_2 の値は、おおよそ Math.SQRT2 の値の逆数である。</p>
+                </div>
+
+            </div>
+            <!-- END of 15.8.1.7 Body -->
+
+        </div>
+        <!-- END of 15.8.1.7 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.1.8">15.8.1.8 SQRT2</h3>
+
+
+            <div class="body level3">
+                <p>2 の平方根の数値であり、おおよそ 1.4142135623730951 である。</p>
+
+                <p>このプロパティは、属性 { DontEnum, DontDelete, ReadOnly } を持つ。</p>
+            </div>
+            <!-- END of 15.8.1.8 Body -->
+
+        </div>
+        <!-- END of 15.8.1.8 -->
+
+    </div>
+    <!-- END of 15.8.1 -->
+
+
+    <div class="section level2">
+        <h2 id="section-15.8.2">15.8.2 Math オブジェクトの関数プロパティ (Function Properties of the Math Object)</h2>
+
+
+        <div class="body level2">
+            <p>このセクションにあける各関数は、引数のそれぞれについて (2 個以上の場合は左から右の順に) ToNumber 演算子を適用し、そして結果の数値上で計算を行う。</p>
+
+            <p>下に説明する関数において、記号 NaN, -0, +0, -∞, +∞ は、<a href="8_Types.html#section-8.5">セクション 8.5</a> に述べる数値を参照する。</p>
+
+            <div class="note">
+                <p><b>NOTE</b> 関数 acos, asin, atan, atan2, cos, exp, log, pow, sin, sqrt
+                    の振る舞いは、重要な境界値をあらわすある種の引数値に対して規定の結果を要求するだけで、他は正確にはここには規定されない。他の引数値については、これらの関数は、ありふれた数学関数の結果の近似値の算出が意図されるが、近似のアルゴリズムの選択においてある程度の自由度が許される。実装者は、与えられたハードウェアプラットフォーム上で
+                    <var>C</var> プログラマが利用可能なものと同じ ECMAScript の数学ライブラリを使用できるべきであると一般的に意図される。</p>
+            </div>
+
+            <p>アルゴリズムの選択が実装に残されたとはいえ、実装は、 Sun Microsystems による自由配布可能な数学ライプラリ(fdlibm-comment@sunpro.eng.sun.com) fdlibm
+                に含まれる IEEE 754 算数に近似値アルゴリズムを使用することを推奨される (この標準で規定はされない) 。本仕様はまた、重要な境界値をあらわすある種の引数値に対して規定の結果を要求する。</p>
+        </div>
+        <!-- END of 15.8.2 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.1">15.8.2.1 abs (x)</h3>
+
+
+            <div class="body level3">
+                <p><var>x</var> の絶対値を返す; 結果は <var>x</var> と同じ大きさで、正符号を持つ。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が -0 ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が -∞ ならば、 結果は +∞ である。</li>
+                </ul>
+            </div>
+            <!-- END of 15.8.2.1 Body -->
+
+        </div>
+        <!-- END of 15.8.2.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.2">15.8.2.2 acos (x)</h3>
+
+
+            <div class="body level3">
+                <p>実装依存で <var>x</var> のアークコサインの近似値を返す。結果はラジアンで表現され、 +0 から +∞ の範囲である。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が 1 より大きいならば、 結果は NaN である。</li>
+                    <li><var>x</var> が -1 より小さいならば、 結果は NaN である。</li>
+                    <li><var>x</var> が厳密に 1 ならば、 結果は +0 である。</li>
+                </ul>
+            </div>
+            <!-- END of 15.8.2.2 Body -->
+
+        </div>
+        <!-- END of 15.8.2.2 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.3">15.8.2.3 asin (x)</h3>
+
+
+            <div class="body level3">
+                <p>実装依存で <var>x</var> のアークサインの近似値を返す。結果はラジアンで表現され、 -&pi;/2 から +&pi;/2 の範囲である。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が 1 より大きいならば、 結果は NaN である。</li>
+                    <li><var>x</var> が -1 未満ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が +0 ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が -0 ならば、 結果は -0 である。</li>
+                </ul>
+            </div>
+            <!-- END of 15.8.2.3 Body -->
+
+        </div>
+        <!-- END of 15.8.2.3 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.4">15.8.2.4 atan (x)</h3>
+
+
+            <div class="body level3">
+                <p>実装依存で <var>x</var> のアークタンジェントの近似値を返す。結果はラジアンで表現され、 -&pi;/2 から +&pi;/2 の範囲である。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が +0 ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が -0 ならば、 結果は -0 である。</li>
+                    <li><var>x</var> が +∞ ならば、 結果は実装依存の +&pi;/2 の近似値である。</li>
+                    <li><var>x</var> が -∞ ならば、 結果は実装依存の -&pi;/2 の近似値である。</li>
+                </ul>
+            </div>
+            <!-- END of 15.8.2.4 Body -->
+
+        </div>
+        <!-- END of 15.8.2.4 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.5">15.8.2.5 atan2 (y, x)</h3>
+
+
+            <div class="body level3">
+                <p>引数 <var>y</var> と <var>x</var> の商 <var>y</var>/<var>x</var> のアークタンジェントを実装依存の近似値で返す。 <var>y</var> と
+                    <var>x</var> の符号は結果の四分円の決定に使用される。故意に、また伝統的に、引数 2 つのアークタンジェント関数は一つ目の引数が <var>y</var> で 2 番目が
+                    <var>x</var> であることに注意。 結果はラジアンで表され、 -∞ から +∞ の範囲である。</p>
+                <ul>
+                    <li><var>x</var> と <var>y</var> のどちらかが NaN ならば、 結果は NaN である。</li>
+                    <li><var>y</var>&gt;0 かつ <var>x</var> が +0 ならば、 結果は実装依存の +&pi;/2 の近似値である。</li>
+                    <li><var>y</var>&gt;0 かつ <var>x</var> が -0 ならば、 結果は実装依存の +&pi;/2 の近似値である。</li>
+                    <li><var>y</var> が +0 かつ <var>x</var>&gt;0 ならば、 結果は +0 の近似値である。</li>
+                    <li><var>y</var> が +0 かつ <var>x</var> が +0 ならば、 結果は +0 の近似値である。</li>
+                    <li><var>y</var> が +0 かつ <var>x</var> が -0 ならば、 結果は実装依存の +&pi; の近似値である。</li>
+                    <li><var>y</var> が +0 かつ <var>x</var>&lt;0 ならば、 結果は実装依存の +&pi; の近似値である。</li>
+                    <li><var>y</var> が -0 かつ <var>x</var>&gt;0 ならば、 結果は -0 である。</li>
+                    <li><var>y</var> が -0 かつ <var>x</var> が +0 ならば、 結果は -0 である。</li>
+                    <li><var>y</var> が -0 かつ <var>x</var> が -0 ならば、 結果は実装依存の -&pi; の近似値である。</li>
+                    <li><var>y</var> が -0 かつ <var>x</var>&lt;0 ならば、 結果は実装依存の -&pi; の近似値である。</li>
+                    <li><var>y</var>&lt;0 かつ <var>x</var> が +0 ならば、 結果は実装依存の -&pi;/2 の近似値である。</li>
+                    <li><var>y</var>&lt;0 かつ <var>x</var> が -0 ならば、 結果は実装依存の -&pi;/2 の近似値である。</li>
+                    <li><var>y</var>&gt;0 かつ <var>y</var> が有限 かつ <var>x</var> が +∞ ならば、 結果は +0 である。</li>
+                    <li><var>y</var>&gt;0 かつ <var>y</var> が有限 かつ <var>x</var> が -∞ ならば、 結果は実装依存の +&pi; の近似値である。</li>
+                    <li><var>y</var>&lt;0 かつ <var>y</var> が有限 かつ <var>x</var> が +∞ ならば、 結果は -0 である。</li>
+                    <li><var>y</var>&lt;0 かつ <var>y</var> が有限 かつ <var>x</var> が -∞ ならば、 結果は実装依存の -&pi; の近似値である。</li>
+                    <li><var>y</var> が +∞ かつ <var>x</var> が有限 ならば、 結果は実装依存の +&pi;/2 の近似値である。</li>
+                    <li><var>y</var> が -∞ かつ <var>x</var> が有限 ならば、 結果は実装依存の -&pi;/2 の近似値である。</li>
+                    <li><var>y</var> が +∞ かつ <var>x</var> が +∞ ならば、 結果は実装依存の +&pi;/4 の近似値である。</li>
+                    <li><var>y</var> が +∞ かつ <var>x</var> が -∞ ならば、 結果は実装依存の +3&pi;/4 の近似値である。</li>
+                    <li><var>y</var> が -∞ かつ <var>x</var> が +∞ ならば、 結果は実装依存の -&pi;/4 の近似値である。</li>
+                    <li><var>y</var> が -∞ かつ <var>x</var> が -∞ ならば、 結果は実装依存の -3&pi;/4 の近似値である。</li>
+                </ul>
+            </div>
+            <!-- END of 15.8.2.5 Body -->
+
+        </div>
+        <!-- END of 15.8.2.5 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.6">15.8.2.6 ceil (x)</h3>
+
+
+            <div class="body level3">
+                <p><var>x</var> より小さくなく数学的整数と等しい、最小の (-∞ に近い) 数値を返す。 <var>x</var> が既に整数ならば、 結果は <var>x</var> である。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が +0 ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が -0 ならば、 結果は -0 である。</li>
+                    <li><var>x</var> が +∞ ならば、 結果は +∞ である。</li>
+                    <li><var>x</var> が -∞ ならば、 結果は -∞ である。</li>
+                    <li><var>x</var> が 0 未満で -1 より大きいならば、 結果は -0 である。</li>
+                </ul>
+                <p>Math.<var>ceil</var>(<var>x</var>) の値は、 -Math.floor(-<var>x</var>) の値と同じである。</p>
+            </div>
+            <!-- END of 15.8.2.6 Body -->
+
+        </div>
+        <!-- END of 15.8.2.6 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.7">15.8.2.7 cos (x)</h3>
+
+
+            <div class="body level3">
+                <p>実装依存で <var>x</var> のコサインの近似値を返す。引数はラジアンで表現される。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が +0 ならば、 結果は 1 である。</li>
+                    <li><var>x</var> が -0 ならば、 結果は 1 である。</li>
+                    <li><var>x</var> が +∞ ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が -∞ ならば、 結果は NaN である。</li>
+                </ul>
+            </div>
+            <!-- END of 15.8.2.7 Body -->
+
+        </div>
+        <!-- END of 15.8.2.7 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.8">15.8.2.8 exp (x)</h3>
+
+
+            <div class="body level3">
+                <p>実装依存で <var>x</var> の指数関数 (<var>e</var> の <var>x</var> 乗、 <var>e</var> は自然対数の低) の近似値を返す。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が +0 ならば、 結果は 1 である。</li>
+                    <li><var>x</var> が -0 ならば、 結果は 1 である。</li>
+                    <li><var>x</var> が +∞ ならば、 結果は +∞ である。</li>
+                    <li><var>x</var> が -∞ ならば、 結果は +0 である。</li>
+                </ul>
+            </div>
+            <!-- END of 15.8.2.8 Body -->
+
+        </div>
+        <!-- END of 15.8.2.8 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.9">15.8.2.9 floor (x)</h3>
+
+
+            <div class="body level3">
+                <p><var>x</var> より大きくなく数学的整数と等しい、最大の (+∞ に近い) 数値を返す。 <var>x</var> が既に整数ならば、 結果は <var>x</var> である。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が +0 ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が -0 ならば、 結果は -0 である。</li>
+                    <li><var>x</var> が +∞ ならば、 結果は +∞ である。</li>
+                    <li><var>x</var> が -∞ ならば、 結果は -∞ である。</li>
+                    <li><var>x</var> が 0 より大きく 1 より小さいならば、 結果は +0 である。</li>
+                </ul>
+                <div class="note">
+                    <p><b>NOTE</b> Math.<var>floor</var>(<var>x</var>) の値は -Math.ceil(-<var>x</var>) の値と等しい。</p>
+                </div>
+
+            </div>
+            <!-- END of 15.8.2.9 Body -->
+
+        </div>
+        <!-- END of 15.8.2.9 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.10">15.8.2.10 log (x)</h3>
+
+
+            <div class="body level3">
+                <p>実装依存で <var>x</var> の自然対数の近似値を返す。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が less than 0 ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が +0 または -0 ならば、 結果は -∞ である。</li>
+                    <li><var>x</var> が 1 ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が +∞ ならば、 結果は +∞ である。</li>
+                </ul>
+            </div>
+            <!-- END of 15.8.2.10 Body -->
+
+        </div>
+        <!-- END of 15.8.2.10 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.11">15.8.2.11 max ( [ value1 [ , value2 [ , ... ] ] ] )</h3>
+
+
+            <div class="body level3">
+                <p>0 個以上の引数を与えられ、各引数に ToNumber を呼出し、結果の値の最大を返す。</p>
+                <ul>
+                    <li>引数を与えられないならば、 結果は -∞ である。</li>
+                    <li>任意の値がが NaN ならば、 結果は NaN である。</li>
+                    <li>最大値を決定する値の比較は<a href="11_Expressions.html#section-11.8.5">セクション 11.8.5</a> にあるように行われるが、 +0 は -0
+                        より大きいとみなす。
+                    </li>
+                </ul>
+                <p><var>max</var> メソッドの length プロパティは 2 である。</p>
+            </div>
+            <!-- END of 15.8.2.11 Body -->
+
+        </div>
+        <!-- END of 15.8.2.11 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.12">15.8.2.12 min ( [ value1 [ , value2 [ , ... ] ] ] )</h3>
+
+
+            <div class="body level3">
+                <p>0 個以上の引数を与えられて、各引数に ToNumber を呼出し、結果の値の最小を返す。</p>
+                <ul>
+                    <li>引数が与えられないならば、 結果は +∞ である。</li>
+                    <li>任意の値がが NaN ならば、 結果は NaN である。</li>
+                    <li>最小値を決定する値の比較は<a href="11_Expressions.html#section-11.8.5">セクション 11.8.5</a> にあるように行われるが、 +0 は -0
+                        より大きいとみなす。
+                    </li>
+                </ul>
+                <p><var>min</var> メソッドの length プロパティは 2 である。</p>
+            </div>
+            <!-- END of 15.8.2.12 Body -->
+
+        </div>
+        <!-- END of 15.8.2.12 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.13">15.8.2.13 pow (x, y)</h3>
+
+
+            <div class="body level3">
+                <p>実装依存で <var>x</var> の <var>y</var> 乗 の近似値を返す。</p>
+                <ul>
+                    <li><var>y</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>y</var> が +0 ならば、 <var>x</var> が NaN であっても、結果は 1 である。</li>
+                    <li><var>y</var> が -0 ならば、 <var>x</var> が NaN であっても、結果は 1 である。</li>
+                    <li><var>x</var> が NaN かつ <var>y</var> が 0 以外 ならば、 結果は NaN である。</li>
+                    <li>abs(<var>x</var>)&gt;1 かつ <var>y</var> が +∞ ならば、 結果は +∞ である。</li>
+                    <li>abs(<var>x</var>)&gt;1 かつ <var>y</var> が -∞ ならば、 結果は +0 である。</li>
+                    <li>abs(<var>x</var>)==1 かつ <var>y</var> が +∞ ならば、 結果は NaN である。</li>
+                    <li>abs(<var>x</var>)==1 かつ <var>y</var> が -∞ ならば、 結果は NaN である。</li>
+                    <li>abs(<var>x</var>)&lt;1 かつ <var>y</var> が +∞ ならば、 結果は +0 である。</li>
+                    <li>abs(<var>x</var>)&lt;1 かつ <var>y</var> が -∞ ならば、 結果は +∞ である。</li>
+                    <li><var>x</var> が +∞ かつ <var>y</var>&gt;0 ならば、 結果は +∞ である。</li>
+                    <li><var>x</var> が +∞ かつ <var>y</var>&lt;0 ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が -∞ かつ <var>y</var>&gt;0 かつ <var>y</var> が奇数 ならば、 結果は -∞ である。</li>
+                    <li><var>x</var> が -∞ かつ <var>y</var>&gt;0 かつ <var>y</var> が奇数でない ならば、 結果は +∞ である。</li>
+                    <li><var>x</var> が -∞ かつ <var>y</var>&lt;0 かつ <var>y</var> が奇数 ならば、 結果は -0 である。</li>
+                    <li><var>x</var> が -∞ かつ <var>y</var>&lt;0 かつ <var>y</var> が奇数でない ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が +0 かつ <var>y</var>&gt;0 ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が +0 かつ <var>y</var>&lt;0 ならば、 結果は +∞ である。</li>
+                    <li><var>x</var> が -0 かつ <var>y</var>&gt;0 かつ <var>y</var> が奇数 ならば、 結果は -0 である。</li>
+                    <li><var>x</var> が -0 かつ <var>y</var>&gt;0 かつ <var>y</var> が奇数でない ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が -0 かつ <var>y</var>&lt;0 かつ <var>y</var> が奇数 ならば、 結果は -∞ である。</li>
+                    <li><var>x</var> が -0 かつ <var>y</var>&lt;0 かつ <var>y</var> が奇数でない ならば、 結果は +∞ である。</li>
+                    <li><var>x</var>&lt;0 かつ <var>x</var> が有限 かつ <var>y</var> が有限 かつ <var>y</var> が整数でない ならば、 結果は NaN
+                        である。
+                    </li>
+                </ul>
+            </div>
+            <!-- END of 15.8.2.13 Body -->
+
+        </div>
+        <!-- END of 15.8.2.13 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.14">15.8.2.14 random ( )</h3>
+
+
+            <div class="body level3">
+                <p>実装依存のアルゴリズムまたは手順で、ランダムに、または擬似的にランダムに、おおよそ一定の配分で選ばれる 0 以上 1 未満の正符号の数値を返す。この関数は引数をとらない。</p>
+            </div>
+            <!-- END of 15.8.2.14 Body -->
+
+        </div>
+        <!-- END of 15.8.2.14 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.15">15.8.2.15 round (x)</h3>
+
+
+            <div class="body level3">
+                <p><var>x</var> に接近する数学的整数に等しい数値を返す。 2 つの整数値が <var>x</var> に等しく接近しているならば、結果は +∞ に近い方の数値である。 <var>x</var>
+                    が既に整数ならば、 結果は <var>x</var> である。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が +0 ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が -0 ならば、 結果は -0 である。</li>
+                    <li><var>x</var> が +∞ ならば、 結果は +∞ である。</li>
+                    <li><var>x</var> が -∞ ならば、 結果は -∞ である。</li>
+                    <li><var>x</var> が 0 より大きく 0.5 より小さいならば、 結果は +0 である。</li>
+                    <li><var>x</var> が 0 より小さく -0.5 と同じかより大きいならば、 結果は -0 である。</li>
+                </ul>
+                <div class="note">
+                    <p><b>NOTE</b> Math.<var>round</var>(<a href="3_References.html#section-3.5">3.5</a>) は 4 を返すが、
+                        Math.<var>round</var>(-3.5) は -3 を返す。</p>
+                </div>
+
+                <div class="note">
+                    <p><b>NOTE</b> Math.<var>round</var>(<var>x</var>) の値は Math.floor(<var>x</var>+0.5) の値と等しいが、
+                        <var>x</var> が -0 であるか、または 0 より小さく -0.5 と同じかより大きい場合を除く; これらのケースで
+                        Math.<var>round</var>(<var>x</var>) は -0 を返すが、 Math.floor(<var>x</var>+0.5) は +0 を返す。</p>
+                </div>
+
+            </div>
+            <!-- END of 15.8.2.15 Body -->
+
+        </div>
+        <!-- END of 15.8.2.15 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.16">15.8.2.16 sin (x)</h3>
+
+
+            <div class="body level3">
+                <p>実装依存で <var>x</var> のサインの近似値を返す。引数はラジアンで表現される。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が +0 ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が -0 ならば、 結果は -0 である。</li>
+                    <li><var>x</var> が +∞ または -∞ ならば、 結果は NaN である。</li>
+                </ul>
+            </div>
+            <!-- END of 15.8.2.16 Body -->
+
+        </div>
+        <!-- END of 15.8.2.16 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.17">15.8.2.17 sqrt (x)</h3>
+
+
+            <div class="body level3">
+                <p>実装依存で <var>x</var> の平方根の近似値を返す。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> less than 0 ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が +0 ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が -0 ならば、 結果は -0 である。</li>
+                    <li><var>x</var> が +∞ ならば、 結果は +∞ である。</li>
+                </ul>
+            </div>
+            <!-- END of 15.8.2.17 Body -->
+
+        </div>
+        <!-- END of 15.8.2.17 -->
+
+
+        <div class="section level3">
+            <h3 id="section-15.8.2.18">15.8.2.18 tan (x)</h3>
+
+
+            <div class="body level3">
+                <p>実装依存で <var>x</var> のタンジェントの近似値を返す。引数はラジアンで表現される。</p>
+                <ul>
+                    <li><var>x</var> が NaN ならば、 結果は NaN である。</li>
+                    <li><var>x</var> が +0 ならば、 結果は +0 である。</li>
+                    <li><var>x</var> が -0 ならば、 結果は -0 である。</li>
+                    <li><var>x</var> が +∞ または -∞ ならば、 結果は NaN である。</li>
+                </ul>
+            </div>
+            <!-- END of 15.8.2.18 Body -->
+
+        </div>
+        <!-- END of 15.8.2.18 -->
+
+    </div>
+    <!-- END of 15.8.2 -->
+
+</div>
+<!-- END of 15.8 -->
+
+<h1>Page Contents</h1>
+<ul id="toc">
+    <li><a href="#section-15.8">15.8 Math オブジェクト (The Math Object)</a>
+        <ul>
+            <li><a href="#section-15.8.1">15.8.1 Math オブジェクトの値プロパティ (Value Properties of the Math Object)</a>
+                <ul>
+                    <li><a href="#section-15.8.1.1">15.8.1.1 E</a></li>
+                    <li><a href="#section-15.8.1.2">15.8.1.2 LN10</a></li>
+                    <li><a href="#section-15.8.1.3">15.8.1.3 LN2</a></li>
+                    <li><a href="#section-15.8.1.4">15.8.1.4 LOG2E</a></li>
+                    <li><a href="#section-15.8.1.5">15.8.1.5 LOG10E</a></li>
+                    <li><a href="#section-15.8.1.6">15.8.1.6 PI</a></li>
+                    <li><a href="#section-15.8.1.7">15.8.1.7 SQRT1_2</a></li>
+                    <li><a href="#section-15.8.1.8">15.8.1.8 SQRT2</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-15.8.2">15.8.2 Math オブジェクトの関数プロパティ (Function Properties of the Math Object)</a>
+                <ul>
+                    <li><a href="#section-15.8.2.1">15.8.2.1 abs (x)</a></li>
+                    <li><a href="#section-15.8.2.2">15.8.2.2 acos (x)</a></li>
+                    <li><a href="#section-15.8.2.3">15.8.2.3 asin (x)</a></li>
+                    <li><a href="#section-15.8.2.4">15.8.2.4 atan (x)</a></li>
+                    <li><a href="#section-15.8.2.5">15.8.2.5 atan2 (y, x)</a></li>
+                    <li><a href="#section-15.8.2.6">15.8.2.6 ceil (x)</a></li>
+                    <li><a href="#section-15.8.2.7">15.8.2.7 cos (x)</a></li>
+                    <li><a href="#section-15.8.2.8">15.8.2.8 exp (x)</a></li>
+                    <li><a href="#section-15.8.2.9">15.8.2.9 floor (x)</a></li>
+                    <li><a href="#section-15.8.2.10">15.8.2.10 log (x)</a></li>
+                    <li><a href="#section-15.8.2.11">15.8.2.11 max ( [ value1 [ , value2 [ , ... ] ] ] )</a></li>
+                    <li><a href="#section-15.8.2.12">15.8.2.12 min ( [ value1 [ , value2 [ , ... ] ] ] )</a></li>
+                    <li><a href="#section-15.8.2.13">15.8.2.13 pow (x, y)</a></li>
+                    <li><a href="#section-15.8.2.14">15.8.2.14 random ( )</a></li>
+                    <li><a href="#section-15.8.2.15">15.8.2.15 round (x)</a></li>
+                    <li><a href="#section-15.8.2.16">15.8.2.16 sin (x)</a></li>
+                    <li><a href="#section-15.8.2.17">15.8.2.17 sqrt (x)</a></li>
+                    <li><a href="#section-15.8.2.18">15.8.2.18 tan (x)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<address>
+
+    Translate: <span>Sun Apr  7 08:52:56 2002</span>
+
+<span>TAKI &lt;<a rel="bookmark" title="Translator"
+                  href="mailto:TAKI%20%3Coz-07ams@mvh.biglobe.ne.jp%3E"
+        >oz-07ams&#64;mvh.biglobe.ne.jp</a>&gt;</span>
+
+</address>
+
+</body>
+
+</html>
+
+
+<!--
+     FILE ARCHIVED ON 21:56:51 Aug 2, 2014 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 16:15:03 Feb 6, 2015.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->

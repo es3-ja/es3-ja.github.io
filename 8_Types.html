@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <title>8 型 (Types)</title>
+
+
+    <link rel="stylesheet" title="Metagraphix Graytone" type="text/css" href="css/ecma.css" media="all"/>
+    <!--link rel="stylesheet" title="Metagraphix NN4" type="text/javascript" href="n4.js" media="screen" /-->
+
+    <link rel="bookmark" title="Translator"
+          href="mailto:TAKI%20%3Coz-07ams&#64;mvh.biglobe.ne.jp%3E"/>
+    <link rel="bookmark" title="Site Top"
+          href="http://www2u.biglobe.ne.jp/%7Eoz-07ams/"/>
+    <link rel="start begin toc" title="ECMA-262 revision 3"
+          href="index.html"/>
+    <link rel="prev" title="7_Lexical_Conventions"
+          href="7_Lexical_Conventions.html"/>
+    <link rel="next" title="9_Type_Conversion"
+          href="9_Type_Conversion.html"/>
+
+    <link rev="alternate" title="Original Document (PDF format)"
+          type="application/pdf" hreflang="en"
+          href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%203rd%20edition,%20December%201999.pdf"/>
+
+
+</head>
+
+<body>
+
+
+<p>
+    <a href="#toc">本頁の目次</a>
+    <a rel="contents" href="">目次</a>
+    <a rel="next" href="9_Type_Conversion.html">次頁: 9_Type_Conversion</a>
+    <a rel="prev" href="7_Lexical_Conventions.html">前頁: 7_Lexical_Conventions</a>
+</p>
+
+
+<div class="section level1">
+    <h1 id="section-8">8 型 (Types)</h1>
+
+
+    <div class="body level1">
+        <p>値は実体であり、9 つの型のうちの 1 つを取る。型は 9 つ (Undefined, Null, Boolean, String, Number, Object, Reference, List,
+            Completion) ある。Reference 型, List 型, Completion 型の値は式評価の中間結果としてのみ使われ、オブジェクトのプロパティに蓄積はできない。</p>
+    </div>
+    <!-- END of 8 Body -->
+
+
+    <div class="section level2">
+        <h2 id="section-8.1">8.1 Undefined 型 (Undefined Type)</h2>
+
+
+        <div class="body level2">
+            <p>Undefined 型は、undefined と呼ばれる厳密には一つの値を持つ。値を代入されていない任意の変数は undefined 値を持つ。</p>
+        </div>
+        <!-- END of 8.1 Body -->
+
+    </div>
+    <!-- END of 8.1 -->
+
+
+    <div class="section level2">
+        <h2 id="section-8.2">8.2 Null 型 (Null Type)</h2>
+
+
+        <div class="body level2">
+            <p>Null 型は、null と呼ばれる厳密には一つの値を持つ。</p>
+        </div>
+        <!-- END of 8.2 Body -->
+
+    </div>
+    <!-- END of 8.2 -->
+
+
+    <div class="section level2">
+        <h2 id="section-8.3">8.3 Boolean 型 (Boolean Type)</h2>
+
+
+        <div class="body level2">
+            <p>Boolean 型は、true と false と呼ばれる二値を持つ論理的実体をあらわす。</p>
+        </div>
+        <!-- END of 8.3 Body -->
+
+    </div>
+    <!-- END of 8.3 -->
+
+
+    <div class="section level2">
+        <h2 id="section-8.4">8.4 String 型 (String Type)</h2>
+
+
+        <div class="body level2">
+            <p>String 型は、0 または 16 ビット符号なし整数値(&quot;要素&quot;)の、すべての有限な序列のあるシーケンスの組である。ECMAScript プログラムの実行時、String
+                型は一般にテキストデータの表現に使われる。その中で、文字列内の各要素はコードポイント値(<a href="6_Source_Text.html#section-6">セクション 6</a> 参照)
+                として扱われる。シーケンス内で各要素は位置の占有とみなされる。これらの位置は正の整数でインデックス付けられる。最初の要素が位置 0 で、次の要素は位置 1
+                であり、以下同様である。文字列の長さは、その中にある要素の数である。空文字列は要素を持たず、長さは 0 である。</p>
+
+            <p>文字列が実際のテキストデータを含むとき、各要素は１個の UTF-16 単位として考えられる。これが実際に蓄積された String の形式かどうかに関係なく、String 内部の文字は UTF-16
+                であらわされたかのように番号付けられる。String 上の全操作は、それらを区別しない 16 ビット符号無し整数の列として扱う;
+                それらは結果の文字列が正規化形式であることを保証しないし、language-sensitive な結果であることも保証しない。</p>
+
+            <div class="note">
+                <p><b>NOTE</b> これらの決定の理論的解釈は単純さとしての文字列と可能性としての高パフォーマンス性の実装を保持することであった。外部から実行環境に入るテキストデータ
+                    (ユーザの入力、ファイルやネットワークからの受信などからのテキスト読み込み等) が、実行プログラムがそれを見る前に Unicode 正規化形式 <var>C</var> (Unicode
+                    Normarized Form <var>C</var>) に変換されることを意図する。通例これは、入ってくるテキストが元の文字エンコーディングから Unicode
+                    に変換されることを同時に発生させる。ECMAScript ソースコードが正規化形式 <var>C</var> であることが勧められるので、それらが Unicode
+                    エスケープシーケンスを含んでいない限り、文字列リテラルは正規化されていること(ソーステキストが正規化されることを保証される場合)を保証される。</p>
+            </div>
+
+        </div>
+        <!-- END of 8.4 Body -->
+
+    </div>
+    <!-- END of 8.4 -->
+
+
+    <div class="section level2">
+        <h2 id="section-8.5">8.5 Number 型 (Number Type)</h2>
+
+
+        <div class="body level2">
+            <p>Number 型は、ちょうど 18437736874454810627 (即ち 2<sup>64</sup>-2<sup>53</sup>+3) 個の値を持ち、二進法浮動小数点数点演算のための IEEE
+                標準に定められる倍精度64ビットのフォーマットIEEE 754 の値を表わす。ただし IEEE 標準の 9007199254740990 (すなわち 2<sup>53</sup>-2) 個の区別される
+                &quot;Not-a-Number&quot; 値は ECMAScript においては単独の特殊な <strong>NaN</strong>
+                値として表されることを除く。(プログラム実行によりグローバルに定義された変数 <code>NaN</code> が変更されていないと仮定して、<strong>NaN</strong> 値がプログラム式
+                <code>NaN</code> によって生成されることに注意。) 外部コードが様々な Non-a-Number 間の違いを判定できる実装もあるだろうが、その振舞いは実装依存である;
+                ECMAScriptコードでは、NaN 値はすべて互いと判別不能である。</p>
+
+            <p>他に特別な値が 2 つある。それは正の無限 (positive Infinity) 、および負の無限 (negative Infinity) と呼ばれる。簡単に、解説ではシンボル +∞ と -∞
+                によってもこれらの値をそれぞれ参照する。(グローバルに定義された変数 Infinity がプログラム実行によって変更されてないと仮定して、これら 2 つの無限数値がプログラム式 +Infinity
+                (あるいは単に Infinity) および -Infinity によって生成されることに注意しなさい。)</p>
+
+            <p>残りの 18437736874454810624 (すなわち 2<sup>64</sup>-2<sup>53</sup>) 個の値は有限数と呼ばれる。これらの半分は正の数、半分は負の数である;
+                有限の正の数のそれぞれについて、同じ大きさを持つ対応する負の数がある。</p>
+
+            <p>正の 0 と負の 0 の双方があることに注意。簡単に、解説ではシンボル +0 及び -0 によってもこれらの値をそれぞれ参照する。(これら 2 つの 0 数値はプログラム式 +0 (または単に 0) および
+                -0 によって提示される。)</p>
+
+            <p>18437736874454810622 (つまり 2<sup>64</sup>-2<sup>53</sup>-2) 個の 0 でない有限の値は 2 種類ある:</p>
+
+            <p>それらのうち 18428729675200069632 (つまり 2<sup>64</sup>-2<sup>54</sup>) 個は次の形式で正規化される。</p>
+            <pre>s × m × 2<sup>e</sup></pre>
+
+            <p><var>s</var> は +1 または -1 、 <var>m</var> は 2<sup>52</sup> 以上 2<sup>53</sup> 未満の正の整数、e は -1074 以上 971
+                以下の範囲の整数である。</p>
+
+            <p>残りの 9007199254740990 (つまり 2<sup>53</sup>-2) 個の値は次の形式で非正規化 (denormalised) される。</p>
+            <pre>s × m × 2<sup>e</sup></pre>
+
+            <p><var>s</var> は +1 または -1 、 <var>m</var> は 2<sup>52</sup> 未満の正の整数、e は -1074 である。</p>
+
+            <p>大きさが 2<sup>53</sup> 以下の正負の整数全ては Number 型で表現できることに注意(実に、整数 0 は 2 つの表現 +0 と -0 を持つ)。</p>
+
+            <p>有限数はそれが 0 でなく (上の 2 つのどちらかの式で) 使われた整数 <var>m</var> が奇数のとき、有効数字は奇数である。そうでなければ、有効数字は偶数である。</p>
+
+            <p>本仕様において、正確な 0 以外の実際の数学的な量(それはさらに &pi; のような無理数かもしれない) を <var>x</var> と表わすとき、句 &quot; <var>x</var> の数値&quot;
+                は、次の方法で選ばれた数値を意味する。Number 型のすべての有限の値の集合を考える。 -0 を除外し、 Number 型では表現不能な 2 つの値、すなわち 2<sup>1024</sup>(即ち +1
+                × 2<sup>53</sup> × 2<sup>971</sup>) 及び -2<sup>1024</sup>(即ち -1 × 2<sup>53</sup> × 2<sup>971</sup>)
+                を追加する。この集合から <var>x</var> の値に最も近いものを選ぶ。最も近いものが集合内の 2 個ある場合、有効数字が偶数であるもの選ばれる; この用途について、拡張した 2 つの値 2<sup>1024</sup>、そして-2<sup>1024</sup>
+                は有効数字が偶数とみなす。最後に、2<sup>1024</sup> が選ばれた場合、それを +∞ に置換する; -2<sup>1024</sup> が選ばれた場合、それを -∞ に置換する; +0
+                が選ばれた場合、 <var>x</var> が 0 未満である場合のみそれを -0 に置換する; 他の値が選ばれたら変更はない。この結果が <var>x</var> の数値である。(この過程は、 IEEE
+                754 &quot;round to nearest&quot; モードの振舞いに正確に該当する。)</p>
+
+            <p>-2<sup>31</sup> 以上 2<sup>31</sup>-1 以下、また 0 以上 2<sup>32</sup>-1 以下の範囲の整数のみを扱う ECMAScript
+                演算子もある。これらの演算子は任意の Number 型の値を受け付けるが、まず最初に 2<sup>32</sup> 個の整数値の一つに変換を行う。それぞれ<a
+                        href="9_Type_Conversion.html#section-9.5">セクション 9.5</a>, <a
+                        href="9_Type_Conversion.html#section-9.6">9.6</a> にある ToInt32 及び ToUint32 演算子の解説を参照。</p>
+        </div>
+        <!-- END of 8.5 Body -->
+
+    </div>
+    <!-- END of 8.5 -->
+
+
+    <div class="section level2">
+        <h2 id="section-8.6">8.6 Object 型 (Object type)</h2>
+
+
+        <div class="body level2">
+            <p>Object とはプロパティの序列のない集合体である。各プロパティは名前と値、そして属性の組で構成される。</p>
+        </div>
+        <!-- END of 8.6 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-8.6.1">8.6.1 プロパティ属性</h3>
+
+
+            <div class="body level3">
+                <p>プロパティは次の組から0個以上の属性を持つことができる:</p>
+                <table>
+                    <thead>
+                    <tr>
+                        <td>属性</td>
+                        <td>説明</td>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td>ReadOnly 属性</td>
+                        <td>このプロパティは読出し専用のプロパティである。 ECMAScript コードによるこのプロパティの書きこみ試行は無視される。 (注意: 実装によって行われるアクションのために
+                            ReadOnly 属性のプロパティの値が変更されるケースもありうる; &quot;ReadOnly&quot; であることは &quot;定数で変更されない&quot;
+                            ということではない)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DontEnum 属性</td>
+                        <td>このプロパティは <code class="keyword">for</code>-in ループ (<a
+                                href="12_Statements.html#section-12.6.3">12.6.3</a>) では列挙されない。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DontDelete 属性</td>
+                        <td>このプロパティの削除を試行しても無視される。 <code class="keyword">delete</code> 演算子の説明(<a
+                                href="11_Expressions.html#section-11.4.1">11.4.1</a>) を参照。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Internal 属性</td>
+                        <td>内部プロパティは名前を持たず、プロパティアクセス演算子経由で直にアクセスできない。 これらのプロパティへのアクセス方法は実装依存である。
+                            言語仕様毎に、使われ方やタイミングによって特定されるプロパティもある。
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- END of 8.6.1 Body -->
+
+        </div>
+        <!-- END of 8.6.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-8.6.2">8.6.2 内部プロパティとメソッド</h3>
+
+
+            <div class="body level3">
+                <p>内部プロパティとメソッドは言語内には露出しない。この文書の目的のために、 ここでは二重角括弧 [[ ]] で囲ってその名前をあらわす。 アルゴリズムがオブジェクトの内部プロパティを使用していて、
+                    指示された内部プロパティをオブジェクトが実装していないとき、ランタイムエラーが発生する。</p>
+
+                <p>露出するプロパティのアクセスには 2 種類ある: get と put、取得と設定に相当する。</p>
+
+                <p>Native ECMAScript オブジェクトは [[Prototype]] と呼ばれる内部プロパティを持つ。 このプロパティの値は null や オブジェクトであり、継承の実装に使用される。
+                    [[Prototype]] オブジェクトのプロパティは、 子オブジェクトのプロパティの取得には露出するが、設定には露出しない。</p>
+
+                <p>次の表はこの仕様で使われる内部プロパティの概要である。 説明は Native ECMAScript オブジェクトのためのそれらの挙動を示す。 Host
+                    オブジェクトはこれらの内部メソッドを任意の実装依存の挙動に実装してもよく、また Host オブジェクトは内部メソッドの一部のみを実装して他を実装しなくてもよい。</p>
+                <table>
+                    <thead>
+                    <tr>
+                        <td>プロパティ</td>
+                        <td>パラメータ</td>
+                        <td>説明</td>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td>[[Prototype]]</td>
+                        <td>無し</td>
+                        <td>このオブジェクトのプロトタイプ。</td>
+                    </tr>
+                    <tr>
+                        <td>[[Class]]</td>
+                        <td>無し</td>
+                        <td>このオブジェクトの種類。</td>
+                    </tr>
+                    <tr>
+                        <td>[[Value]]</td>
+                        <td>無し</td>
+                        <td>このオブジェクトに関する内部状態の情報。</td>
+                    </tr>
+                    <tr>
+                        <td>[[Get]]</td>
+                        <td>(プロパティ名)</td>
+                        <td>プロパティの値を返す。</td>
+                    </tr>
+                    <tr>
+                        <td>[[Put]]</td>
+                        <td>(プロパティ名, 値)</td>
+                        <td>指定されたプロパティに値を設定する。</td>
+                    </tr>
+                    <tr>
+                        <td>[[CanPut]]</td>
+                        <td>(プロパティ名)</td>
+                        <td>指定されたプロパティ名の [[Put]] 操作が成功するかどうかを示す <code class="keyword">boolean</code> 値を返す。</td>
+                    </tr>
+                    <tr>
+                        <td>[[HasProperty]]</td>
+                        <td>(プロパティ名)</td>
+                        <td>オブジェクトがすでに与えられた名前のメンバを持っているかを示す <code class="keyword">boolean</code> 値を返す。</td>
+                    </tr>
+                    <tr>
+                        <td>[[Delete]]</td>
+                        <td>(プロパティ名)</td>
+                        <td>オブジェクトから指定されたプロパティを取り除く。</td>
+                    </tr>
+                    <tr>
+                        <td>[[DefaultValue]]</td>
+                        <td>(ヒント)</td>
+                        <td>オブジェクトのデフォルト値を返すが それは primitive 値でなければならず、オブジェクトや参照であってはならない。</td>
+                    </tr>
+                    <tr>
+                        <td>[[Construct]]</td>
+                        <td>呼出側が提供する引数値のリスト</td>
+                        <td>オブジェクトを生成する。new 演算子によって呼出される。 この内部メソッドを実装するオブジェクトはコンストラクタ (constructor) と呼ばれる。</td>
+                    </tr>
+                    <tr>
+                        <td>[[Call]]</td>
+                        <td>呼出側が提供する引数値のリスト</td>
+                        <td>オブジェクトに関連するコードを実行する。 関数呼出の式 (expression) を経由して呼出される。 この内部メソッドを実装するオブジェクトは関数 (function)
+                            と呼ばれる。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>[[HasInstance]]</td>
+                        <td>(値)</td>
+                        <td>値がこのオブジェクトに振る舞いを委任しているかどうかを示す Boolean 値を返す。 Native ECMAScript オブジェクトでは、Function オブジェクトだけが
+                            [[Hasinstance]] を実装している。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>[[Scope]]</td>
+                        <td>無し</td>
+                        <td>その中で Function オブジェクトが実行される環境を定義するスコープ連鎖。</td>
+                    </tr>
+                    <tr>
+                        <td>[[Match]]</td>
+                        <td>(文字列, インデックス)</td>
+                        <td>正規表現マッチを試行し、 MatchResult 値を返す(<a href="15-10_RegExp_Objects.html#section-15.10.2.1">15.10.2.1</a>
+                            参照)。
+                        </td>
+                    </tr>
+                </table>
+                <p>各オブジェクトは [[Class]] プロパティと、[[Get]], [[Put]], [[HasProperty]], [[Delete]], [[DefaultValue]]
+                    メソッドを実装しなければならない。Host オブジェクトであっても同様である。(注意: とはいえ、[[DefaultValue]] メソッドは、単にランタイムエラーを生成してもよい。</p>
+
+                <p>[[Prototype]] プロパティの値はオブジェクトか null でなければならず、 各 [[Prototype]] 連鎖の長さは有限でなければならない(つまり、任意のオブジェクトから始まる
+                    [[Prototype]] プロパティの再帰的アクセスは、結果的に null 値に導かれる)。 Native オブジェクトが Host オブジェクトを [[Prototype]]
+                    として持つかどうかは実装に依存する。</p>
+
+                <p>各種組込み オブジェクトの [[Class]] プロパティの値はこの仕様で定義される。 Host オブジェクトの [[Class]] プロパティの値は任意の値でよく、組込み オブジェクトからその
+                    [[Class]] プロパティのために使用される値でも例外ではない。 この仕様はプログラムに [[Class]] プロパティの値へのアクセスを意味するものは何も提供しないことに注意; これは組込み
+                    オブジェクトの種類の違いの区別に内部的に使用される。</p>
+
+                <p>各 Native オブジェクトは、<a href="8_Types.html#section-8.6.2.1">セクション 8.6.2.1</a>, <a
+                        href="8_Types.html#section-8.6.2.2">8.6.2.2</a>, <a
+                        href="8_Types.html#section-8.6.2.3">8.6.2.3</a>, <a
+                        href="8_Types.html#section-8.6.2.4">8.6.2.4</a>, <a
+                        href="8_Types.html#section-8.6.2.5">8.6.2.5</a> で述べられる [[Get]], [[Put]], [[CanPut]],
+                    [[HasProperty]], [[Delete]] メソッドをそれぞれ実装する。但し Array オブジェクトの [[Put]] メソッドの実装はわずかに異なる(<a
+                            href="15-4_Array_Objects.html#section-15.4.5.1">15.4.5.1</a>)。 Host
+                    オブジェクトは任意の方法でこれらのメソッドを実装してよい; 例えば、特殊な Host オブジェクトの [[Get]] 及び [[Put]] が、プロパティに値を格納するが
+                    [[HasProperty]] は常に false を生成する可能性がある。</p>
+
+                <p>次のアルゴリズム説明において、 <var>O</var> を Native ECMAScript オブジェクト、P を文字列と仮定する。</p>
+            </div>
+            <!-- END of 8.6.2 Body -->
+
+
+            <div class="section level4">
+                <h4 id="section-8.6.2.1">8.6.2.1 [[Get]] (P)</h4>
+
+
+                <div class="body level4">
+                    <p><var>O</var> の [[Get]] メソッドがプロパティ名 <var>P</var> で呼出されると、次のステップがとられる:</p>
+                    <ol>
+                        <li><var>O</var> が <var>P</var> という名前のプロパティを持っていなければ、ステップ 4 へ進む。</li>
+                        <li>そのプロパティの値を取得する。</li>
+                        <li>Result(2) を返す。</li>
+                        <li><var>O</var> の [[Prototype]] が null ならば、undefined を返す。</li>
+                        <li>[[Prototype]] の [[Get]] メソッドを、プロパティ名 <var>P</var> で呼び出す。</li>
+                        <li>Result(5) を返す。</li>
+                    </ol>
+                </div>
+                <!-- END of 8.6.2.1 Body -->
+
+            </div>
+            <!-- END of 8.6.2.1 -->
+
+
+            <div class="section level4">
+                <h4 id="section-8.6.2.2">8.6.2.2 [[Put]] (P, V)</h4>
+
+
+                <div class="body level4">
+                    <p><var>O</var> の [[Put]] メソッドがプロパティ <var>P</var> と値 <var>V</var> で呼び出された場合、次のステップがとられる:</p>
+                    <ol>
+                        <li><var>O</var> の [[CanPut]] メソッドを、名前 <var>P</var> で呼び出す。</li>
+                        <li>Result(1) が false なら戻る。</li>
+                        <li><var>O</var> が名前 <var>P</var> のプロパティを持っていなければ、ステップ 6 へ進む。</li>
+                        <li>そのプロパティの値に <var>V</var> を設定する。プロパティの属性は変更されない。</li>
+                        <li>戻る。</li>
+                        <li>名前 <var>P</var> のプロパティを生成し、その値に <var>V</var> を設定し、空の属性を与える。</li>
+                        <li>戻る。</li>
+                    </ol>
+                    <p>しかし、O が Array オブジェクトである場合、より入念な [[Put]] メソッド (<a href="15-4_Array_Objects.html#section-15.4.5.1">セクション
+                        15.4.5.1</a>) を持つ。</p>
+                </div>
+                <!-- END of 8.6.2.2 Body -->
+
+            </div>
+            <!-- END of 8.6.2.2 -->
+
+
+            <div class="section level4">
+                <h4 id="section-8.6.2.3">8.6.2.3 [[CanPut]] (P)</h4>
+
+
+                <div class="body level4">
+                    <p>[[CanPut]] メソッドは [[Put]] メソッドによってのみ使用される。O の [[CanPut]] メソッドがプロパティ <var>P</var>
+                        で呼出されると、次のステップが取られる:</p>
+                    <ol>
+                        <li><var>O</var> が名前 <var>P</var> のプロパティを持っていなければ、ステップ 4 へ進む。</li>
+                        <li>プロパティが ReadOnly 属性を持っていれば、 false を返す。</li>
+                        <li>true を返す。</li>
+                        <li><var>O</var> の [[Prototype]] が null ならば、true を返す。</li>
+                        <li><var>O</var> の [[Prototype]] の [[Canput]] メソッドを、プロパティ名 <var>P</var> で呼出す。</li>
+                        <li>Result(5) を返す。</li>
+                    </ol>
+                </div>
+                <!-- END of 8.6.2.3 Body -->
+
+            </div>
+            <!-- END of 8.6.2.3 -->
+
+
+            <div class="section level4">
+                <h4 id="section-8.6.2.4">8.6.2.4 [[HasProperty]] (P)</h4>
+
+
+                <div class="body level4">
+                    <p><var>O</var> の [[HasProperty]] メソッド がプロパティ名 <var>P</var> で呼出されると、次のステップが取られる:</p>
+                    <ol>
+                        <li><var>O</var> が名前 <var>P</var> のプロパティを持っていれば、 true を返す。</li>
+                        <li><var>O</var> の [[Prototype]] が null ならば、 false を返す。</li>
+                        <li>[[Prototype]] の [[HasProperty]] メソッドをプロパティ名 <var>P</var> で呼出す。</li>
+                        <li>Result(3) を返す。</li>
+                    </ol>
+                </div>
+                <!-- END of 8.6.2.4 Body -->
+
+            </div>
+            <!-- END of 8.6.2.4 -->
+
+
+            <div class="section level4">
+                <h4 id="section-8.6.2.5">8.6.2.5 [[Delete]] (P)</h4>
+
+
+                <div class="body level4">
+                    <p><var>O</var> の [[Delete]] メソッドがプロパティ名 <var>P</var> で呼出されると、次のステップが取られる:</p>
+                    <ol>
+                        <li><var>O</var> が名前 <var>P</var> のプロパティを持たなければ、 true を返す。</li>
+                        <li>そのプロパティが DontDelete 属性であれば、 false を返す。</li>
+                        <li><var>O</var> から名前 <var>P</var> のプロパティを取り除く。</li>
+                        <li>true を返す。</li>
+                    </ol>
+                </div>
+                <!-- END of 8.6.2.5 Body -->
+
+            </div>
+            <!-- END of 8.6.2.5 -->
+
+
+            <div class="section level4">
+                <h4 id="section-8.6.2.6">8.6.2.6 [[DefaultValue]] (hint)</h4>
+
+
+                <div class="body level4">
+                    <p><var>O</var> の [[DefaultValue]] メソッドがヒント String で呼出されると、次のステップが取られる:</p>
+                    <ol>
+                        <li><var>O</var> の [[Get]] メソッドを、引数 &quot;toString&quot; で呼出す。</li>
+                        <li>Result(1) がオブジェクトでなければ、ステップ 5 へ。</li>
+                        <li>Result(1) の [[Call]] メソッドを、this 値 <var>O</var> と空の引数のリストで呼出す。</li>
+                        <li>Result(3) がプリミティブ値であれば、Result(3) を返す。</li>
+                        <li><var>O</var> の [[Get]] メソッドを、引数 &quot;valueOf&quot; で呼出す。</li>
+                        <li>Result(5) がオブジェクトでなければ、ステップ 9 へ。</li>
+                        <li>Result(5) の [[Call]] メソッドを、this 値 <var>O</var> と空の引数のリストで呼出す。</li>
+                        <li>Result(7) がプリミティブ値であれば、 Result(7) を返す。</li>
+                        <li>例外 TypeError を投げる。</li>
+                    </ol>
+                    <p><var>O</var> の [[DefaultValue]] メソッドがヒント Number で呼出されると、次のステップが取られる:</p>
+                    <ol>
+                        <li><var>O</var> の [[Get]] メソッドを、引数 &quot;valueOf&quot; で呼出す。</li>
+                        <li>Result(1) がオブジェクトでなければ、ステップ 5 へ。</li>
+                        <li>Result(1) の [[Call]] メソッドを、this 値 <var>O</var> と空の引数のリストで呼出す。</li>
+                        <li>Result(3) がプリミティブ値であれば、Result(3) を返す。</li>
+                        <li><var>O</var> の [[Get]] メソッドを、引数 &quot;toString&quot; で呼出す。</li>
+                        <li>Result(5) がオブジェクトでなければ、ステップ 9 へ。</li>
+                        <li>Result(5) の [[Call]] メソッドを、this 値 <var>O</var> と空の引数のリストで呼出す。</li>
+                        <li>Result(7) がプリミティブ値であれば、 Result(7) を返す。</li>
+                        <li>例外 TypeError を投げる。</li>
+                    </ol>
+                    <p><var>O</var> の [[DefaultValue]] メソッドがヒント無しで呼出されると、ヒントが Number であるかのように振舞う。O が Date オブジェクト (<a
+                            href="15-9_Date_Objects.html#section-15.9">セクション 15.9</a>) の場合は、ヒントが String であるかのように振舞う。</p>
+
+                    <p>Native オブジェクトのための上記 [[DefaultValue]] 仕様はプリミティブな値のみを返す。Host オブジェクトがそれ自身の [[DefaultValue]]
+                        メソッドを実装するならば、その [[DefaultValue]] メソッドはプリミティブな値のみを返すことを保証しなければならない。</p>
+                </div>
+                <!-- END of 8.6.2.6 Body -->
+
+            </div>
+            <!-- END of 8.6.2.6 -->
+
+        </div>
+        <!-- END of 8.6.2 -->
+
+    </div>
+    <!-- END of 8.6 -->
+
+
+    <div class="section level2">
+        <h2 id="section-8.7">8.7 Reference 型 (Reference Type)</h2>
+
+
+        <div class="body level2">
+            <p><strong>内部 Reference 型は言語のデータ型ではない。</strong> 純粋に解説上の目的で本仕様に定義される。 ECMAScript
+                実装は、ここに述べるように、リファレンス上にそれが生成し演算したかのように振舞わなければならない。しかしながら、Reference
+                型の値は、式評価の中間結果としてのみ用いられ、変数あるいはプロパティの値として格納することはできない。</p>
+
+            <p>Reference 型は、delete, <code class="keyword">typeof</code>
+                のような演算子、そして代入演算子の振舞いの説明に使用される。例えば、代入の左オペランドはリファレンスの生成が期待される。代入の振舞いは、代わりに、代入演算子の左オペランドの構文形式上のケース解析の点から完全に説明される、ある難点が無ければ:
+                関数呼び出しはリファレンスを返すことを許される。純粋に Host オブジェクトにこの可能性が認められる。本仕様で定義される組込み ECMAScript
+                関数はリファレンスを返さず、リファレンスを返すようなユーザ定義関数に提供するものは無い。(構文的ケース解析を使用しないもう一つの理由は、冗長で扱いにくく仕様の多くの部分に影響するだろうということだ。)
+                Reference 型のもう一つの利用は、関数呼出しの <code class="keyword">this</code> 値の決定の説明である。</p>
+
+            <p>Reference は、オブジェクトのプロパティへの参照である。Reference は基準オブジェクト(base object) とプロパティ名の 2 つの成分から構成される。</p>
+
+            <p>Reference の成分にアクセスするために、本仕様において次の抽象的演算が使用される:</p>
+            <ul>
+                <li>GetBase(<var>V</var>). リファレンス <var>V</var> の基準オブジェクト成分を返す。</li>
+                <li>GetPropertyName(<var>V</var>). リファレンス <var>V</var> のプロパティ名成分を返す。</li>
+            </ul>
+            <p>リファレンス上の演算において、本仕様では次の抽象的演算が使用される:</p>
+        </div>
+        <!-- END of 8.7 Body -->
+
+
+        <div class="section level3">
+            <h3 id="section-8.7.1">8.7.1 GetValue (V)</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li>Type(<var>V</var>) が Reference でなければ、 <var>V</var> を返す。</li>
+                    <li>GetBase(<var>V</var>) を呼出す。</li>
+                    <li>Result(2) が null ならば、例外 ReferenceError を投げる。</li>
+                    <li>Result(2) の [[Get]] メソッドを呼び、プロパティ名に GetPropertyName(<var>V</var>) を渡す。</li>
+                    <li>Result(4) を返す。</li>
+                </ol>
+            </div>
+            <!-- END of 8.7.1 Body -->
+
+        </div>
+        <!-- END of 8.7.1 -->
+
+
+        <div class="section level3">
+            <h3 id="section-8.7.2">8.7.2 PutValue (V, W)</h3>
+
+
+            <div class="body level3">
+                <ol>
+                    <li>Type(<var>V</var>) が Reference でなければ、例外 ReferenceError を投げる。</li>
+                    <li>GetBase(<var>V</var>) を呼出す。</li>
+                    <li>Result(2) が null ならば、ステップ 6 へ。</li>
+                    <li>Result(2) の [[Put]] メソッドを呼び、プロパティ名に GetPropertyValue(<var>V</var>)、値に <var>W</var> を渡す。</li>
+                    <li>戻る。</li>
+                    <li>Global オブジェクトの [[Put]] メソッドを呼び、プロパティ名に GetPropertyValue(<var>V</var>)、値に <var>W</var> を渡す。</li>
+                    <li>戻る。</li>
+                </ol>
+            </div>
+            <!-- END of 8.7.2 Body -->
+
+        </div>
+        <!-- END of 8.7.2 -->
+
+    </div>
+    <!-- END of 8.7 -->
+
+
+    <div class="section level2">
+        <h2 id="section-8.8">8.8 List 型</h2>
+
+
+        <div class="body level2">
+            <p>内部 List 型は言語のデータ型ではない。純粋に解説上の目的で本仕様に定義される。ここに記述された方法で List 値上で提示し演算したかのように、ECMAScript
+                実装は振舞わなければならない。しかしながら、Reference 型の値は、式評価の中間結果としてのみ用いられ、変数あるいはプロパティの値として格納することはできない。</p>
+
+            <p>List 型は、new 式 (new expressions) および関数呼び出し (function call) において、引数リストの評価を説明するのに使用される。List
+                型の値は、単純な順序のある値のシーケンスである。シーケンスは任意の長さでよい。</p>
+        </div>
+        <!-- END of 8.8 Body -->
+
+    </div>
+    <!-- END of 8.8 -->
+
+
+    <div class="section level2">
+        <h2 id="section-8.9">8.9 Completion 型 (Completion Type)</h2>
+
+
+        <div class="body level2">
+            <p>内部 Completion 型は言語のデータ型ではない。純粋に説明を目的として本仕様に定義される。ここに記述された方法で Completion 値上で提示し演算したかのように、ECMAScript
+                実装は振舞わなければならない。とはいえ、Completion 型の値は、文(statment) 評価の中間結果として利用されるのみであり、変数やプロパティの値として蓄積することはできない。</p>
+
+            <p>Completion 型は制御の非ローカル転送を実行する文(statement; <code class="keyword">break</code>, <code class="keyword">continue</code>,
+                <code class="keyword">return</code>, <code class="keyword">throw</code>) の挙動の説明に使用される。Completion 型の値は形式
+                (type, value, target) の 3 成分であり、type は normal, <code class="keyword">break</code>, <code
+                        class="keyword">continue</code>, <code class="keyword">return</code>, <code class="keyword">throw</code>
+                のうちの一つ、value は任意の ECMAScript 値または empty、target は任意の ECMAScript 識別子または empty である。</p>
+
+            <p>用語 &quot;中途完了 (abrupt completion)&quot; は type が normal 以外である任意の completion を参照する。</p>
+        </div>
+        <!-- END of 8.9 Body -->
+
+    </div>
+    <!-- END of 8.9 -->
+
+</div>
+<!-- END of 8 -->
+
+<h1>Page Contents</h1>
+<ul id="toc">
+    <li><a href="#section-8">8 型 (Types)</a>
+        <ul>
+            <li><a href="#section-8.1">8.1 Undefined 型 (Undefined Type)</a></li>
+            <li><a href="#section-8.2">8.2 Null 型 (Null Type)</a></li>
+            <li><a href="#section-8.3">8.3 Boolean 型 (Boolean Type)</a></li>
+            <li><a href="#section-8.4">8.4 String 型 (String Type)</a></li>
+            <li><a href="#section-8.5">8.5 Number 型 (Number Type)</a></li>
+            <li><a href="#section-8.6">8.6 Object 型 (Object type)</a>
+                <ul>
+                    <li><a href="#section-8.6.1">8.6.1 プロパティ属性</a></li>
+                    <li><a href="#section-8.6.2">8.6.2 内部プロパティとメソッド</a>
+                        <ul>
+                            <li><a href="#section-8.6.2.1">8.6.2.1 [[Get]] (P)</a></li>
+                            <li><a href="#section-8.6.2.2">8.6.2.2 [[Put]] (P, V)</a></li>
+                            <li><a href="#section-8.6.2.3">8.6.2.3 [[CanPut]] (P)</a></li>
+                            <li><a href="#section-8.6.2.4">8.6.2.4 [[HasProperty]] (P)</a></li>
+                            <li><a href="#section-8.6.2.5">8.6.2.5 [[Delete]] (P)</a></li>
+                            <li><a href="#section-8.6.2.6">8.6.2.6 [[DefaultValue]] (hint)</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#section-8.7">8.7 Reference 型 (Reference Type)</a>
+                <ul>
+                    <li><a href="#section-8.7.1">8.7.1 GetValue (V)</a></li>
+                    <li><a href="#section-8.7.2">8.7.2 PutValue (V, W)</a></li>
+                </ul>
+            </li>
+            <li><a href="#section-8.8">8.8 List 型</a></li>
+            <li><a href="#section-8.9">8.9 Completion 型 (Completion Type)</a></li>
+        </ul>
+    </li>
+</ul>
+
+<address>
+
+    Translate: <span>Thu Jan  8 16:05:00 2004</span>
+
+<span>TAKI &lt;<a rel="bookmark" title="Translator"
+                  href="mailto:TAKI%20%3Coz-07ams@mvh.biglobe.ne.jp%3E"
+        >oz-07ams&#64;mvh.biglobe.ne.jp</a>&gt;</span>
+
+</address>
+
+</body>
+
+</html>
+
+
+<!--
+     FILE ARCHIVED ON 18:33:05 Jul 24, 2014 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 16:14:46 Feb 6, 2015.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
