@@ -2,11 +2,13 @@
 
 > この文書は、 Standard ECMA-262: ECMAScript Language Specification (3rd edition, December 1999) の邦訳を試みるものです。
 
-この文章は [http://www2u.biglobe.ne.jp/~oz-07ams/prog/ecma262r3/](http://www2u.biglobe.ne.jp/~oz-07ams/prog/ecma262r3/) にて公開されていたものをミラーしたものです。
+<del>この文章は [http://www2u.biglobe.ne.jp/~oz-07ams/2002/ecma262r3/index.html](http://www2u.biglobe.ne.jp/~oz-07ams/2002/ecma262r3/index.html) にて公開されていたものをミラーしたものです。</del>
+
+役目を終えたので削除: => http://www2u.biglobe.ne.jp/~oz-07ams/2002/ecma262r3/index.html
 
 ## Usage
 
-Go to [http://es3-ja.github.io/](http://es3-ja.github.io/).
+<del>Go to [http://es3-ja.github.io/](http://es3-ja.github.io/).</del>
 
 ## Contributing
 
